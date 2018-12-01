@@ -205,58 +205,49 @@ endif
 ########### HAL_RTL8723B #################################
 ifeq ($(CONFIG_RTL8723B), y)
 
-RTL871X = rtl8723b
-ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8723bu
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME = 8723be
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME = 8723bs
-endif
 
 EXTRA_CFLAGS += -DCONFIG_RTL8723B
 
 _HAL_INTFS_FILES += hal/HalPwrSeqCmd.o \
-					hal/$(RTL871X)/Hal8723BPwrSeq.o\
-					hal/$(RTL871X)/$(RTL871X)_sreset.o
+					hal/rtl8723b/Hal8723BPwrSeq.o\
+					hal/rtl8723b/rtl8723b_sreset.o
 
-_HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
-			hal/$(RTL871X)/$(RTL871X)_phycfg.o \
-			hal/$(RTL871X)/$(RTL871X)_rf6052.o \
-			hal/$(RTL871X)/$(RTL871X)_dm.o \
-			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
-			hal/$(RTL871X)/$(RTL871X)_cmd.o \
+_HAL_INTFS_FILES +=	hal/rtl8723b/rtl8723b_hal_init.o \
+			hal/rtl8723b/rtl8723b_phycfg.o \
+			hal/rtl8723b/rtl8723b_rf6052.o \
+			hal/rtl8723b/rtl8723b_dm.o \
+			hal/rtl8723b/rtl8723b_rxdesc.o \
+			hal/rtl8723b/rtl8723b_cmd.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/usb/usb_halinit.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
+			hal/rtl8723b/usb/usb_halinit.o \
+			hal/rtl8723b/usb/rtl8723bu_led.o \
+			hal/rtl8723b/usb/rtl8723bu_xmit.o \
+			hal/rtl8723b/usb/rtl8723bu_recv.o
 
 ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
+_HAL_INTFS_FILES += hal/rtl8723b/usb/usb_ops_linux.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
+_HAL_INTFS_FILES += hal/rtl8723b/usb/usb_ops.o
 endif
 
 ifeq ($(CONFIG_USB_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8723B_USB.o
+_HAL_INTFS_FILES +=hal/efuse/rtl8723b/HalEfuseMask8723B_USB.o
 endif
 ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8723B_PCIE.o
+_HAL_INTFS_FILES +=hal/efuse/rtl8723b/HalEfuseMask8723B_PCIE.o
 endif
 
-_OUTSRC_FILES += hal/phydm/$(RTL871X)/halhwimg8723b_bb.o\
-								hal/phydm/$(RTL871X)/halhwimg8723b_mac.o\
-								hal/phydm/$(RTL871X)/halhwimg8723b_rf.o\
-								hal/phydm/$(RTL871X)/halhwimg8723b_fw.o\
-								hal/phydm/$(RTL871X)/halhwimg8723b_mp.o\
-								hal/phydm/$(RTL871X)/phydm_regconfig8723b.o\
-								hal/phydm/$(RTL871X)/halphyrf_8723b_ce.o\
-								hal/phydm/$(RTL871X)/phydm_rtl8723b.o
+_OUTSRC_FILES += hal/phydm/rtl8723b/halhwimg8723b_bb.o\
+								hal/phydm/rtl8723b/halhwimg8723b_mac.o\
+								hal/phydm/rtl8723b/halhwimg8723b_rf.o\
+								hal/phydm/rtl8723b/halhwimg8723b_fw.o\
+								hal/phydm/rtl8723b/halhwimg8723b_mp.o\
+								hal/phydm/rtl8723b/phydm_regconfig8723b.o\
+								hal/phydm/rtl8723b/halphyrf_8723b_ce.o\
+								hal/phydm/rtl8723b/phydm_rtl8723b.o
 
 endif
 
@@ -274,7 +265,7 @@ $(shell cp $(TopDIR)/autoconf_rtl8189f_usb_linux.h $(TopDIR)/include/autoconf.h)
 else ifeq ($(CONFIG_RTL8723C),y)
 $(shell cp $(TopDIR)/autoconf_rtl8723c_usb_linux.h $(TopDIR)/include/autoconf.h)
 else
-$(shell cp $(TopDIR)/autoconf_$(RTL871X)_usb_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_rtl8723b_usb_linux.h $(TopDIR)/include/autoconf.h)
 endif
 endif
 
@@ -1053,7 +1044,7 @@ endif
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_SPRD
 EXTRA_CFLAGS += -DPLATFORM_SPREADTRUM_6820
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
-ifeq ($(RTL871X), rtl8188e)
+ifeq (rtl8723bu, rtl8188e)
 EXTRA_CFLAGS += -DSOFTAP_PS_DURATION=50
 endif
 ifeq ($(CONFIG_SDIO_HCI), y)
@@ -1069,7 +1060,7 @@ endif
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_SPRD
 EXTRA_CFLAGS += -DPLATFORM_SPREADTRUM_8810
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
-ifeq ($(RTL871X), rtl8188e)
+ifeq (rtl8723bu, rtl8188e)
 EXTRA_CFLAGS += -DSOFTAP_PS_DURATION=50
 endif
 ifeq ($(CONFIG_SDIO_HCI), y)
