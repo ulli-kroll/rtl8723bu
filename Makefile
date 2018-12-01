@@ -136,10 +136,6 @@ _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 			os_dep/linux/wifi_regd.o \
 			os_dep/linux/rtw_proc.o
 
-ifeq ($(CONFIG_MP_INCLUDED), y)
-_OS_INTFS_FILES += os_dep/linux/ioctl_mp.o
-endif
-
 ifeq ($(CONFIG_SDIO_HCI), y)
 _OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
 _OS_INTFS_FILES += os_dep/linux/usb_ops_linux.o
