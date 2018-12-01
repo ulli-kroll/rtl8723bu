@@ -97,15 +97,6 @@ ODM_TXPowerTrackingCallback_ThermalMeter_JaguarSeries2(
 #endif
 	);
 
-#elif ODM_IC_11AC_SERIES_SUPPORT
-VOID
-ODM_TXPowerTrackingCallback_ThermalMeter_JaguarSeries(
-#if (DM_ODM_SUPPORT_TYPE & ODM_AP)
-	IN	PVOID		pDM_VOID
-#else
-	IN PADAPTER	Adapter
-#endif
-	);
 #endif
 
 #define IS_CCK_RATE(_rate) 				(ODM_MGN_1M == _rate || _rate == ODM_MGN_2M || _rate == ODM_MGN_5_5M || _rate == ODM_MGN_11M )

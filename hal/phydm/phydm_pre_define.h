@@ -287,18 +287,11 @@ typedef enum tag_ODM_Support_IC_Type_Definition
 
 #if (DM_ODM_SUPPORT_TYPE == ODM_AP)
 
-#ifdef RTK_AC_SUPPORT
-#define ODM_IC_11AC_SERIES_SUPPORT		1
-#else
-#define ODM_IC_11AC_SERIES_SUPPORT		0
-#endif
-
 #define ODM_IC_11N_SERIES_SUPPORT			1
 #define ODM_CONFIG_BT_COEXIST				0
 
 #elif (DM_ODM_SUPPORT_TYPE == ODM_WIN)
 
-#define ODM_IC_11AC_SERIES_SUPPORT		1
 #define ODM_IC_11N_SERIES_SUPPORT			1
 #define ODM_CONFIG_BT_COEXIST				1
 
@@ -308,10 +301,8 @@ typedef enum tag_ODM_Support_IC_Type_Definition
 (RTL8723B_SUPPORT == 1) || (RTL8192E_SUPPORT == 1) || (RTL8195A_SUPPORT == 1) || (RTL8703B_SUPPORT == 1) || \
 (RTL8188F_SUPPORT == 1))
 #define ODM_IC_11N_SERIES_SUPPORT			1
-#define ODM_IC_11AC_SERIES_SUPPORT		0
 #else
 #define ODM_IC_11N_SERIES_SUPPORT			0
-#define ODM_IC_11AC_SERIES_SUPPORT		1
 #endif
 
 #ifdef CONFIG_BT_COEXIST

@@ -72,12 +72,6 @@ phydm_staInfoInit(
 	pEntry->BW = pSTA->bw_mode;
 
 	pEntry->CurBeamform = pSTA->htpriv.beamform_cap;
-#if	ODM_IC_11AC_SERIES_SUPPORT
-	if ((pEntry->WirelessMode & WIRELESS_MODE_AC_5G) || (pEntry->WirelessMode & WIRELESS_MODE_AC_24G)) {
-		pEntry->CurBeamformVHT = pSTA->vhtpriv.beamform_cap;
-		pEntry->VhtBeamformCap = pSTA->vhtpriv.beamform_cap;
-	}
-#endif
 	ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("pSTA->wireless_mode = 0x%x, staidx = %d\n", pSTA->wireless_mode, staIdx));
 #endif
 	ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("pEntry->CurBeamform = 0x%x, pEntry->CurBeamformVHT = 0x%x\n", pEntry->CurBeamform, pEntry->CurBeamformVHT));
@@ -1211,38 +1205,6 @@ Beamforming_InitEntry(
 		}
 		ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("[%s] HT CurBeamform=0x%X, BeamformCap=0x%X\n", __func__, pSTA->CurBeamform, BeamformCap));
 		ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("[%s] HT NumofSoundingDim=%d, CompSteeringNumofBFer=%d\n", __func__, NumofSoundingDim, CompSteeringNumofBFer));
-#if	(ODM_IC_11AC_SERIES_SUPPORT == 1)
-		if (pSTA->WirelessMode & WIRELESS_MODE_AC_5G || pSTA->WirelessMode & WIRELESS_MODE_AC_24G) {	/*VHT*/	
-
-			/* We are Beamformee because the STA is SU Beamformer*/
-			if (TEST_FLAG(pSTA->CurBeamformVHT, BEAMFORMING_VHT_BEAMFORMER_ENABLE)) {
-				BeamformCap =(BEAMFORMING_CAP)(BeamformCap |BEAMFORMEE_CAP_VHT_SU);
-				NumofSoundingDim = (pSTA->CurBeamformVHT & BEAMFORMING_VHT_BEAMFORMEE_SOUND_DIM)>>12;
-			}
-			/* We are Beamformer because the STA is SU Beamformee*/
-			if (TEST_FLAG(pSTA->CurBeamformVHT, BEAMFORMING_VHT_BEAMFORMEE_ENABLE) ||
-				TEST_FLAG(pSTA->VhtBeamformCap, BEAMFORMING_VHT_BEAMFORMER_TEST)) {
-				BeamformCap =(BEAMFORMING_CAP)(BeamformCap |BEAMFORMER_CAP_VHT_SU);
-				CompSteeringNumofBFer = (pSTA->CurBeamformVHT & BEAMFORMING_VHT_BEAMFORMER_STS_CAP)>>8;
-			}
-			/* We are Beamformee because the STA is MU Beamformer*/
-			if (TEST_FLAG(pSTA->CurBeamformVHT, BEAMFORMING_VHT_MU_MIMO_AP_ENABLE)) {
-				BeamformCap = (BEAMFORMING_CAP)(BeamformCap | BEAMFORMEE_CAP_VHT_MU);
-				NumofSoundingDim = (pSTA->CurBeamformVHT & BEAMFORMING_VHT_BEAMFORMEE_SOUND_DIM)>>12;
-			}
-			/* We are Beamformer because the STA is MU Beamformee*/
-			if (phydm_actingDetermine(pDM_Odm, PhyDM_ACTING_AS_AP)) { /* Only AP mode supports to act an MU beamformer */
-				if (TEST_FLAG(pSTA->CurBeamformVHT, BEAMFORMING_VHT_MU_MIMO_STA_ENABLE) ||
-					TEST_FLAG(pSTA->VhtBeamformCap, BEAMFORMING_VHT_BEAMFORMER_TEST)) {
-					BeamformCap = (BEAMFORMING_CAP)(BeamformCap | BEAMFORMER_CAP_VHT_MU);
-					CompSteeringNumofBFer = (pSTA->CurBeamformVHT & BEAMFORMING_VHT_BEAMFORMER_STS_CAP)>>8;
-				}
-			}
-			ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("[%s]VHT CurBeamformVHT=0x%X, BeamformCap=0x%X\n", __func__, pSTA->CurBeamformVHT, BeamformCap));
-			ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, ("[%s]VHT NumofSoundingDim=0x%X, CompSteeringNumofBFer=0x%X\n", __func__, NumofSoundingDim, CompSteeringNumofBFer));
-			
-		}
-#endif
 	}
 
 
