@@ -463,28 +463,6 @@ static int rtw_target_tx_pwr_2g_d_num = 0;
 module_param_array(rtw_target_tx_pwr_2g_d, int, &rtw_target_tx_pwr_2g_d_num, 0644);
 MODULE_PARM_DESC(rtw_target_tx_pwr_2g_d, "2.4G target tx power (unit:dBm) of RF path D for each rate section, should match the real calibrate power, -1: undefined");
 
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-static int rtw_target_tx_pwr_5g_a[RATE_SECTION_NUM - 1] = CONFIG_RTW_TARGET_TX_PWR_5G_A;
-static int rtw_target_tx_pwr_5g_a_num = 0;
-module_param_array(rtw_target_tx_pwr_5g_a, int, &rtw_target_tx_pwr_5g_a_num, 0644);
-MODULE_PARM_DESC(rtw_target_tx_pwr_5g_a, "5G target tx power (unit:dBm) of RF path A for each rate section, should match the real calibrate power, -1: undefined");
-
-static int rtw_target_tx_pwr_5g_b[RATE_SECTION_NUM - 1] = CONFIG_RTW_TARGET_TX_PWR_5G_B;
-static int rtw_target_tx_pwr_5g_b_num = 0;
-module_param_array(rtw_target_tx_pwr_5g_b, int, &rtw_target_tx_pwr_5g_b_num, 0644);
-MODULE_PARM_DESC(rtw_target_tx_pwr_5g_b, "5G target tx power (unit:dBm) of RF path B for each rate section, should match the real calibrate power, -1: undefined");
-
-static int rtw_target_tx_pwr_5g_c[RATE_SECTION_NUM - 1] = CONFIG_RTW_TARGET_TX_PWR_5G_C;
-static int rtw_target_tx_pwr_5g_c_num = 0;
-module_param_array(rtw_target_tx_pwr_5g_c, int, &rtw_target_tx_pwr_5g_c_num, 0644);
-MODULE_PARM_DESC(rtw_target_tx_pwr_5g_c, "5G target tx power (unit:dBm) of RF path C for each rate section, should match the real calibrate power, -1: undefined");
-
-static int rtw_target_tx_pwr_5g_d[RATE_SECTION_NUM - 1] = CONFIG_RTW_TARGET_TX_PWR_5G_D;
-static int rtw_target_tx_pwr_5g_d_num = 0;
-module_param_array(rtw_target_tx_pwr_5g_d, int, &rtw_target_tx_pwr_5g_d_num, 0644);
-MODULE_PARM_DESC(rtw_target_tx_pwr_5g_d, "5G target tx power (unit:dBm) of RF path D for each rate section, should match the real calibrate power, -1: undefined");
-#endif /* CONFIG_IEEE80211_BAND_5GHZ */
-
 int _netdev_open(struct net_device *pnetdev);
 int netdev_open (struct net_device *pnetdev);
 static int netdev_close (struct net_device *pnetdev);
@@ -504,16 +482,6 @@ void rtw_regsty_load_target_tx_power(struct registry_priv *regsty)
 		for (rs = CCK; rs < RATE_SECTION_NUM; rs++)
 			regsty->target_tx_pwr_2g[path][rs] = target_tx_pwr[rs];
 	}
-
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-	for (path = RF_PATH_A; path < RF_PATH_MAX; path++) {
-		if (path == RF_PATH_A)
-			target_tx_pwr = rtw_target_tx_pwr_5g_a;
-
-		for (rs = OFDM; rs < RATE_SECTION_NUM; rs++)
-			regsty->target_tx_pwr_5g[path][rs - 1] = target_tx_pwr[rs - 1];
-	}
-#endif /* CONFIG_IEEE80211_BAND_5GHZ */
 }
 
 uint loadparam(_adapter *padapter)

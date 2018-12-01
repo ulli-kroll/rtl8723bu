@@ -182,10 +182,6 @@ struct kfree_data_t {
 		u8 flag;
 		s8 bb_gain[BB_GAIN_NUM][RF_PATH_MAX];
 
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-		s8 pa_bias_5g[RF_PATH_MAX];
-		s8 pad_bias_5g[RF_PATH_MAX];
-#endif
 		s8 thermal;
 };
 

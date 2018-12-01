@@ -6393,13 +6393,6 @@ void rtw_cfg80211_init_wiphy(_adapter *padapter)
 		if(bands)
 			rtw_cfg80211_init_ht_capab(padapter, &bands->ht_cap, IEEE80211_BAND_2GHZ, rf_type);
 	}
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-	if (IsSupported5G(padapter->registrypriv.wireless_mode)) {	
-		bands = wiphy->bands[IEEE80211_BAND_5GHZ];
-		if(bands)
-			rtw_cfg80211_init_ht_capab(padapter, &bands->ht_cap, IEEE80211_BAND_5GHZ, rf_type);
-	}
-#endif
 	/* init regulary domain */
 	rtw_regd_init(padapter);
 
@@ -6486,11 +6479,6 @@ static void rtw_cfg80211_preinit_wiphy(_adapter *adapter, struct wiphy *wiphy)
 
 	if (IsSupported24G(adapter->registrypriv.wireless_mode))
 		wiphy->bands[IEEE80211_BAND_2GHZ] = rtw_spt_band_alloc(IEEE80211_BAND_2GHZ);
-
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-	if (IsSupported5G(adapter->registrypriv.wireless_mode))
-		wiphy->bands[IEEE80211_BAND_5GHZ] = rtw_spt_band_alloc(IEEE80211_BAND_5GHZ);
-#endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38) && LINUX_VERSION_CODE < KERNEL_VERSION(3,0,0))
 	wiphy->flags |= WIPHY_FLAG_SUPPORTS_SEPARATE_DEFAULT_KEYS;

@@ -608,18 +608,6 @@ int rtw_ch_to_bb_gain_sel(int ch)
 
 	if (ch >= 1 && ch <= 14)
 		sel = BB_GAIN_2G;
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-	else if (ch >= 36 && ch < 48)
-		sel = BB_GAIN_5GLB1;
-	else if (ch >= 52 && ch <= 64)
-		sel = BB_GAIN_5GLB2;
-	else if (ch >= 100 && ch <= 120)
-		sel = BB_GAIN_5GMB1;
-	else if (ch >= 124 && ch <= 144)
-		sel = BB_GAIN_5GMB2;
-	else if (ch >= 149 && ch <= 177)
-		sel = BB_GAIN_5GHB;
-#endif
 
 	return sel;
 }

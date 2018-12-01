@@ -43,18 +43,12 @@ s8 rtw_regsty_get_target_tx_power(
 	}
 
 	if (Band != BAND_ON_2_4G
-		#ifdef CONFIG_IEEE80211_BAND_5GHZ
-		&& Band != BAND_ON_5G
-		#endif
 	) {
 		DBG_871X_LEVEL(_drv_always_, "%s invalid Band:%d\n", __func__, Band);
 		return -1;
 	}
 
 	if (RateSection >= RATE_SECTION_NUM
-		#ifdef CONFIG_IEEE80211_BAND_5GHZ
-		|| (Band == BAND_ON_5G && RateSection == CCK)
-		#endif
 	) {
 		DBG_871X_LEVEL(_drv_always_, "%s invalid RateSection:%d in %sG, RfPath:%d\n", __func__
 			, RateSection, (Band == BAND_ON_2_4G) ? "2.4" : "5", RfPath);
@@ -63,10 +57,6 @@ s8 rtw_regsty_get_target_tx_power(
 
 	if (Band == BAND_ON_2_4G)
 		value = regsty->target_tx_pwr_2g[RfPath][RateSection];
-#ifdef CONFIG_IEEE80211_BAND_5GHZ
-	else /* BAND_ON_5G */
-		value = regsty->target_tx_pwr_5g[RfPath][RateSection - 1];
-#endif
 
 	return value;
 }
