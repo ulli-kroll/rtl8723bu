@@ -4344,40 +4344,6 @@ Hal_EfuseParseAntennaDiversity_8723B(
 	IN	BOOLEAN			AutoLoadFail
 	)
 {
-#ifdef CONFIG_ANTENNA_DIVERSITY
-	PHAL_DATA_TYPE		pHalData = GET_HAL_DATA(pAdapter);
-	struct registry_priv	*registry_par = &pAdapter->registrypriv;
-
-	if (pHalData->EEPROMBluetoothAntNum == Ant_x1){
-		pHalData->AntDivCfg = 0;
-	}
-	else{
-		if(registry_par->antdiv_cfg == 2)// 0:OFF , 1:ON, 2:By EFUSE
-			pHalData->AntDivCfg = 1;
-		else
-			pHalData->AntDivCfg = registry_par->antdiv_cfg;
-	}
-
-	// If TRxAntDivType is AUTO in advanced setting, use EFUSE value instead.
-	if(registry_par->antdiv_type == 0) {
-		pHalData->TRxAntDivType = hwinfo[EEPROM_RFE_OPTION_8723B];
-		if (pHalData->TRxAntDivType == 0xFF)
-			pHalData->TRxAntDivType = S0S1_SW_ANTDIV;//GetRegAntDivType(pAdapter);
-		else if (pHalData->TRxAntDivType == 0x10)
-			pHalData->TRxAntDivType = S0S1_SW_ANTDIV; //intrnal switch S0S1
-		else if (pHalData->TRxAntDivType == 0x11)
-			pHalData->TRxAntDivType = S0S1_SW_ANTDIV; //intrnal switch S0S1
-		else
-			DBG_8192C("%s: efuse[0x%x]=0x%02x is unknown type\n",
-				__FUNCTION__, EEPROM_RFE_OPTION_8723B, pHalData->TRxAntDivType);
-	}
-	else{
-		pHalData->TRxAntDivType = registry_par->antdiv_type ;//GetRegAntDivType(pAdapter);
-	}
-
-	DBG_8192C("%s: AntDivCfg=%d, AntDivType=%d\n",
-		__FUNCTION__, pHalData->AntDivCfg, pHalData->TRxAntDivType);
-#endif
 }
 
 VOID
@@ -4887,10 +4853,6 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
 {
 	PADAPTER padapter = pxmitframe->padapter;
 	rtl8723b_fill_default_txdesc(pxmitframe, pbuf);
-
-#ifdef CONFIG_ANTENNA_DIVERSITY
-	ODM_SetTxAntByTxInfo(&GET_HAL_DATA(padapter)->odmpriv, pbuf, pxmitframe->attrib.mac_id);
-#endif // CONFIG_ANTENNA_DIVERSITY
 
 #if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
 	rtl8723b_cal_txdesc_chksum((struct tx_desc*)pbuf);
