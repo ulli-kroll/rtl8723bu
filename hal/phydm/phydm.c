@@ -1626,10 +1626,6 @@ ODM_UpdateInitRateWorkItemCallback(
 			ODM_TxPwrTrackSetPwr92E(pDM_Odm, MIX_MODE, p, 0);
 		}
 	}
-	else if(pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-			ODM_TxPwrTrackSetPwr88E(pDM_Odm, MIX_MODE, ODM_RF_PATH_A, 0);
-	}
 }
 #endif
 

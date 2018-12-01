@@ -714,11 +714,11 @@ odm_RxPhyStatus92CSeries_Parsing(
 			
 			}
 			#endif
-		} else if (pDM_Odm->SupportICType & (ODM_RTL8188E | ODM_RTL8192E | ODM_RTL8723B | ODM_RTL8188F)) /*3 bit LNA*/
+		} else if (pDM_Odm->SupportICType & (ODM_RTL8192E | ODM_RTL8723B | ODM_RTL8188F)) /*3 bit LNA*/
 		{
 			LNA_idx = ((cck_agc_rpt & 0xE0) >>5);
 			VGA_idx = (cck_agc_rpt & 0x1F); 
-			if(pDM_Odm->SupportICType & (ODM_RTL8188E|ODM_RTL8192E))
+			if(pDM_Odm->SupportICType & (ODM_RTL8192E))
 			{
 				if(pDM_Odm->cck_agc_report_type == 0 && (pDM_Odm->SupportICType & ODM_RTL8192E) )
 				{

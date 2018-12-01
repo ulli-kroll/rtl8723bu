@@ -649,7 +649,7 @@ odm_DigAbort(
 		odm_DigForBtHsMode(pDM_Odm);
 	}	
 
-	if(!(pDM_Odm->SupportICType &(ODM_RTL8723A|ODM_RTL8188E)))
+	if(!(pDM_Odm->SupportICType &(ODM_RTL8723A))
 	{
 		if(pRX_HP_Table->RXHP_flag == 1)
 		{
@@ -1006,10 +1006,7 @@ odm_DIG(
 
 #else
 		//2 For WIN\CE
-		if(pDM_Odm->SupportICType >= ODM_RTL8188E)
-			dm_dig_max = 0x5A;
-		else
-			dm_dig_max = DM_DIG_MAX_NIC;
+		dm_dig_max = DM_DIG_MAX_NIC;
 		
 		if(pDM_Odm->SupportICType != ODM_RTL8821)
 			dm_dig_min = DM_DIG_MIN_NIC;

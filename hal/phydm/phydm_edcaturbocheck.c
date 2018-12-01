@@ -154,8 +154,7 @@ odm_EdcaTurboCheckCE(
 	}
 
 	if(	(pDM_Odm->SupportICType == ODM_RTL8192C) ||
-		(pDM_Odm->SupportICType == ODM_RTL8723A) ||
-		(pDM_Odm->SupportICType == ODM_RTL8188E))
+		(pDM_Odm->SupportICType == ODM_RTL8723A))
 	{
 		if((IOTPeer == HT_IOT_PEER_RALINK)||(IOTPeer == HT_IOT_PEER_ATHEROS))
 			bBiasOnRx = _TRUE;

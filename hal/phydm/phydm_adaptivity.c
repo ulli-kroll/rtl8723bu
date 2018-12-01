@@ -249,7 +249,7 @@ Phydm_SetLNA(
 {
 	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
 	
-	if (pDM_Odm->SupportICType & (ODM_RTL8188E | ODM_RTL8192E)) {
+	if (pDM_Odm->SupportICType & (ODM_RTL8192E)) {
 		if (type == PhyDM_disable_LNA) {
 			ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, 0xef, 0x80000, 0x1);
 			ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, 0x30, 0xfffff, 0x18000);	/*select Rx mode*/
@@ -485,7 +485,7 @@ Phydm_SearchPwdBLowerBound(
 	s1Byte 			TH_L2H_dmc, TH_H2L_dmc, IGI_target = 0x32;
 	s1Byte 			Diff;
 
-	if (pDM_Odm->SupportICType & (ODM_RTL8723B | ODM_RTL8188E | ODM_RTL8192E | ODM_RTL8812 | ODM_RTL8821 | ODM_RTL8881A))
+	if (pDM_Odm->SupportICType & (ODM_RTL8723B | ODM_RTL8192E | ODM_RTL8812 | ODM_RTL8821 | ODM_RTL8881A))
 		Phydm_SetLNA(pDM_Odm, PhyDM_disable_LNA);
 	else {
 		Phydm_SetTRxMux(pDM_Odm, PhyDM_STANDBY_MODE, PhyDM_STANDBY_MODE);
@@ -509,7 +509,7 @@ Phydm_SearchPwdBLowerBound(
 			else if (pDM_Odm->SupportICType & ODM_IC_11AC_SERIES)
 				value32 = ODM_GetBBReg(pDM_Odm, ODM_REG_RPT_11AC, bMaskDWord);
 #endif
-			if (value32 & BIT30 && (pDM_Odm->SupportICType & (ODM_RTL8723A | ODM_RTL8723B | ODM_RTL8188E)))
+			if (value32 & BIT30 && (pDM_Odm->SupportICType & (ODM_RTL8723A | ODM_RTL8723B)))
 				txEdcca1 = txEdcca1 + 1;
 			else if (value32 & BIT29)
 				txEdcca1 = txEdcca1 + 1;
@@ -549,7 +549,7 @@ Phydm_SearchPwdBLowerBound(
 	Adaptivity->H2L_lb = Adaptivity->H2L_lb + pDM_Odm->DCbackoff;
 	Adaptivity->L2H_lb = Adaptivity->L2H_lb + pDM_Odm->DCbackoff;
 
-	if (pDM_Odm->SupportICType & (ODM_RTL8723B | ODM_RTL8188E | ODM_RTL8192E | ODM_RTL8812 | ODM_RTL8821 | ODM_RTL8881A))
+	if (pDM_Odm->SupportICType & (ODM_RTL8723B | ODM_RTL8192E | ODM_RTL8812 | ODM_RTL8821 | ODM_RTL8881A))
 		Phydm_SetLNA(pDM_Odm, PhyDM_enable_LNA);
 	else {
 		Phydm_SetTRxMux(pDM_Odm, PhyDM_TX_MODE, PhyDM_RX_MODE);

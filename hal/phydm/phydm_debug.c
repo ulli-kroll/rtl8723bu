@@ -949,8 +949,6 @@ VOID phydm_BasicProfile(
 		ICType = "RTL8192D";
 	else if (pDM_Odm->SupportICType == ODM_RTL8723A)
 		ICType = "RTL8723A";
-	else if (pDM_Odm->SupportICType == ODM_RTL8188E)
-		ICType = "RTL8188E";
 	else if (pDM_Odm->SupportICType == ODM_RTL8812)
 		ICType = "RTL8812A";
 	else if (pDM_Odm->SupportICType == ODM_RTL8821)

@@ -140,8 +140,6 @@
 				DbgPrint("[ODM-92D] ");												\
 			else if(pDM_Odm->SupportICType == ODM_RTL8723A)							\
 				DbgPrint("[ODM-8723A] ");											\
-			else if(pDM_Odm->SupportICType == ODM_RTL8188E)							\
-				DbgPrint("[ODM-8188E] ");											\
 			else if(pDM_Odm->SupportICType == ODM_RTL8192E) 						\
 				DbgPrint("[ODM-8192E] ");											\
 			else if(pDM_Odm->SupportICType == ODM_RTL8812)							\

@@ -400,7 +400,7 @@ getSwingIndex(
 	u4Byte 			swingTableSize;
 	pu4Byte 			pSwingTable;
 
-	if (pDM_Odm->SupportICType == ODM_RTL8188E || pDM_Odm->SupportICType == ODM_RTL8723B
+	if (pDM_Odm->SupportICType == ODM_RTL8723B
 		|| pDM_Odm->SupportICType == ODM_RTL8192E || pDM_Odm->SupportICType == ODM_RTL8188F || pDM_Odm->SupportICType == ODM_RTL8703B
 	) {
 		bbSwing = PHY_QueryBBReg(Adapter, rOFDM0_XATxIQImbalance, 0xFFC00000);
@@ -480,8 +480,7 @@ odm_TXPowerTrackingThermalMeterInit(
 	pRFCalibrateInfo->ThermalValue_LCK = pHalData->EEPROMThermalMeter;	
 
 	// The index of "0 dB" in SwingTable.
-	if (pDM_Odm->SupportICType == ODM_RTL8188E ||
-		pDM_Odm->SupportICType == ODM_RTL8192E || pDM_Odm->SupportICType == ODM_RTL8703B) {
+	if (pDM_Odm->SupportICType == ODM_RTL8192E || pDM_Odm->SupportICType == ODM_RTL8703B) {
 		pRFCalibrateInfo->DefaultOfdmIndex = (defaultSwingIndex >= OFDM_TABLE_SIZE) ? 30 : defaultSwingIndex;
 		pRFCalibrateInfo->DefaultCckIndex = 20;	
 	}
