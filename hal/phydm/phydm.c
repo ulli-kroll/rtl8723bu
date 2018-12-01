@@ -1226,63 +1226,6 @@ ODM_InitAllWorkItems(IN PDM_ODM_T	pDM_Odm )
 
 #endif /*#if USE_WORKITEM*/
 
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_EnterWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_EnterWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_EnterWorkItem");
-	
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_LeaveWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_LeaveWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_LeaveWorkItem");
-	
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_FwNdpaWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_FwNdpaWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_FwNdpaWorkItem");
-
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_ClkWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_ClkWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_ClkWorkItem");
-
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_RateWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_RateWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_RateWorkItem");
-
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_StatusWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_StatusWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_StatusWorkItem");
-
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_ResetTxPathWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_ResetTxPathWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_ResetTxPathWorkItem");
-
-	ODM_InitializeWorkItem(
-		pDM_Odm,
-		&(pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_GetTxRateWorkItem),
-		(RT_WORKITEM_CALL_BACK)halComTxbf_GetTxRateWorkItemCallback,
-		(PVOID)pAdapter,
-		"Txbf_GetTxRateWorkItem");
-#endif
 }
 
 VOID
@@ -1308,17 +1251,6 @@ ODM_FreeAllWorkItems(IN PDM_ODM_T	pDM_Odm )
 	ODM_FreeWorkItem(&(pDM_Odm->RaRptWorkitem));
 	ODM_FreeWorkItem((&pDM_Odm->DM_RXHP_Table.PSDTimeWorkitem));
 	/*ODM_FreeWorkItem((&pDM_Odm->sbdcnt_workitem));*/
-#endif
-
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_EnterWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_LeaveWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_FwNdpaWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_ClkWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_RateWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_StatusWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_ResetTxPathWorkItem));
-	ODM_FreeWorkItem((&pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_GetTxRateWorkItem));
 #endif
 
 }
@@ -1402,17 +1334,9 @@ ODM_InitAllTimers(
 		(RT_TIMER_CALL_BACK)odm_PSD_RXHPCallback, NULL, "PSDRXHPTimer"); 
 	ODM_InitializeTimer(pDM_Odm, &pDM_Odm->sbdcnt_timer,
 		(RT_TIMER_CALL_BACK)phydm_sbd_callback, NULL, "SbdTimer"); 
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_InitializeTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_FwNdpaTimer,
-		(RT_TIMER_CALL_BACK)halComTxbf_FwNdpaTimerCallback, NULL, "Txbf_FwNdpaTimer");
-#endif
 #endif
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_InitializeTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.BeamformingTimer,
-		(RT_TIMER_CALL_BACK)Beamforming_SWTimerCallback, NULL, "BeamformingTimer");
-#endif
 #endif
 }
 
@@ -1449,15 +1373,9 @@ ODM_CancelAllTimers(
 	ODM_CancelTimer(pDM_Odm, &pDM_Odm->MPT_DIGTimer);
 	ODM_CancelTimer(pDM_Odm, &pDM_Odm->DM_RXHP_Table.PSDTimer);
 	ODM_CancelTimer(pDM_Odm, &pDM_Odm->sbdcnt_timer);
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_CancelTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_FwNdpaTimer);
-#endif
 #endif
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_CancelTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.BeamformingTimer);
-#endif
 #endif
 
 }
@@ -1488,15 +1406,9 @@ ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->MPT_DIGTimer);
 	ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->MPT_DIGTimer);
 	ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->DM_RXHP_Table.PSDTimer);
 	ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->sbdcnt_timer);
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.TxbfInfo.Txbf_FwNdpaTimer);
-#endif
 #endif
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-#if (BEAMFORMING_SUPPORT == 1)
-	ODM_ReleaseTimer(pDM_Odm, &pDM_Odm->BeamformingInfo.BeamformingTimer);
-#endif
 #endif
 }
 

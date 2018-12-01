@@ -856,10 +856,6 @@ odm_RSSIMonitorCheckMP(
 	pRA_T			pRA_Table = &pDM_Odm->DM_RA_Table;
 	pDIG_T			pDM_DigTable = &pDM_Odm->DM_DigTable;
 
-#if (BEAMFORMING_SUPPORT == 1)
-	BEAMFORMING_CAP Beamform_cap = BEAMFORMING_CAP_NONE;
-#endif
-
 	PADAPTER	pLoopAdapter = GetDefaultAdapter(Adapter);
 
 	if (pDM_Odm->SupportICType & EXT_RA_INFO_SUPPORT_IC) {
@@ -921,11 +917,6 @@ odm_RSSIMonitorCheckMP(
 										   pEntry->rssi_stat.UndecoratedSmoothedPWDB, pEntry->rssi_stat.UndecoratedSmoothedPWDB));
 
 					//2 BF_en
-#if (BEAMFORMING_SUPPORT)
-					Beamform_cap = phydm_Beamforming_GetEntryBeamCapByMacId(pDM_Odm, pEntry->AssociatedMacId);
-					if (Beamform_cap & (BEAMFORMER_CAP_HT_EXPLICIT | BEAMFORMER_CAP_VHT_SU))
-						TxBF_EN = 1;
-#endif
 					//2 STBC_en
 					if ((IS_WIRELESS_MODE_AC(Adapter) && TEST_FLAG(pEntry->VHTInfo.STBC, STBC_VHT_ENABLE_TX)) ||
 						TEST_FLAG(pEntry->HTInfo.STBC, STBC_HT_ENABLE_TX))
@@ -990,12 +981,6 @@ odm_RSSIMonitorCheckMP(
 		PRT_VERY_HIGH_THROUGHPUT	pVHTInfo = GET_VHT_INFO(pDefaultMgntInfo);
 
 		//2 BF_en
-#if (BEAMFORMING_SUPPORT == 1)
-		Beamform_cap = phydm_Beamforming_GetEntryBeamCapByMacId(pDM_Odm, pDefaultMgntInfo->mMacId);
-
-		if (Beamform_cap & (BEAMFORMER_CAP_HT_EXPLICIT | BEAMFORMER_CAP_VHT_SU))
-			TxBF_EN = 1;
-#endif
 
 		//2 STBC_en
 		if ((IS_WIRELESS_MODE_AC(Adapter) && TEST_FLAG(pVHTInfo->VhtCurStbc, STBC_VHT_ENABLE_TX)) ||
@@ -1268,14 +1253,6 @@ odm_RSSIMonitorCheckAP(
 	PSTA_INFO_T 		pstat;
 	BOOLEAN			act_bfer = FALSE;
 
-#ifdef BEAMFORMING_SUPPORT
-#if (defined(CONFIG_PHYDM_ANTENNA_DIVERSITY))
-	pBDC_T	pDM_BdcTable = &pDM_Odm->DM_BdcTable;
-	pDM_BdcTable->num_Txbfee_Client = 0;
-	pDM_BdcTable->num_Txbfer_Client = 0;
-#endif
-#endif
-
 	if (pDM_Odm->H2C_RARpt_connect) {
 		ODM_RT_TRACE(pDM_Odm, ODM_COMP_RATE_ADAPTIVE, ODM_DBG_LOUD, ("[RA Init] First Connected\n"));
 		/**/
@@ -1295,33 +1272,6 @@ odm_RSSIMonitorCheckAP(
 				continue;
 
 			//2 BF_en
-#ifdef BEAMFORMING_SUPPORT
-			BEAMFORMING_CAP Beamform_cap = Beamforming_GetEntryBeamCapByMacId(priv, pstat->aid);
-
-			if (Beamform_cap == BEAMFORMER_CAP_HT_EXPLICIT || Beamform_cap == BEAMFORMER_CAP_VHT_SU ||
-				Beamform_cap == (BEAMFORMER_CAP_HT_EXPLICIT | BEAMFORMEE_CAP_HT_EXPLICIT) ||
-				Beamform_cap == (BEAMFORMER_CAP_VHT_SU | BEAMFORMEE_CAP_VHT_SU)) {
-				TxBF_EN = 1;
-				act_bfer = TRUE;
-			}
-
-#if (defined(CONFIG_PHYDM_ANTENNA_DIVERSITY)) /*BDC*/
-
-			if (act_bfer == TRUE) {
-				pDM_BdcTable->w_BFee_Client[i] = 1; //AP act as BFer
-				pDM_BdcTable->num_Txbfee_Client++;
-			} else {
-				pDM_BdcTable->w_BFee_Client[i] = 0; //AP act as BFer
-			}
-
-			if ((Beamform_cap & BEAMFORMEE_CAP_HT_EXPLICIT) || (Beamform_cap & BEAMFORMEE_CAP_VHT_SU)) {
-				pDM_BdcTable->w_BFer_Client[i] = 1; //AP act as BFee
-				pDM_BdcTable->num_Txbfer_Client++;
-			} else {
-				pDM_BdcTable->w_BFer_Client[i] = 0; //AP act as BFer
-			}
-#endif
-#endif
 
 			//2 STBC_en
 			if ((priv->pmib->dot11nConfigEntry.dot11nSTBC) &&

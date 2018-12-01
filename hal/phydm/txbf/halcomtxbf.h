@@ -60,110 +60,6 @@ typedef struct _HAL_TXBF_INFO {
 
 } HAL_TXBF_INFO, *PHAL_TXBF_INFO;
 
-#if (BEAMFORMING_SUPPORT == 1)
-
-VOID
-halComTxbf_beamformInit(
-	IN PVOID			pDM_VOID
-	);
-
-VOID
-halComTxbf_ConfigGtab(
-	IN PVOID			pDM_VOID
-	);
-
-VOID 
-halComTxbf_EnterWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID 
-halComTxbf_LeaveWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID 
-halComTxbf_FwNdpaWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID
-halComTxbf_ClkWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID
-halComTxbf_ResetTxPathWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID
-halComTxbf_GetTxRateWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID
-halComTxbf_RateWorkItemCallback(	
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-VOID 
-halComTxbf_FwNdpaTimerCallback(
-	IN	PRT_TIMER		pTimer
-	);
-
-VOID
-halComTxbf_StatusWorkItemCallback(
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	IN	PADAPTER		Adapter
-#else
-	IN PVOID			pDM_VOID
-#endif
-	);
-
-BOOLEAN
-HalComTxbf_Set(
-	IN PVOID			pDM_VOID,
-	IN	u1Byte			setType,
-	IN	PVOID			pInBuf
-	);
-
-BOOLEAN
-HalComTxbf_Get(
-	IN	PADAPTER		Adapter,
-	IN	u1Byte			getType,
-	OUT	PVOID			pOutBuf
-	);
-
-#else
 #define halComTxbf_beamformInit(pDM_VOID)					NULL
 #define halComTxbf_ConfigGtab(pDM_VOID)				NULL
 #define halComTxbf_EnterWorkItemCallback(_Adapter)		NULL
@@ -174,8 +70,6 @@ HalComTxbf_Get(
 #define halComTxbf_FwNdpaTimerCallback(_Adapter)		NULL
 #define halComTxbf_StatusWorkItemCallback(_Adapter)		NULL
 #define HalComTxbf_Get(_Adapter, _getType, _pOutBuf)
-
-#endif
 							
 #endif	// #ifndef __HAL_COM_TXBF_H__								
 

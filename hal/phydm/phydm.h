@@ -1003,9 +1003,6 @@ typedef  struct DM_Out_Source_Dynamic_Mechanism_Structure
 #endif
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-#if (BEAMFORMING_SUPPORT == 1)
-	RT_BEAMFORMING_INFO BeamformingInfo;
-#endif 
 #endif
 
 #if(DM_ODM_SUPPORT_TYPE & ODM_WIN)

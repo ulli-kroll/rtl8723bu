@@ -446,29 +446,6 @@ phydm_dynamic_tx_path(
 	
 	//2 [Check Bfer]	
 	#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	#if (BEAMFORMING_SUPPORT == 1)
-	{
-		BEAMFORMING_CAP		BeamformCap = (pDM_Odm->BeamformingInfo.BeamformCap);
-
-		if( BeamformCap & BEAMFORMER_CAP ) //  BFmer On  &&   Div On ->  Div Off
-		{	
-			if( pDM_PathDiv->fix_path_bfer == 0) 
-			{
-				ODM_RT_TRACE(pDM_Odm, ODM_COMP_PATH_DIV,ODM_DBG_LOUD,("[ PathDiv : OFF ]   BFmer ==1  \n"));
-				pDM_PathDiv->fix_path_bfer = 1 ;			
-			}
-			return;
-		}
-		else // BFmer Off   &&   Div Off ->  Div On
-		{
-			if( pDM_PathDiv->fix_path_bfer == 1 ) 
-			{
-				ODM_RT_TRACE(pDM_Odm, ODM_COMP_PATH_DIV,ODM_DBG_LOUD,("[ PathDiv : ON ]   BFmer ==0 \n"));
-				pDM_PathDiv->fix_path_bfer = 0;
-			}
-		}
-	}
-	#endif	
 	#endif
 
 	if(pDM_PathDiv->use_path_a_as_default_ant ==1)
