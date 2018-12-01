@@ -407,12 +407,6 @@ void rtl8723b_FirmwareSelfReset(PADAPTER padapter)
 	}
 }
 
-#ifdef CONFIG_FILE_FWIMG
-extern char *rtw_fw_file_path;
-extern char *rtw_fw_wow_file_path;
-u8 FwBuffer[FW_8723B_SIZE];
-#endif // CONFIG_FILE_FWIMG
-
 //
 //	Description:
 //		Download 8192C firmware code.
@@ -433,9 +427,6 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter)
 	PRT_8723B_FIRMWARE_HDR		pFwHdr = NULL;
 	u8			*pFirmwareBuf;
 	u32			FirmwareLen;
-#ifdef CONFIG_FILE_FWIMG
-	u8 *fwfilepath;
-#endif // CONFIG_FILE_FWIMG
 	struct dvobj_priv *psdpriv = padapter->dvobj;
 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
@@ -469,21 +460,6 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter)
 
 	rtw_btcoex_PreLoadFirmware(padapter);
 	
-#ifdef CONFIG_FILE_FWIMG
-	{
-		fwfilepath = rtw_fw_file_path;
-	}
-#endif // CONFIG_FILE_FWIMG
-
-#ifdef CONFIG_FILE_FWIMG
-	if (rtw_is_file_readable(fwfilepath) == _TRUE)
-	{
-		DBG_8192C("%s accquire FW from file:%s\n", __FUNCTION__, fwfilepath);
-		pFirmware->eFWSource = FW_SOURCE_IMG_FILE;
-	}
-	else
-#endif // CONFIG_FILE_FWIMG
-
 	pFirmwareBuf = fw->data;
 	FirmwareLen = (u32) fw->size;
 
