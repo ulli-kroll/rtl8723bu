@@ -221,26 +221,18 @@ phy_StoreTxPowerByRateBase(
 
 	u8 band, path, rs, tx_num, base, index;
 
-	for (band = BAND_ON_2_4G; band <= BAND_ON_5G; band++) {
+	band = BAND_ON_2_4G;
+	path = RF_PATH_A;
+	for (rs = 0; rs < RATE_SECTION_NUM; rs++) {
+		tx_num = rate_section_to_tx_num(rs);
+		if (tx_num >= hal_spec->nss_num)
+			continue;
 
-		for (path = RF_PATH_A; path < RF_PATH_MAX; path++) {
-			/* TODO: 8814A's NumTotalRFPath differs at probe(3) and up(4), need fixed
-			if (path >= hal_data->NumTotalRFPath)
-				break;
-			*/
+		if (band == BAND_ON_5G && IS_CCK_RATE_SECTION(rs))
+			continue;
 
-			for (rs = 0; rs < RATE_SECTION_NUM; rs++) {
-				tx_num = rate_section_to_tx_num(rs);
-				if (tx_num >= hal_spec->nss_num)
-					continue;
-
-				if (band == BAND_ON_5G && IS_CCK_RATE_SECTION(rs))
-					continue;
-
-				base = _PHY_GetTxPowerByRate(pAdapter, band, path, tx_num, rate_sec_base[rs]);
-				phy_SetTxPowerByRateBase(pAdapter, band, path, rs, tx_num, base);
-			}
-		}
+		base = _PHY_GetTxPowerByRate(pAdapter, band, path, tx_num, rate_sec_base[rs]);
+		phy_SetTxPowerByRateBase(pAdapter, band, path, rs, tx_num, base);
 	}
 }
 
