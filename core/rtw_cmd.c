@@ -1287,8 +1287,6 @@ void rtw_getbbrfreg_cmdrsp_callback(_adapter*	padapter,  struct cmd_obj *pcmd)
 	rtw_mfree((unsigned char*) pcmd->parmbuf, pcmd->cmdsz);
 	rtw_mfree((unsigned char*) pcmd, sizeof(struct cmd_obj));
 	
-#ifdef CONFIG_MP_INCLUDED
-#endif	
 _func_exit_;		
 }
 
@@ -1299,8 +1297,6 @@ void rtw_readtssi_cmdrsp_callback(_adapter*	padapter,  struct cmd_obj *pcmd)
 	rtw_mfree((unsigned char*) pcmd->parmbuf, pcmd->cmdsz);
 	rtw_mfree((unsigned char*) pcmd, sizeof(struct cmd_obj));
 	
-#ifdef CONFIG_MP_INCLUDED
-#endif
 
 _func_exit_;
 }
@@ -4567,8 +4563,6 @@ void rtw_getrttbl_cmd_cmdrsp_callback(_adapter*	padapter,  struct cmd_obj *pcmd)
 _func_enter_;
 
 	rtw_free_cmd_obj(pcmd);
-#ifdef CONFIG_MP_INCLUDED
-#endif
 
 _func_exit_;
 

@@ -2373,12 +2373,6 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
 	}
 #endif //CONFIG_CONCURRENT_MODE
 
-#ifdef CONFIG_MP_INCLUDED
-#ifdef CONFIG_CONCURRENT_MODE
-	if (padapter->pbuddy_adapter) {
-	}
-#endif //CONFIG_CONCURRENT_MODE
-#endif
 
 	_enter_critical_bh(&pwdev_priv->scan_req_lock, &irqL);
 	pwdev_priv->scan_request = request;
@@ -5093,13 +5087,6 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 	*cookie = ATOMIC_INC_RETURN(&pcfg80211_wdinfo->ro_ch_cookie_gen);
 	
 	DBG_871X(FUNC_ADPT_FMT" ch:%u duration:%d, cookie:0x%llx\n", FUNC_ADPT_ARG(padapter), remain_ch, duration, *cookie);
-
-#ifdef CONFIG_MP_INCLUDED
-#ifdef CONFIG_CONCURRENT_MODE
-	if (padapter->pbuddy_adapter) {
-	}
-#endif
-#endif
 
 	if(pcfg80211_wdinfo->is_ro_ch == _TRUE)
 	{
