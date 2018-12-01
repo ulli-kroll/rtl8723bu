@@ -1871,11 +1871,6 @@ PHY_GetTxPowerIndex(
 		txPower = PHY_GetTxPowerIndex_8723B(pAdapter, RFPath, Rate, BandWidth, Channel);
 #endif
 	}
-	else if (IS_HARDWARE_TYPE_8703B(pAdapter)) {
-#if (RTL8703B_SUPPORT == 1)
-		txPower = PHY_GetTxPowerIndex_8703B(pAdapter, RFPath, Rate, BandWidth, Channel);
-#endif
-	}
 	else if (IS_HARDWARE_TYPE_8192E(pAdapter)) {
 #if (RTL8192E_SUPPORT==1)
 		txPower = PHY_GetTxPowerIndex_8192E(pAdapter, RFPath, Rate, BandWidth, Channel);
@@ -1911,11 +1906,6 @@ PHY_SetTxPowerIndex(
 	else if (IS_HARDWARE_TYPE_8723B(pAdapter)) {
 #if (RTL8723B_SUPPORT==1)
 		PHY_SetTxPowerIndex_8723B( pAdapter, PowerIndex, RFPath, Rate );
-#endif
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pAdapter)) {
-#if (RTL8703B_SUPPORT==1)
-		PHY_SetTxPowerIndex_8703B( pAdapter, PowerIndex, RFPath, Rate );
 #endif
 	}
 	else if (IS_HARDWARE_TYPE_8192E(pAdapter)) {

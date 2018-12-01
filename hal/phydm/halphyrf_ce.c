@@ -497,7 +497,7 @@ ODM_TXPowerTrackingCallback_ThermalMeter(
 
 #if !(DM_ODM_SUPPORT_TYPE & ODM_AP)
 		
-	if (!IS_HARDWARE_TYPE_8723B(Adapter) && !IS_HARDWARE_TYPE_8192E(Adapter) && !IS_HARDWARE_TYPE_8703B(Adapter)) {
+	if (!IS_HARDWARE_TYPE_8723B(Adapter) && !IS_HARDWARE_TYPE_8192E(Adapter)) {
 		/* Delta temperature is equal to or larger than 20 centigrade (When threshold is 8).*/
 		if (delta_IQK >= c.Threshold_IQK) {
 			if (!pDM_Odm->RFCalibrateInfo.bIQKInProgress) 

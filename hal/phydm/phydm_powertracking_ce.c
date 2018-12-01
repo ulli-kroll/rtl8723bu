@@ -564,7 +564,6 @@ odm_TXPowerTrackingCheckCE(
 		if (IS_HARDWARE_TYPE_8188F(Adapter) || IS_HARDWARE_TYPE_8192E(Adapter)
 			|| IS_HARDWARE_TYPE_8723B(Adapter)
 			|| IS_HARDWARE_TYPE_JAGUAR(Adapter) || IS_HARDWARE_TYPE_8814A(Adapter)
-			|| IS_HARDWARE_TYPE_8703B(Adapter)
 		) {
 			ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_T_METER_NEW, (BIT17 | BIT16), 0x03);
 		} else {
@@ -644,8 +643,7 @@ odm_TXPowerTrackingThermalMeterCheck(
 	if(!TM_Trigger)		//at least delay 1 sec
 	{
 		if (IS_HARDWARE_TYPE_8188E(Adapter) || IS_HARDWARE_TYPE_JAGUAR(Adapter) || IS_HARDWARE_TYPE_8192E(Adapter) ||
-			    IS_HARDWARE_TYPE_8723B(Adapter) || IS_HARDWARE_TYPE_8814A(Adapter) || IS_HARDWARE_TYPE_8188F(Adapter) 
-			    || IS_HARDWARE_TYPE_8703B(Adapter))
+			    IS_HARDWARE_TYPE_8723B(Adapter) || IS_HARDWARE_TYPE_8814A(Adapter) || IS_HARDWARE_TYPE_8188F(Adapter))
 			PHY_SetRFReg(Adapter, ODM_RF_PATH_A, RF_T_METER_88E, BIT17 | BIT16, 0x03);
 		else
 			PHY_SetRFReg(Adapter, ODM_RF_PATH_A, RF_T_METER, bRFRegOffsetMask, 0x60);

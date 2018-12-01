@@ -847,10 +847,6 @@ efuse_IsMasked(
 	if (IS_HARDWARE_TYPE_8723B(pAdapter))  
 		return (IS_MASKED(8723B,_MUSB,Offset)) ? TRUE : FALSE;
 #endif
-#if defined(CONFIG_RTL8703B)
-	if (IS_HARDWARE_TYPE_8703B(pAdapter))
-		return (IS_MASKED(8703B, _MUSB, Offset)) ? TRUE : FALSE;
-#endif
 #if defined(CONFIG_RTL8814A)
 	if (IS_HARDWARE_TYPE_8814A(pAdapter))
 		return (IS_MASKED(8814A, _MUSB, Offset)) ? TRUE : FALSE;

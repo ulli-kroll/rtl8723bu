@@ -3713,7 +3713,7 @@ void rtw_dump_mac_rx_counters(_adapter* padapter,struct dbg_rx_counter *rx_count
 void rtw_reset_mac_rx_counters(_adapter* padapter)
 {
 
-	if (IS_HARDWARE_TYPE_8703B(padapter) || IS_HARDWARE_TYPE_8188F(padapter))
+	if (IS_HARDWARE_TYPE_8188F(padapter))
 		PHY_SetMacReg(padapter, 0x608, BIT19, 0x1); /* If no packet rx, MaxRx clock be gating ,BIT_DISGCLK bit19 set 1 for fix*/	
 
 	//reset mac counter
