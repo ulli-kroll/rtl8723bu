@@ -47,7 +47,7 @@ CONFIG_80211W = n
 CONFIG_REDUCE_TX_CPU_LOADING = n
 CONFIG_BR_EXT = y
 CONFIG_TDLS = n
-CONFIG_WIFI_MONITOR = n
+CONFIG_WIFI_MONITOR = y
 ######################## Wake On Lan ##########################
 CONFIG_WOWLAN = n
 CONFIG_GPIO_WAKEUP = n
