@@ -98,10 +98,7 @@ _OUTSRC_FILES := hal/phydm/phydm_debug.o	\
 		hal/phydm/phydm_adaptivity.o\
 		hal/phydm/phydm_cfotracking.o\
 		hal/phydm/phydm_noisemonitor.o\
-		hal/phydm/phydm_acs.o\
-		hal/phydm/phydm_beamforming.o\
-		hal/phydm/txbf/halcomtxbf.o\
-		hal/phydm/txbf/haltxbfinterface.o
+		hal/phydm/phydm_acs.o
 
 
 ifeq ($(CONFIG_BT_COEXIST), y)

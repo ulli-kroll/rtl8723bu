@@ -50,7 +50,6 @@
 #endif
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_CE))
-#include "phydm_beamforming.h"
 #include "phydm_noisemonitor.h"
 #include "halphyrf_ce.h"
 #include "phydm_powertracking_ce.h"
