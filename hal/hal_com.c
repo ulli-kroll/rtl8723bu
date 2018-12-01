@@ -893,10 +893,10 @@ int hal_read_mac_hidden_rpt(_adapter *adapter)
 	u8 id = C2H_MAC_HIDDEN_RPT + 1;
 	int i;
 
-#if defined(CONFIG_USB_HCI) || defined(CONFIG_PCI_HCI)
+#if defined(CONFIG_USB_HCI)
 	u8 hci_type = rtw_get_intf_type(adapter);
 
-	if ((hci_type == RTW_USB || hci_type == RTW_PCIE)
+	if ((hci_type == RTW_USB)
 		&& !rtw_is_hw_init_completed(adapter))
 		rtw_hal_power_on(adapter);
 #endif
@@ -934,7 +934,7 @@ mac_hidden_rpt_hdl:
 exit:
 
 #if defined(CONFIG_USB_HCI) || defined(CONFIG_PCI_HCI)
-	if ((hci_type == RTW_USB || hci_type == RTW_PCIE)
+	if ((hci_type == RTW_USB)
 		&& !rtw_is_hw_init_completed(adapter))
 		rtw_hal_power_off(adapter);
 #endif
@@ -3040,72 +3040,48 @@ int hal_efuse_macaddr_offset(_adapter *adapter)
 	case RTL8723B:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8723BU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8723BS;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8723BE;
 		break;
 #endif
 #ifdef CONFIG_RTL8703B
 	case RTL8703B:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8703BU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8703BS;
 	break;
 #endif
 #ifdef CONFIG_RTL8188E
 	case RTL8188E:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_88EU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_88ES;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_88EE;
 		break;
 #endif
 #ifdef CONFIG_RTL8188F
 	case RTL8188F:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8188FU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8188FS;
 		break;
 #endif
 #ifdef CONFIG_RTL8812A
 	case RTL8812:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8812AU;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8812AE;
 		break;
 #endif
 #ifdef CONFIG_RTL8821A
 	case RTL8821:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8821AU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8821AS;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8821AE;
 		break;
 #endif
 #ifdef CONFIG_RTL8192E
 	case RTL8192E:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8192EU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8192ES;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8192EE;
 		break;
 #endif
 #ifdef CONFIG_RTL8814A
 	case RTL8814A:
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8814AU;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8814AE;
 		break;
 #endif
 	}
