@@ -71,17 +71,6 @@ _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 			os_dep/linux/rtw_cfgvendor.o \
 			os_dep/linux/wifi_regd.o
 
-ifeq ($(CONFIG_SDIO_HCI), y)
-_OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
-_OS_INTFS_FILES += os_dep/linux/usb_ops_linux.o
-endif
-
-ifeq ($(CONFIG_GSPI_HCI), y)
-_OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
-_OS_INTFS_FILES += os_dep/linux/usb_ops_linux.o
-endif
-
-
 _HAL_INTFS_FILES :=	hal/hal_intf.o \
 			hal/hal_com.o \
 			hal/hal_com_phycfg.o \
@@ -147,17 +136,10 @@ _HAL_INTFS_FILES +=	\
 			hal/rtl8723b/usb/rtl8723bu_xmit.o \
 			hal/rtl8723b/usb/rtl8723bu_recv.o
 
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES += hal/rtl8723b/usb/usb_ops_linux.o
-else
 _HAL_INTFS_FILES += hal/rtl8723b/usb/usb_ops.o
-endif
 
 ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/rtl8723b/HalEfuseMask8723B_USB.o
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/rtl8723b/HalEfuseMask8723B_PCIE.o
 endif
 
 _OUTSRC_FILES += hal/phydm/rtl8723b/halhwimg8723b_bb.o\
