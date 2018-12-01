@@ -686,47 +686,6 @@ s32 c2h_evt_read(_adapter *adapter, u8 *buf)
 	if (buf == NULL)
 		goto exit;
 
-#if defined (CONFIG_RTL8188E)
-
-	trigger = rtw_read8(adapter, REG_C2HEVT_CLEAR);
-
-	if (trigger == C2H_EVT_HOST_CLOSE) {
-		goto exit; /* Not ready */
-	} else if (trigger != C2H_EVT_FW_CLOSE) {
-		goto clear_evt; /* Not a valid value */
-	}
-
-	c2h_evt = (struct c2h_evt_hdr *)buf;
-
-	_rtw_memset(c2h_evt, 0, 16);
-
-	*buf = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL);
-	*(buf+1) = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 1);	
-
-	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_, "c2h_evt_read(): ",
-		&c2h_evt , sizeof(c2h_evt));
-
-	if (0) {
-		DBG_871X("%s id:%u, len:%u, seq:%u, trigger:0x%02x\n", __func__
-			, c2h_evt->id, c2h_evt->plen, c2h_evt->seq, trigger);
-	}
-
-	/* Read the content */
-	for (i = 0; i < c2h_evt->plen; i++)
-		c2h_evt->payload[i] = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 2 + i);
-
-	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_, "c2h_evt_read(): Command Content:\n",
-		c2h_evt->payload, c2h_evt->plen);
-
-	ret = _SUCCESS;
-
-clear_evt:
-	/* 
-	* Clear event to notify FW we have read the command.
-	* If this field isn't clear, the FW won't update the next command message.
-	*/
-	c2h_evt_clear(adapter);
-#endif
 exit:
 	return ret;
 }
@@ -1442,28 +1401,6 @@ s32 rtw_hal_set_FwMediaStatusRpt_cmd(_adapter *adapter, bool opmode, bool miraca
 	ret = rtw_hal_fill_h2c_cmd(adapter, H2C_MEDIA_STATUS_RPT, H2C_MEDIA_STATUS_RPT_LEN, parm);
 	if (ret != _SUCCESS)
 		goto exit;
-
-#if defined(CONFIG_RTL8188E)
-	if (rtw_get_chip_type(adapter) == RTL8188E) {
-		HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-
-		/* 8188E FW doesn't set macid no link, driver does it by self */
-		if (opmode)
-			rtw_hal_set_hwreg(adapter, HW_VAR_MACID_LINK, &macid);
-		else
-			rtw_hal_set_hwreg(adapter, HW_VAR_MACID_NOLINK, &macid);
-
-		/* for 8188E RA */
-		#if (RATE_ADAPTIVE_SUPPORT == 1)
-		if (hal_data->fw_ractrl == _FALSE) {
-			u8 max_macid;
-
-			max_macid = rtw_search_max_mac_id(adapter);
-			rtw_hal_set_hwreg(adapter, HW_VAR_TX_RPT_MAX_MACID, &max_macid);
-		}
-		#endif
-	}
-#endif
 
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	/* TODO: this should move to IOT issue area */
@@ -2997,9 +2934,6 @@ int check_phy_efuse_tx_power_info_valid(PADAPTER padapter) {
 		case RTL8703B:
 			tx_index_offset = EEPROM_TX_PWR_INX_8703B;
 		break;
-		case RTL8188E:
-			tx_index_offset = EEPROM_TX_PWR_INX_88E;
-		break;
 		case RTL8188F:
 			tx_index_offset = EEPROM_TX_PWR_INX_8188F;
 		break;
@@ -3047,12 +2981,6 @@ int hal_efuse_macaddr_offset(_adapter *adapter)
 		if (interface_type == RTW_USB)
 			addr_offset = EEPROM_MAC_ADDR_8703BU;
 	break;
-#endif
-#ifdef CONFIG_RTL8188E
-	case RTL8188E:
-		if (interface_type == RTW_USB)
-			addr_offset = EEPROM_MAC_ADDR_88EU;
-		break;
 #endif
 #ifdef CONFIG_RTL8188F
 	case RTL8188F:
@@ -3220,32 +3148,6 @@ void rtw_bb_rf_gain_offset(_adapter *padapter)
 		DBG_871X("Using the default RF gain.\n");
 	}
 
-#elif defined(CONFIG_RTL8188E)
-	if (value & BIT4 || (registry_par->RegRfKFreeEnable == 1)) {
-		DBG_871X("8188ES Offset RF Gain.\n");
-		DBG_871X("8188ES Offset RF Gain. EEPROMRFGainVal=0x%x\n",
-				pHalData->EEPROMRFGainVal);
-
-		if (pHalData->EEPROMRFGainVal != 0xff) {
-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A,
-					REG_RF_BB_GAIN_OFFSET, 0xffffffff);
-
-			DBG_871X("Offset RF Gain. reg 0x55=0x%x\n",res);
-			res &= 0xfff87fff;
-
-			res |= (pHalData->EEPROMRFGainVal & 0x0f) << 15;
-			DBG_871X("Offset RF Gain. res=0x%x\n",res);
-
-			rtw_hal_write_rfreg(padapter, RF_PATH_A,
-					REG_RF_BB_GAIN_OFFSET,
-					RF_GAIN_OFFSET_MASK, res);
-		} else {
-			DBG_871X("Offset RF Gain. EEPROMRFGainVal=0x%x == 0xff, didn't run Kfree\n",
-					pHalData->EEPROMRFGainVal);
-		}
-	} else {
-		DBG_871X("Using the default RF gain.\n");
-	}
 #else
 	/* TODO: call this when channel switch */
 	if (kfree_data->flag & KFREE_FLAG_ON)
@@ -4124,8 +4026,7 @@ void hal_set_crystal_cap(_adapter *adapter, u8 crystal_cap)
 	crystal_cap = crystal_cap & 0x3F;
 
 	switch (rtw_get_chip_type(adapter)) {
-#if defined(CONFIG_RTL8188E) || defined(CONFIG_RTL8188F)
-	case RTL8188E:
+#if defined(CONFIG_RTL8188F)
 	case RTL8188F:
 		/* write 0x24[16:11] = 0x24[22:17] = CrystalCap */
 		PHY_SetBBReg(adapter, REG_AFE_XTAL_CTRL, 0x007FF800, (crystal_cap | (crystal_cap << 6)));
@@ -4182,11 +4083,6 @@ int hal_spec_init(_adapter *adapter)
 #ifdef CONFIG_RTL8703B
 	case RTL8703B:
 		init_hal_spec_8703b(adapter);
-		break;
-#endif
-#ifdef CONFIG_RTL8188E
-	case RTL8188E:
-		init_hal_spec_8188e(adapter);
 		break;
 #endif
 #ifdef CONFIG_RTL8188F

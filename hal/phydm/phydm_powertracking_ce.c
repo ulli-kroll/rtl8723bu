@@ -562,7 +562,7 @@ odm_TXPowerTrackingCheckCE(
 	if(!pDM_Odm->RFCalibrateInfo.TM_Trigger)		//at least delay 1 sec
 	{
 		//pHalData->TxPowerCheckCnt++;	//cosa add for debug
-		if (IS_HARDWARE_TYPE_8188E(Adapter) || IS_HARDWARE_TYPE_8188F(Adapter) || IS_HARDWARE_TYPE_8192E(Adapter)
+		if (IS_HARDWARE_TYPE_8188F(Adapter) || IS_HARDWARE_TYPE_8192E(Adapter)
 			|| IS_HARDWARE_TYPE_8723B(Adapter)
 			|| IS_HARDWARE_TYPE_JAGUAR(Adapter) || IS_HARDWARE_TYPE_8814A(Adapter)
 			|| IS_HARDWARE_TYPE_8703B(Adapter)

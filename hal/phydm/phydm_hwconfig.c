@@ -1581,17 +1581,6 @@ ODM_ConfigRFWithHeaderFile(
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if(ConfigType == CONFIG_RF_RADIO) {
-			if(eRFPath == ODM_RF_PATH_A)
-					READ_AND_CONFIG_MP(8188E,_RadioA);
-		}
-		else if(ConfigType == CONFIG_RF_TXPWR_LMT)
-			READ_AND_CONFIG_MP(8188E,_TXPWR_LMT);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
@@ -1724,17 +1713,6 @@ ODM_ConfigRFWithTxPwrTrackHeaderFile(
 			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_SDIO); 			
 	}
 #endif	
-#if RTL8188E_SUPPORT 	
-	if(pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if (pDM_Odm->SupportInterface == ODM_ITRF_PCIE)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_PCIE);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_USB)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_USB);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_SDIO);
-	}
-#endif
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
 
 //1 All platforms support
@@ -1890,17 +1868,6 @@ ODM_ConfigBBWithHeaderFile(
 
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)
-	if(pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if(ConfigType == CONFIG_BB_PHY_REG)
-			READ_AND_CONFIG_MP(8188E,_PHY_REG);
-		else if(ConfigType == CONFIG_BB_AGC_TAB)
-			READ_AND_CONFIG_MP(8188E,_AGC_TAB);
-		else if(ConfigType == CONFIG_BB_PHY_REG_PG)
-			READ_AND_CONFIG_MP(8188E,_PHY_REG_PG);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if(pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
@@ -2041,11 +2008,6 @@ ODM_ConfigMACWithHeaderFile(
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)  
-	if (pDM_Odm->SupportICType == ODM_RTL8188E){
-		READ_AND_CONFIG_MP(8188E,_MAC_REG);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)  
 	if (pDM_Odm->SupportICType == ODM_RTL8814A){
 		READ_AND_CONFIG_MP(8814A,_MAC_REG);
@@ -2120,10 +2082,6 @@ ODM_GetHWImgVersion(
 #endif //(DM_ODM_SUPPORT_TYPE != ODM_AP)
 
 /*1 All platforms support*/
-#if (RTL8188E_SUPPORT == 1)  
-	if (pDM_Odm->SupportICType == ODM_RTL8188E)
-		Version = GET_VERSION_MP(8188E,_MAC_REG);
-#endif
 #if (RTL8814A_SUPPORT == 1)  
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 		Version = GET_VERSION_MP(8814A,_MAC_REG);
