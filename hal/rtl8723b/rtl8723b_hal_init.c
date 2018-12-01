@@ -1504,19 +1504,6 @@ if(0)
 	for (i=0; i<_size_byte; i++)
 		pbuf[i] = efuseTbl[_offset+i];
 
-#ifdef CONFIG_DEBUG
-if(1)
-{
-	DBG_871X("Efuse Realmap:\n");
-	for(i=0; i<_size_byte; i++)
-	{
-		if (i % 16 == 0)
-			printk("\n");
-		printk("%02X ", pbuf[i]);
-	}
-	printk("\n");
-}
-#endif
 	// Calculate Efuse utilization
 	total = 0;
 	EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_AVAILABLE_EFUSE_BYTES_TOTAL, &total, bPseudoTest);
