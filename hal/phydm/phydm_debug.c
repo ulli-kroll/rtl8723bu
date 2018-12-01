@@ -1140,15 +1140,6 @@ phydm_get_txagc(
 	/* Path-B */
 	PHYDM_SNPRINTF((output + used, out_len - used, "\n%-35s\n", "Path-B===================="));
 	phydm_get_per_path_txagc(pDM_Odm, ODM_RF_PATH_B, _used, output, _out_len);
-
-	/* Path-C */
-	PHYDM_SNPRINTF((output + used, out_len - used, "\n%-35s\n", "Path-C===================="));
-	phydm_get_per_path_txagc(pDM_Odm, ODM_RF_PATH_C, _used, output, _out_len);
-
-	/* Path-D */
-	PHYDM_SNPRINTF((output + used, out_len - used, "\n%-35s\n", "Path-D===================="));
-	phydm_get_per_path_txagc(pDM_Odm, ODM_RF_PATH_D, _used, output, _out_len);
-
 }
 
 VOID

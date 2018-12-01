@@ -315,26 +315,6 @@ ODM_TXPowerTrackingCallback_ThermalMeter(
 
 				break;
 
-				case ODM_RF_PATH_C:
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("deltaSwingTableIdx_TUP_C[%d] = %d\n", delta, deltaSwingTableIdx_TUP_C[delta]));
-			
-					pDM_Odm->RFCalibrateInfo.DeltaPowerIndex[p] = deltaSwingTableIdx_TUP_C[delta];
-					pRFCalibrateInfo->Absolute_OFDMSwingIdx[p] =  deltaSwingTableIdx_TUP_C[delta];       /* Record delta swing for mix mode power tracking */
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("******Temp is higher and pDM_Odm->Absolute_OFDMSwingIdx[ODM_RF_PATH_C] = %d\n", pRFCalibrateInfo->Absolute_OFDMSwingIdx[p]));  
-				break;
-
-				case ODM_RF_PATH_D:
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("deltaSwingTableIdx_TUP_D[%d] = %d\n", delta, deltaSwingTableIdx_TUP_D[delta]));
-
-					pDM_Odm->RFCalibrateInfo.DeltaPowerIndex[p] = deltaSwingTableIdx_TUP_D[delta];
-					pRFCalibrateInfo->Absolute_OFDMSwingIdx[p] =  deltaSwingTableIdx_TUP_D[delta];       /* Record delta swing for mix mode power tracking */
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("******Temp is higher and pRFCalibrateInfo->Absolute_OFDMSwingIdx[ODM_RF_PATH_D] = %d\n", pRFCalibrateInfo->Absolute_OFDMSwingIdx[p]));  
-				break;
-
 				default:
 					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, 
 						("deltaSwingTableIdx_TUP_A[%d] = %d\n", delta, deltaSwingTableIdx_TUP_A[delta]));
@@ -359,24 +339,6 @@ ODM_TXPowerTrackingCallback_ThermalMeter(
 						("******Temp is lower and pDM_Odm->Absolute_OFDMSwingIdx[ODM_RF_PATH_B] = %d\n", pRFCalibrateInfo->Absolute_OFDMSwingIdx[p])); 
 				break;
 					
-				case ODM_RF_PATH_C:
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("deltaSwingTableIdx_TDOWN_C[%d] = %d\n", delta, deltaSwingTableIdx_TDOWN_C[delta]));  
-					pDM_Odm->RFCalibrateInfo.DeltaPowerIndex[p] = -1 * deltaSwingTableIdx_TDOWN_C[delta];
-					pRFCalibrateInfo->Absolute_OFDMSwingIdx[p] = -1 * deltaSwingTableIdx_TDOWN_C[delta];        /* Record delta swing for mix mode power tracking */
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("******Temp is lower and pDM_Odm->Absolute_OFDMSwingIdx[ODM_RF_PATH_C] = %d\n", pRFCalibrateInfo->Absolute_OFDMSwingIdx[p]));   
-				break;
-
-				case ODM_RF_PATH_D:
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("deltaSwingTableIdx_TDOWN_D[%d] = %d\n", delta, deltaSwingTableIdx_TDOWN_D[delta]));  
-					pDM_Odm->RFCalibrateInfo.DeltaPowerIndex[p] = -1 * deltaSwingTableIdx_TDOWN_D[delta];
-					pRFCalibrateInfo->Absolute_OFDMSwingIdx[p] =  -1 * deltaSwingTableIdx_TDOWN_D[delta];        /* Record delta swing for mix mode power tracking */
-					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
-						("******Temp is lower and pDM_Odm->Absolute_OFDMSwingIdx[ODM_RF_PATH_D] = %d\n", pRFCalibrateInfo->Absolute_OFDMSwingIdx[p]));  
-				break;
-
 				default:
 					ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
 						("deltaSwingTableIdx_TDOWN_A[%d] = %d\n", delta, deltaSwingTableIdx_TDOWN_A[delta]));  
@@ -454,9 +416,7 @@ ODM_TXPowerTrackingCallback_ThermalMeter(
 	}
 	
 	if ((pDM_Odm->RFCalibrateInfo.PowerIndexOffset[ODM_RF_PATH_A] != 0 ||
-		pDM_Odm->RFCalibrateInfo.PowerIndexOffset[ODM_RF_PATH_B] != 0 ||
-		pDM_Odm->RFCalibrateInfo.PowerIndexOffset[ODM_RF_PATH_C] != 0 ||
-		pDM_Odm->RFCalibrateInfo.PowerIndexOffset[ODM_RF_PATH_D] != 0) && 
+		pDM_Odm->RFCalibrateInfo.PowerIndexOffset[ODM_RF_PATH_B] != 0) && 
 		pDM_Odm->RFCalibrateInfo.TxPowerTrackControl && (pHalData->EEPROMThermalMeter != 0xff))
 	{
 		//4 7.2 Configure the Swing Table to adjust Tx Power.

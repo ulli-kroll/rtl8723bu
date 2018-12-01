@@ -603,12 +603,12 @@ PHY_StoreTxPowerByRate(
 			return;
 		}
 	
-		if (RfPath > ODM_RF_PATH_D) {
+		if (RfPath > ODM_RF_PATH_B) {
 			DBG_871X_LEVEL(_drv_always_, "Invalid RfPath %d\n", RfPath);
 			return;
 		}
 	
-		if (TxNum > ODM_RF_PATH_D) {
+		if (TxNum > ODM_RF_PATH_B) {
 			DBG_871X_LEVEL(_drv_always_, "Invalid TxNum %d\n", TxNum);
 			return;
 		}
@@ -677,7 +677,7 @@ phy_ConvertTxPowerByRateInDbmToRelativeValues(
 
 	for ( band = BAND_ON_2_4G; band <= BAND_ON_5G; ++band )
 	{
-		for ( path = ODM_RF_PATH_A; path <= ODM_RF_PATH_D; ++path )
+		for ( path = ODM_RF_PATH_A; path <= ODM_RF_PATH_B; ++path )
 		{
 			for ( txNum = RF_1TX; txNum < RF_MAX_TX_NUM; ++txNum )
 			{
@@ -1173,7 +1173,7 @@ _PHY_GetTxPowerByRate(
 		DBG_871X("Invalid band %d in %s\n", Band, __func__);
 		goto exit;
 	}
-	if (RFPath > ODM_RF_PATH_D) {
+	if (RFPath > ODM_RF_PATH_B) {
 		DBG_871X("Invalid RfPath %d in %s\n", RFPath, __func__);
 		goto exit;
 	}
@@ -1223,7 +1223,7 @@ PHY_SetTxPowerByRate(
 		DBG_871X("Invalid band %d in %s\n", Band, __FUNCTION__ );
 		return;
 	}
-	if ( RFPath > ODM_RF_PATH_D )
+	if ( RFPath > ODM_RF_PATH_B )
 	{
 		DBG_871X("Invalid RfPath %d in %s\n", RFPath, __FUNCTION__ );
 		return;

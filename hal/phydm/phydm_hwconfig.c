@@ -1276,20 +1276,6 @@ odm_Process_RSSIForDM(
 				} else
 					pDM_Odm->RSSI_B = 0;
 				
-				if (pDM_Odm->RXAntStatus & ODM_RF_C) {
-					pDM_Odm->RSSI_C = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_C];
-					RX_count++;
-					RSSI_linear += odm_ConvertTo_linear(pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_C]);
-				} else
-					pDM_Odm->RSSI_C = 0;
-
-				if (pDM_Odm->RXAntStatus & ODM_RF_D) {
-					pDM_Odm->RSSI_D = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_D];
-					RX_count++;
-					RSSI_linear += odm_ConvertTo_linear(pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_D]);
-				} else
-					pDM_Odm->RSSI_D = 0;
-
 				/* Calculate average RSSI */
 				switch (RX_count) {
 				case 2:
@@ -1633,10 +1619,6 @@ ODM_ConfigRFWithHeaderFile(
 				READ_AND_CONFIG_MP(8814A,_RadioA);
 			else if(eRFPath == ODM_RF_PATH_B)
 				READ_AND_CONFIG_MP(8814A,_RadioB);
-			else if(eRFPath == ODM_RF_PATH_C)
-				READ_AND_CONFIG_MP(8814A,_RadioC);
-			else if(eRFPath == ODM_RF_PATH_D)
-				READ_AND_CONFIG_MP(8814A,_RadioD);
 		}	
 		else if(ConfigType == CONFIG_RF_TXPWR_LMT) 
 			READ_AND_CONFIG_MP(8814A,_TXPWR_LMT);
@@ -2588,8 +2570,6 @@ phydm_Process_RSSIForDM_Jaguar2(
 		UndecoratedSmoothedPWDB = (u4Byte)pEntry->rssi_stat.UndecoratedSmoothedPWDB;
 		pDM_Odm->RSSI_A = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_A];
 		pDM_Odm->RSSI_B = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_B];
-		pDM_Odm->RSSI_C = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_C];
-		pDM_Odm->RSSI_D = pPhyInfo->RxMIMOSignalStrength[ODM_RF_PATH_D];
 
 		for (i = ODM_RF_PATH_A; i < ODM_RF_PATH_MAX_JAGUAR; i++) {
 			if (pPhyInfo->RxMIMOSignalStrength[i] != 0)
