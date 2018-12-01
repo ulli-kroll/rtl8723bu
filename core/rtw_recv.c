@@ -1468,11 +1468,6 @@ _func_enter_;
 	if (*psta == NULL) {
 		RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("can't get psta under sta2sta_data_frame ; drop pkt\n"));
 #ifdef CONFIG_MP_INCLUDED
-		if (adapter->registrypriv.mp_mode == 1)
-		{
-			if(check_fwstate(pmlmepriv, WIFI_MP_STATE) == _TRUE)
-				adapter->mppriv.rx_pktloss++;
-		}
 #endif
 		ret= _FAIL;
 		goto exit;
@@ -4426,7 +4421,7 @@ int recv_func_prehandle(_adapter *padapter, union recv_frame *rframe)
 #endif
 
 #ifdef CONFIG_MP_INCLUDED
-	if (padapter->registrypriv.mp_mode == 1 || padapter->mppriv.bRTWSmbCfg ==_TRUE)
+	if (padapter->mppriv.bRTWSmbCfg ==_TRUE)
 	{
 		mp_recv_frame(padapter,rframe);
 		ret = _FAIL;
@@ -4712,8 +4707,6 @@ _func_exit_;
 _recv_entry_drop:
 
 #ifdef CONFIG_MP_INCLUDED
-	if (padapter->registrypriv.mp_mode == 1)
-		padapter->mppriv.rx_pktloss = precvpriv->rx_drop;
 #endif
 
 	//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("_recv_entry_drop\n"));

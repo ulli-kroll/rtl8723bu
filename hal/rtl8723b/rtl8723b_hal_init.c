@@ -1043,17 +1043,9 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw)
 
 		case FW_SOURCE_HEADER_FILE:
 			{
-				if(padapter->registrypriv.mp_mode ==0)
-				{
-	 				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_NIC,
-						(u8*)&pFirmware->szFwBuffer, &pFirmware->ulFwLength);
+ 				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_NIC,
+					(u8*)&pFirmware->szFwBuffer, &pFirmware->ulFwLength);
 		 			DBG_8192C("%s fw: %s, size: %d\n", __FUNCTION__, "FW_NIC", pFirmware->ulFwLength);
-				}
-				else
-				{
-					ODM_ReadFirmware_MP_8723B_FW_MP(&pHalData->odmpriv, (u8 *)&pFirmware->szFwBuffer, &pFirmware->ulFwLength);
-		 			DBG_8192C("%s fw: %s, size: %d\n", __FUNCTION__, "FW_MP", pFirmware->ulFwLength);
-				}
 			}
 			break;
 	}
@@ -1119,18 +1111,6 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw)
 		goto fwdl_stat;
 
 #ifdef CONFIG_MP_INCLUDED//BT_MP
-	if (padapter->registrypriv.mp_mode == 1)
-	{
-		//rtw_write8(padapter, 0x81, rtw_read8(padapter, 0x81)|BIT0);
-		DBG_871X("rtl8723b_FirmwareDownload go to FirmwareDownloadBT !\n");
-		pBTFirmware = (PRT_FIRMWARE_8723B)rtw_zmalloc(sizeof(RT_FIRMWARE_8723B));
-		if(!pBTFirmware)
-		{
-			rtStatus = _FAIL;
-			goto exit;
-		}
-		FirmwareDownloadBT(padapter, (PRT_MP_FIRMWARE)pBTFirmware);
-	}
 #endif
 
 fwdl_stat:
@@ -1163,7 +1143,6 @@ void rtl8723b_InitializeFirmwareVars(PADAPTER padapter)
 	rtw_write8(padapter, REG_HMETFR, 0x0f);
 	
 	/* Init H2C counter.MP don't need to init, because BT FW need to patch */
-	if (padapter->registrypriv.mp_mode == 0)
 	pHalData->LastHMEBoxNum = 0;
 //	pHalData->H2CQueueHead = 0;
 //	pHalData->H2CQueueTail = 0;

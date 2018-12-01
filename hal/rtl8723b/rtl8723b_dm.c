@@ -304,12 +304,6 @@ static void Update_ODM_ComInfo_8723b(PADAPTER	Adapter)
 #endif
 
 #if (MP_DRIVER==1)
-	if (Adapter->registrypriv.mp_mode == 1) {
-		SupportAbility = 0
-			| ODM_RF_CALIBRATION
-			| ODM_RF_TX_PWR_TRACK
-			;
-	}
 #endif//(MP_DRIVER==1)
 
 #ifdef CONFIG_DISABLE_ODM
@@ -354,8 +348,6 @@ rtl8723b_HalDmWatchDog(
 #endif //CONFIG_CONCURRENT_MODE
 
 //#if MP_DRIVER
-if (Adapter->registrypriv.mp_mode == 1 && Adapter->mppriv.mp_dm ==0) // for MP power tracking
-	return;
 //#endif
 
 	if (!rtw_is_hw_init_completed(Adapter))

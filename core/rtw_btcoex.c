@@ -200,9 +200,6 @@ void rtw_btcoex_BtMpRptNotify(PADAPTER padapter, u8 length, u8 *tmpBuf)
 	if (_FALSE == pHalData->EEPROMBluetoothCoexist)
 		return;
 
-	if (padapter->registrypriv.mp_mode == 1)
-		return;
-
 	hal_btcoex_BtMpRptNotify(padapter, length, tmpBuf);
 }
 

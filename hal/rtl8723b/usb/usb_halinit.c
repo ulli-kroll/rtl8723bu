@@ -1379,14 +1379,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
 	rtl8723b_InitHalDm(padapter);
 
-#if (MP_DRIVER == 1)
-	if (padapter->registrypriv.mp_mode == 1)
-	{
-	padapter->mppriv.channel = pHalData->CurrentChannel;
-	MPT_InitializeAdapter(padapter, padapter->mppriv.channel);
-	}
-	else
-#endif
 	{
 		pwrctrlpriv->rf_pwrstate = rf_on;
 

@@ -253,21 +253,7 @@ ODM_TxPwrTrackSetPwr_8723B(
 	u1Byte		i = 0;
 	PODM_RF_CAL_T	pRFCalibrateInfo = &(pDM_Odm->RFCalibrateInfo);
 
-	if (pDM_Odm->mp_mode == TRUE) {
-	#if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-		#if (DM_ODM_SUPPORT_TYPE & ODM_WIN)
-			#if (MP_DRIVER == 1)
-					PMPT_CONTEXT pMptCtx = &(Adapter->MptCtx);
-					
-					TxRate = MptToMgntRate(pMptCtx->MptRateIndex);
-			#endif
-		#elif (DM_ODM_SUPPORT_TYPE & ODM_CE)
-				PMPT_CONTEXT pMptCtx = &(Adapter->mppriv.MptCtx);
-				
-				TxRate = MptToMgntRate(pMptCtx->MptRateIndex);
-		#endif	
-	#endif
-	} else {
+	{
 		u2Byte	rate	 = *(pDM_Odm->pForcedDataRate);
 		
 		if (!rate) { /*auto rate*/
@@ -321,27 +307,6 @@ ODM_TxPwrTrackSetPwr_8723B(
 		pRFCalibrateInfo->Remnant_OFDMSwingIdx[RFPath] = pRFCalibrateInfo->Absolute_OFDMSwingIdx[RFPath];
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN|ODM_CE ))
-		if (pDM_Odm->mp_mode == TRUE)
-		{
-			pwr = PHY_QueryBBReg(Adapter, rTxAGC_A_Rate18_06, 0xFF);
-			pwr += pDM_Odm->RFCalibrateInfo.PowerIndexOffset[RFPath];
-			PHY_SetBBReg(Adapter, rTxAGC_A_CCK1_Mcs32, bMaskByte1, pwr);
-			TxAGC = (pwr<<16)|(pwr<<8)|(pwr);
-			PHY_SetBBReg(Adapter, rTxAGC_B_CCK11_A_CCK2_11, bMaskH3Bytes, TxAGC);
-			ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("ODM_TxPwrTrackSetPwr8723B: CCK Tx-rf(A) Power = 0x%x\n", TxAGC));
-
-			pwr = PHY_QueryBBReg(Adapter, rTxAGC_A_Rate18_06, 0xFF);
-			pwr += (pRFCalibrateInfo->BbSwingIdxOfdm[RFPath] - pRFCalibrateInfo->BbSwingIdxOfdmBase[RFPath]);
-			TxAGC |= ((pwr<<24)|(pwr<<16)|(pwr<<8)|pwr);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Rate18_06, bMaskDWord, TxAGC);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Rate54_24, bMaskDWord, TxAGC);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Mcs03_Mcs00, bMaskDWord, TxAGC);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Mcs07_Mcs04, bMaskDWord, TxAGC);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Mcs11_Mcs08, bMaskDWord, TxAGC);
-			PHY_SetBBReg(Adapter, rTxAGC_A_Mcs15_Mcs12, bMaskDWord, TxAGC);
-			ODM_RT_TRACE(pDM_Odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("ODM_TxPwrTrackSetPwr8723B: OFDM Tx-rf(A) Power = 0x%x\n", TxAGC));
-		}
-		else		
 		{
 			pRFCalibrateInfo->Modify_TxAGC_Flag_PathA = TRUE;
 			pRFCalibrateInfo->Modify_TxAGC_Flag_PathA_CCK = TRUE;
@@ -497,21 +462,7 @@ GetDeltaSwingTable_8723B(
 	u1Byte			TxRate			= 0xFF;
 	u1Byte			channel 		 = pHalData->CurrentChannel;
 
-	if (pDM_Odm->mp_mode == TRUE) {
-	#if (DM_ODM_SUPPORT_TYPE & (ODM_WIN | ODM_CE))
-		#if (DM_ODM_SUPPORT_TYPE & ODM_WIN)
-			#if (MP_DRIVER == 1)
-					PMPT_CONTEXT pMptCtx = &(Adapter->MptCtx);
-					
-					TxRate = MptToMgntRate(pMptCtx->MptRateIndex);
-			#endif
-		#elif (DM_ODM_SUPPORT_TYPE & ODM_CE)
-				PMPT_CONTEXT pMptCtx = &(Adapter->mppriv.MptCtx);
-				
-				TxRate = MptToMgntRate(pMptCtx->MptRateIndex);
-		#endif	
-	#endif
-	} else {
+	{
 		u2Byte	rate	 = *(pDM_Odm->pForcedDataRate);
 		
 		if (!rate) { /*auto rate*/
@@ -1980,11 +1931,6 @@ phy_IQCalibrate_8723B(
 #endif
 #endif
 
-if( pAdapter->registrypriv.mp_mode == 1 && pAdapter->mppriv.mode == 3 )
-{
-		DBG_871X("%s() :return !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",__func__);
-		return;
-}
 
 	// Note: IQ calibration must be performed after loading 
 	//		PHY_REG.txt , and radio_a, radio_b.txt	
@@ -2318,11 +2264,6 @@ phy_LCCalibrate_8723B(
 #if !(DM_ODM_SUPPORT_TYPE & ODM_AP)
 		PADAPTER pAdapter = pDM_Odm->Adapter;
 #endif	
-	if( pAdapter->registrypriv.mp_mode == 1 && pAdapter->mppriv.mode == 3 )
-	{
-		DBG_871X("%s() :return !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",__func__);
-		return;
-	}
 
 	//Check continuous TX and Packet TX
 	tmpReg = ODM_Read1Byte(pDM_Odm, 0xd03);
@@ -3174,9 +3115,6 @@ PHY_IQCalibrate_8723B(
 		pDM_Odm->RFCalibrateInfo.RegE9C = pDM_Odm->RFCalibrateInfo.RegEBC = 0x0;		//Y default value
 	}
 
-#if MP_DRIVER == 1
-	if ((pMptCtx->MptRfPath == ODM_RF_PATH_A) || (pDM_Odm->mp_mode == FALSE))
-#endif
 	{
 		if (RegE94 != 0)
 		{
@@ -3189,9 +3127,6 @@ PHY_IQCalibrate_8723B(
 	}
 	
 #if !(DM_ODM_SUPPORT_TYPE & ODM_AP)
-#if MP_DRIVER == 1
-	if ((pMptCtx->MptRfPath == ODM_RF_PATH_A) || (pDM_Odm->mp_mode == FALSE))
-#endif
 	{
 		if (RegEB4 != 0)
 		{

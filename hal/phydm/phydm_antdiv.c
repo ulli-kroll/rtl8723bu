@@ -4761,8 +4761,6 @@ odm_AntennaDiversityInit(
 	)
 {
 	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	if(pDM_Odm->mp_mode == TRUE)
-		return;
 	
 	#if (defined(CONFIG_PHYDM_ANTENNA_DIVERSITY))
 		ODM_AntDiv_Config(pDM_Odm);
@@ -4776,8 +4774,6 @@ odm_AntennaDiversity(
 	)
 {
 	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	if(pDM_Odm->mp_mode == TRUE)
-		return;
 
 	#if (defined(CONFIG_PHYDM_ANTENNA_DIVERSITY))
 		ODM_AntDiv(pDM_Odm);

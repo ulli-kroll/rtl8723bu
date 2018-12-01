@@ -2646,12 +2646,6 @@ _func_enter_;
 #endif
 */
 #ifdef CONFIG_MP_INCLUDED
-		if (padapter->registrypriv.mp_mode == 1)
-		{
-				DBG_871X(FUNC_ADPT_FMT ": MP mode block Scan request\n", FUNC_ADPT_ARG(padapter));	
-				ret = -1;
-				goto exit;
-		}
 #ifdef CONFIG_CONCURRENT_MODE
 		if (padapter->pbuddy_adapter) {
 				if (padapter->pbuddy_adapter->registrypriv.mp_mode == 1)
@@ -10168,7 +10162,6 @@ exit:
 	if (!err)
 		wrqu->length = strlen(extra);
 	
-	if (padapter->registrypriv.mp_mode == 0)
 	{
 	#ifdef CONFIG_IPS		
 	rtw_pm_set_ips(padapter, ips_mode);
@@ -10837,7 +10830,6 @@ exit:
 	
 	wrqu->length = strlen(extra);
 
-	if (padapter->registrypriv.mp_mode == 0)
 	{
 	#ifdef CONFIG_IPS		
 	rtw_pm_set_ips(padapter, ips_mode);

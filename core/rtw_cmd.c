@@ -1288,8 +1288,6 @@ void rtw_getbbrfreg_cmdrsp_callback(_adapter*	padapter,  struct cmd_obj *pcmd)
 	rtw_mfree((unsigned char*) pcmd, sizeof(struct cmd_obj));
 	
 #ifdef CONFIG_MP_INCLUDED
-	if (padapter->registrypriv.mp_mode == 1)
-		padapter->mppriv.workparam.bcompleted= _TRUE;
 #endif	
 _func_exit_;		
 }
@@ -1302,8 +1300,6 @@ void rtw_readtssi_cmdrsp_callback(_adapter*	padapter,  struct cmd_obj *pcmd)
 	rtw_mfree((unsigned char*) pcmd, sizeof(struct cmd_obj));
 	
 #ifdef CONFIG_MP_INCLUDED
-	if (padapter->registrypriv.mp_mode == 1)
-		padapter->mppriv.workparam.bcompleted= _TRUE;
 #endif
 
 _func_exit_;
@@ -4638,8 +4634,6 @@ _func_enter_;
 
 	rtw_free_cmd_obj(pcmd);
 #ifdef CONFIG_MP_INCLUDED
-	if (padapter->registrypriv.mp_mode == 1)
-		padapter->mppriv.workparam.bcompleted=_TRUE;
 #endif
 
 _func_exit_;
