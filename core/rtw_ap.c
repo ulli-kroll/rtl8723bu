@@ -2017,14 +2017,7 @@ int rtw_check_beacon_data(_adapter *padapter, u8 *pbuf,  int len)
 			switch(rf_type)
 			{
 				case RF_1T1R:
-				case RF_1T2R: //?
 					set_mcs_rate_by_mask(HT_CAP_ELE_RX_MCS_MAP(pht_cap), MCS_RATE_1R);
-					break;
-				case RF_2T2R:
-					set_mcs_rate_by_mask(HT_CAP_ELE_RX_MCS_MAP(pht_cap), MCS_RATE_2R);
-					break;
-				case RF_3T3R:
-					set_mcs_rate_by_mask(HT_CAP_ELE_RX_MCS_MAP(pht_cap), MCS_RATE_3R);
 					break;
 				default:
 					DBG_871X("[warning] rf_type %d is not expected\n", rf_type);

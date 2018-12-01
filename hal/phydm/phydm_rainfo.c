@@ -2553,10 +2553,7 @@ ODM_Get_Rate_Bitmap(
 		break;
 
 	default:
-		if (pDM_Odm->RFType == RF_1T2R)
-			rate_bitmap = 0x000fffff;
-		else
-			rate_bitmap = 0x0fffffff;
+		rate_bitmap = 0x0fffffff;
 		break;
 
 	}

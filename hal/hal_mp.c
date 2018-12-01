@@ -392,12 +392,7 @@ mpt_SetTxPower(
 			MGN_MCS25, MGN_MCS26, MGN_MCS27, MGN_MCS28, MGN_MCS29,
 			MGN_MCS30, MGN_MCS31,
 			};
-			if (pHalData->rf_type == RF_3T3R)
-				MaxRate = MGN_MCS23;
-			else if (pHalData->rf_type == RF_2T2R)
-				MaxRate = MGN_MCS15;
-			else
-				MaxRate = MGN_MCS7;
+			MaxRate = MGN_MCS7;
 			
 			for (path = StartPath; path <= EndPath; path++) {
 				for (i = 0; i < sizeof(rate); ++i) {
@@ -421,12 +416,7 @@ mpt_SetTxPower(
 			MGN_VHT4SS_MCS5, MGN_VHT4SS_MCS6, MGN_VHT4SS_MCS7, MGN_VHT4SS_MCS8, MGN_VHT4SS_MCS9,
 			};
 					
-			if (pHalData->rf_type == RF_3T3R)
-				MaxRate = MGN_VHT3SS_MCS9;
-			else if (pHalData->rf_type == RF_2T2R || pHalData->rf_type == RF_2T4R)
-				MaxRate = MGN_VHT2SS_MCS9;
-			else
-				MaxRate = MGN_VHT1SS_MCS9;
+			MaxRate = MGN_VHT1SS_MCS9;
 
 			for (path = StartPath; path <= EndPath; path++) {
 				for (i = 0; i < sizeof(rate); ++i) {
@@ -1187,13 +1177,6 @@ VOID mpt_SetRFPath_819X(PADAPTER	pAdapter)
 				/*/ Power save*/
 				/*/cosa r_ant_select_ofdm_val = 0x11111111;*/
 				/*/ We need to close RFB by SW control*/
-			if (pHalData->rf_type == RF_2T2R) {
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT10, 0);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT26, 1);
-				PHY_SetBBReg(pAdapter, rFPGA0_XB_RFInterfaceOE, BIT10, 0);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT1, 1);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT17, 0);
-			}
 			}
 			pMptCtx->MptRfPath = ODM_RF_PATH_A;
 			break;
@@ -1213,14 +1196,6 @@ VOID mpt_SetRFPath_819X(PADAPTER	pAdapter)
 
 				/*/ 2008/10/31 MH From SD3 Willi's suggestion. We must read RF 1T table.*/
 				/*/ 2009/01/08 MH From Sd3 Willis. We need to close RFA by SW control*/
-			if (pHalData->rf_type == RF_2T2R || pHalData->rf_type == RF_1T2R) {
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT10, 1);
-				PHY_SetBBReg(pAdapter, rFPGA0_XA_RFInterfaceOE, BIT10, 0);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT26, 0);
-				/*/PHY_SetBBReg(pAdapter, rFPGA0_XB_RFInterfaceOE, BIT10, 0);*/
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT1, 0);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT17, 1);
-			}
 			}
 			pMptCtx->MptRfPath = ODM_RF_PATH_B;		
 			break;
@@ -1240,14 +1215,6 @@ VOID mpt_SetRFPath_819X(PADAPTER	pAdapter)
 			/* Disable Power save*/			
 			/*cosa r_ant_select_ofdm_val = 0x3321333;*/
 			/* 2009/01/08 MH From Sd3 Willis. We need to enable RFA/B by SW control*/
-			if (pHalData->rf_type == RF_2T2R) {
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT10, 0);
-
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFInterfaceSW, BIT26, 0);
-				/*/PHY_SetBBReg(pAdapter, rFPGA0_XB_RFInterfaceOE, BIT10, 0);*/
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT1, 1);
-				PHY_SetBBReg(pAdapter, rFPGA0_XAB_RFParameter, BIT17, 1);
-			}
 			}			
 			pMptCtx->MptRfPath = ODM_RF_PATH_AB;
 			break;

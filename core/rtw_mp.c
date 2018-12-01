@@ -340,19 +340,9 @@ s32 init_mp_priv(PADAPTER padapter)
 			pmppriv->antenna_tx = ANTENNA_A;
 			pmppriv->antenna_rx = ANTENNA_A;
 			break;
-		case RF_1T2R:
 		default:
 			pmppriv->antenna_tx = ANTENNA_A;
 			pmppriv->antenna_rx = ANTENNA_AB;
-			break;
-		case RF_2T2R:
-		case RF_2T2R_GREEN:
-			pmppriv->antenna_tx = ANTENNA_AB;
-			pmppriv->antenna_rx = ANTENNA_AB;
-			break;
-		case RF_2T4R:
-			pmppriv->antenna_tx = ANTENNA_BC;
-			pmppriv->antenna_rx = ANTENNA_ABCD;
 			break;
 	}
 	

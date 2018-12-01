@@ -1005,12 +1005,7 @@ void rtw_hal_update_sta_rate_mask(PADAPTER padapter, struct sta_info *psta)
 		{
 			rf_type = RF_1T1R;
 			rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-			if(rf_type == RF_2T2R)
-				limit=16;// 2R
-			else if(rf_type == RF_3T3R)
-				limit=24;// 3R
-			else
-				limit=8;//  1R
+			limit=8;//  1R
 
 
 			/* Handling SMPS mode for AP MODE only*/

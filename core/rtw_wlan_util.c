@@ -128,18 +128,7 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 		vht_mcs[1] = 0xff;
 		switch (rf_type) {
 		case RF_1T1R:
-		case RF_1T2R:
 			vht_mcs[0] |= 0xfc;
-			break;
-		case RF_2T2R:
-		case RF_2T4R:
-		case RF_2T2R_GREEN:
-		case RF_2T3R:
-			vht_mcs[0] |= 0xf0;
-			break;
-		case RF_3T3R:
-		case RF_3T4R:
-			vht_mcs[0] |= 0xc0;
 			break;
 		default:
 			DBG_871X("%s,%d, unknown rf type\n", __func__, __LINE__);
@@ -155,18 +144,7 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 		
 		switch (rf_type) {
 		case RF_1T1R:
-		case RF_1T2R:
 			supp_mcs_set[1] = supp_mcs_set[2] = supp_mcs_set[3] = 0;
-			break;
-		case RF_2T2R:
-		case RF_2T4R:
-		case RF_2T2R_GREEN:
-		case RF_2T3R:
-			supp_mcs_set[2] = supp_mcs_set[3] = 0;
-			break;
-		case RF_3T3R:
-		case RF_3T4R:
-			supp_mcs_set[3] = 0;
 			break;
 		default:
 			DBG_871X("%s,%d, unknown rf type\n", __func__, __LINE__);
@@ -2019,21 +1997,7 @@ void HT_caps_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs pIE)
 	switch(rf_type)
 	{
 		case RF_1T1R:
-		case RF_1T2R:
 			set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_1R);							
-			break;
-		case RF_2T2R:
-			#ifdef CONFIG_DISABLE_MCS13TO15
-			if(pmlmeext->cur_bwmode == CHANNEL_WIDTH_40 && pregistrypriv->wifi_spec != 1 )				
-				set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_2R_13TO15_OFF);				
-			else
-				set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_2R);
-#else //CONFIG_DISABLE_MCS13TO15
-			set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_2R);
-#endif //CONFIG_DISABLE_MCS13TO15
-			break;
-		case RF_3T3R:
-			set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_3R);
 			break;
 		default:
 			DBG_871X("[warning] rf_type %d is not expected\n", rf_type);
