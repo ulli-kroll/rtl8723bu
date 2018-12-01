@@ -301,8 +301,6 @@
 #define DBG	0	// for ODM & BTCOEX debug
 #endif // !CONFIG_DEBUG
 
-#define CONFIG_PROC_DEBUG
-
 //#define DBG_CONFIG_ERROR_DETECT
 //#define DBG_CONFIG_ERROR_DETECT_INT
 //#define DBG_CONFIG_ERROR_RESET
