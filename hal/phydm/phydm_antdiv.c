@@ -1235,68 +1235,6 @@ ODM_UpdateRxIdleAnt_8723B(
 		return;
 	}
 
-#if 0
-	// Send H2C command to FW
-	// Enable wifi calibration
-	H2C_Parameter = TRUE;
-	ODM_FillH2CCmd(pDM_Odm, ODM_H2C_WIFI_CALIBRATION, 1, &H2C_Parameter);
-
-	// Check if H2C command sucess or not (0x1e6)
-	u1Temp = ODM_Read1Byte(pDM_Odm, 0x1e6);
-	while((u1Temp != 0x1) && (count < 100))
-	{
-		ODM_delay_us(10);	
-		u1Temp = ODM_Read1Byte(pDM_Odm, 0x1e6);
-		count++;
-	}
-	ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: H2C command status = %d, count = %d\n", u1Temp, count));
-
-	if(u1Temp == 0x1)
-	{
-		// Check if BT is doing IQK (0x1e7)
-		count = 0;
-		u1Temp = ODM_Read1Byte(pDM_Odm, 0x1e7);
-		while((!(u1Temp & BIT0))  && (count < 100))
-		{
-			ODM_delay_us(50);	
-			u1Temp = ODM_Read1Byte(pDM_Odm, 0x1e7);
-			count++;
-		}
-		ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: BT IQK status = %d, count = %d\n", u1Temp, count));
-
-		if(u1Temp & BIT0)
-		{
-			ODM_SetBBReg(pDM_Odm, 0x948 , BIT6, 0x1);
-			ODM_SetBBReg(pDM_Odm, 0x948 , BIT9, DefaultAnt);	
-			ODM_SetBBReg(pDM_Odm, 0x864 , BIT5|BIT4|BIT3, DefaultAnt);	//Default RX
-			ODM_SetBBReg(pDM_Odm, 0x864 , BIT8|BIT7|BIT6, OptionalAnt);	//Optional RX
-			ODM_SetBBReg(pDM_Odm, 0x860, BIT14|BIT13|BIT12, DefaultAnt); //Default TX	
-			pDM_FatTable->RxIdleAnt = Ant;
-
-			// Set TX AGC by S0/S1
-			// Need to consider Linux driver
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-			 pAdapter->HalFunc.SetTxPowerLevelHandler(pAdapter, pHalData->CurrentChannel);
-#elif(DM_ODM_SUPPORT_TYPE == ODM_CE)
-			rtw_hal_set_tx_power_level(pAdapter, pHalData->CurrentChannel);
-#endif
-
-			// Set IQC by S0/S1
-			ODM_SetIQCbyRFpath(pDM_Odm,DefaultAnt);
-			ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: Sucess to set RX antenna\n"));
-		}
-		else
-			ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: Fail to set RX antenna due to BT IQK\n"));
-	}
-	else
-		ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: Fail to set RX antenna due to H2C command fail\n"));
-
-	// Send H2C command to FW
-	// Disable wifi calibration
-	H2C_Parameter = FALSE;
-	ODM_FillH2CCmd(pDM_Odm, ODM_H2C_WIFI_CALIBRATION, 1, &H2C_Parameter);
-#else
-
 	ODM_SetBBReg(pDM_Odm, 0x948 , BIT6, 0x1);
 	ODM_SetBBReg(pDM_Odm, 0x948 , BIT9, DefaultAnt);	
 	ODM_SetBBReg(pDM_Odm, 0x864 , BIT5|BIT4|BIT3, DefaultAnt);          /*Default RX*/
@@ -1315,8 +1253,6 @@ ODM_UpdateRxIdleAnt_8723B(
 	/* Set IQC by S0/S1 */
 	ODM_SetIQCbyRFpath(pDM_Odm, DefaultAnt);
 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[ Update Rx-Idle-Ant ] 8723B: Success to set RX antenna\n"));
-
-#endif
 }
 
 BOOLEAN
