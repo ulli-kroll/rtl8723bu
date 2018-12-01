@@ -23,35 +23,12 @@
 #ifndef __INC_MP_FW_HW_IMG_8723B_H
 #define __INC_MP_FW_HW_IMG_8723B_H
 
-
-/******************************************************************************
-*                           FW_AP.TXT
-******************************************************************************/
-
-void
-ODM_ReadFirmware_MP_8723B_FW_AP(
-	IN   PDM_ODM_T    pDM_Odm,
-	OUT  u1Byte       *pFirmware,
-	OUT  u4Byte       *pFirmwareSize
-);
-
 /******************************************************************************
 *                           FW_NIC.TXT
 ******************************************************************************/
 
 void
 ODM_ReadFirmware_MP_8723B_FW_NIC(
-	IN   PDM_ODM_T    pDM_Odm,
-	OUT  u1Byte       *pFirmware,
-	OUT  u4Byte       *pFirmwareSize
-);
-
-/******************************************************************************
-*                           FW_WoWLAN.TXT
-******************************************************************************/
-
-void
-ODM_ReadFirmware_MP_8723B_FW_WoWLAN(
 	IN   PDM_ODM_T    pDM_Odm,
 	OUT  u1Byte       *pFirmware,
 	OUT  u4Byte       *pFirmwareSize
