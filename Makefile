@@ -21,8 +21,6 @@ EXTRA_CFLAGS += -I$(src)/hal/phydm
 
 EXTRA_LDFLAGS += --strip-debug
 
-CONFIG_AUTOCFG_CP = n
-
 ########################## WIFI IC ############################
 CONFIG_MULTIDRV = n
 CONFIG_RTL8723B = y
@@ -146,26 +144,6 @@ _OUTSRC_FILES += hal/phydm/rtl8723b/halhwimg8723b_bb.o\
 								hal/phydm/rtl8723b/phydm_regconfig8723b.o\
 								hal/phydm/rtl8723b/halphyrf_8723b_ce.o\
 								hal/phydm/rtl8723b/phydm_rtl8723b.o
-
-endif
-
-########### AUTO_CFG  #################################
-
-ifeq ($(CONFIG_AUTOCFG_CP), y)
-
-ifeq ($(CONFIG_MULTIDRV), y)
-$(shell cp $(TopDIR)/autoconf_multidrv_usb_linux.h $(TopDIR)/include/autoconf.h)
-else
-ifeq ($(CONFIG_RTL8188E)$(CONFIG_SDIO_HCI),yy)
-$(shell cp $(TopDIR)/autoconf_rtl8189e_usb_linux.h $(TopDIR)/include/autoconf.h)
-else ifeq ($(CONFIG_RTL8188F)$(CONFIG_SDIO_HCI),yy)
-$(shell cp $(TopDIR)/autoconf_rtl8189f_usb_linux.h $(TopDIR)/include/autoconf.h)
-else ifeq ($(CONFIG_RTL8723C),y)
-$(shell cp $(TopDIR)/autoconf_rtl8723c_usb_linux.h $(TopDIR)/include/autoconf.h)
-else
-$(shell cp $(TopDIR)/autoconf_rtl8723b_usb_linux.h $(TopDIR)/include/autoconf.h)
-endif
-endif
 
 endif
 
