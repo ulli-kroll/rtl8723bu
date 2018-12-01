@@ -76,13 +76,6 @@ typedef enum tag_HAL_Manufacturer_Version_Definition
 typedef enum tag_HAL_RF_Type_Definition
 {
 	RF_TYPE_1T1R 	=	0,
-	RF_TYPE_1T2R 	=	1,
-	RF_TYPE_2T2R	=	2,
-	RF_TYPE_2T3R	=	3,
-	RF_TYPE_2T4R	=	4,
-	RF_TYPE_3T3R	=	5,
-	RF_TYPE_3T4R	=	6,
-	RF_TYPE_4T4R	=	7,
 }HAL_RF_TYPE_E;
 
 typedef	struct tag_HAL_VERSION
@@ -149,11 +142,6 @@ typedef	struct tag_HAL_VERSION
 
 //HAL_RF_TYPE_E
 #define IS_1T1R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_1T1R)? TRUE : FALSE )
-#define IS_1T2R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_1T2R)? TRUE : FALSE)
-#define IS_2T2R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_2T2R)? TRUE : FALSE)
-#define IS_3T3R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_3T3R)? TRUE : FALSE)
-#define IS_3T4R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_3T4R)? TRUE : FALSE)
-#define IS_4T4R(version)					((GET_CVID_RF_TYPE(version) == RF_TYPE_4T4R)? TRUE : FALSE)
 
 
 

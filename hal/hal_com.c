@@ -80,11 +80,6 @@ void dump_chip_info(HAL_VERSION	ChipVersion)
 		cnt += sprintf((buf+cnt), "UNKNOWN_CUT(%d)_", ChipVersion.CUTVersion);
 
 	if(IS_1T1R(ChipVersion)) cnt += sprintf((buf+cnt), "1T1R_");
-	else if(IS_1T2R(ChipVersion)) cnt += sprintf((buf+cnt), "1T2R_");
-	else if(IS_2T2R(ChipVersion)) cnt += sprintf((buf+cnt), "2T2R_");
-	else if(IS_3T3R(ChipVersion)) cnt += sprintf((buf+cnt), "3T3R_");
-	else if(IS_3T4R(ChipVersion)) cnt += sprintf((buf+cnt), "3T4R_");
-	else if(IS_4T4R(ChipVersion)) cnt += sprintf((buf+cnt), "4T4R_");
 	else cnt += sprintf((buf+cnt), "UNKNOWN_RFTYPE(%d)_", ChipVersion.RFType);
 
 	cnt += sprintf((buf+cnt), "RomVer(%d)\n", ChipVersion.ROMVer);
@@ -99,26 +94,6 @@ void rtw_hal_config_rftype(PADAPTER  padapter)
 		pHalData->rf_type = RF_1T1R;
 		pHalData->NumTotalRFPath = 1;
 	}	
-	else if (IS_2T2R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_2T2R;
-		pHalData->NumTotalRFPath = 2;
-	}
-	else if (IS_1T2R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_1T2R;
-		pHalData->NumTotalRFPath = 2;
-	}
-	else if(IS_3T3R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_3T3R;
-		pHalData->NumTotalRFPath = 3;
-	}	
-	else if(IS_4T4R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_4T4R;
-		pHalData->NumTotalRFPath = 4;
-	}
-	else {
-		pHalData->rf_type = RF_1T1R;
-		pHalData->NumTotalRFPath = 1;
-	}
 	
 	DBG_871X("%s RF_Type is %d TotalTxPath is %d \n", __FUNCTION__, pHalData->rf_type, pHalData->NumTotalRFPath);
 }

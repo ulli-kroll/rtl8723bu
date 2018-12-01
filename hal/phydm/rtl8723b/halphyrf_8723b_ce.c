@@ -3297,10 +3297,6 @@ PHY_APCalibrate_8723B(
 		return;
 
 #if !(DM_ODM_SUPPORT_TYPE & ODM_AP)
-	if(IS_2T2R( pHalData->VersionID)){
-		phy_APCalibrate_8723B(pAdapter, delta, TRUE);
-	}
-	else
 #endif
 	{
 		// For 88C 1T1R
