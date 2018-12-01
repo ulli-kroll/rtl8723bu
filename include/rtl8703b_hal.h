@@ -121,23 +121,9 @@ typedef struct _RT_8703B_FIRMWARE_HDR
 #define BCNQ1_PAGE_NUM_8703B		0x00
 #endif
 
-#ifdef CONFIG_PNO_SUPPORT
-#undef BCNQ1_PAGE_NUM_8703B
-#define BCNQ1_PAGE_NUM_8703B		0x00 // 0x04
-#endif
-
 //For WoWLan , more reserved page
 //ARP Rsp:1, RWC:1, GTK Info:1,GTK RSP:2,GTK EXT MEM:2, PNO: 6
 #define WOWLAN_PAGE_NUM_8703B	0x00
-
-#ifdef CONFIG_PNO_SUPPORT
-#undef WOWLAN_PAGE_NUM_8703B
-#define WOWLAN_PAGE_NUM_8703B	0x15
-#endif
-
-#ifdef CONFIG_AP_WOWLAN
-#define AP_WOWLAN_PAGE_NUM_8703B	0x02
-#endif
 
 #define TX_TOTAL_PAGE_NUMBER_8703B	(0xFF - BCNQ_PAGE_NUM_8703B - BCNQ1_PAGE_NUM_8703B - WOWLAN_PAGE_NUM_8703B)
 #define TX_PAGE_BOUNDARY_8703B		(TX_TOTAL_PAGE_NUMBER_8703B + 1)
@@ -266,10 +252,6 @@ void rtl8703bs_init_checkbthang_workqueue(_adapter * adapter);
 void rtl8703bs_free_checkbthang_workqueue(_adapter * adapter);
 void rtl8703bs_cancle_checkbthang_workqueue(_adapter * adapter);
 void rtl8703bs_hal_check_bt_hang(_adapter * adapter);
-#endif
-
-#ifdef CONFIG_GPIO_WAKEUP
-void HalSetOutPutGPIO(PADAPTER padapter, u8 index, u8 OutPutValue);
 #endif
 
 void CCX_FwC2HTxRpt_8703b(PADAPTER padapter, u8 *pdata, u8 len);

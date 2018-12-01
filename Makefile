@@ -48,13 +48,6 @@ CONFIG_REDUCE_TX_CPU_LOADING = n
 CONFIG_BR_EXT = y
 CONFIG_TDLS = n
 CONFIG_WIFI_MONITOR = y
-######################## Wake On Lan ##########################
-CONFIG_GPIO_WAKEUP = n
-CONFIG_WAKEUP_GPIO_IDX = default
-CONFIG_HIGH_ACTIVE = n
-CONFIG_PNO_SUPPORT = n
-CONFIG_PNO_SET_DEBUG = n
-CONFIG_AP_WOWLAN = n
 ######### Notify SDIO Host Keep Power During Syspend ##########
 CONFIG_RTW_SDIO_PM_KEEP_POWER = y
 ###################### Platform Related #######################
@@ -264,26 +257,6 @@ endif
 
 ifeq ($(CONFIG_80211W), y)
 EXTRA_CFLAGS += -DCONFIG_IEEE80211W
-endif
-
-ifeq ($(CONFIG_PNO_SUPPORT), y)
-EXTRA_CFLAGS += -DCONFIG_PNO_SUPPORT
-ifeq ($(CONFIG_PNO_SET_DEBUG), y)
-EXTRA_CFLAGS += -DCONFIG_PNO_SET_DEBUG
-endif
-endif
-
-ifeq ($(CONFIG_GPIO_WAKEUP), y)
-EXTRA_CFLAGS += -DCONFIG_GPIO_WAKEUP
-ifeq ($(CONFIG_HIGH_ACTIVE), y)
-EXTRA_CFLAGS += -DHIGH_ACTIVE=1
-else
-EXTRA_CFLAGS += -DHIGH_ACTIVE=0
-endif
-endif
-
-ifneq ($(CONFIG_WAKEUP_GPIO_IDX), default)
-EXTRA_CFLAGS += -DWAKEUP_GPIO_IDX=$(CONFIG_WAKEUP_GPIO_IDX)
 endif
 
 ifeq ($(CONFIG_RTW_SDIO_PM_KEEP_POWER), y)

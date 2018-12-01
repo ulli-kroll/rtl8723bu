@@ -728,15 +728,9 @@ void rtw_set_fw_in_ips_mode(PADAPTER padapter, u8 enable)
 		//Enter IPS
 		DBG_871X("%s: issue H2C to FW when entering IPS\n", __func__);
 
-#ifdef CONFIG_PNO_SUPPORT
-		parm[0] = 0x03;
-		parm[1] = pwrpriv->pnlo_info->fast_scan_iterations;
-		parm[2] = pwrpriv->pnlo_info->slow_scan_period;
-#else
 		parm[0] = 0x03;
 		parm[1] = 0x0;
 		parm[2] = 0x0;
-#endif//CONFIG_PNO_SUPPORT
 
 		rtw_hal_fill_h2c_cmd(padapter, //H2C_FWLPS_IN_IPS_,
 					H2C_INACTIVE_PS_,
@@ -820,7 +814,7 @@ void rtw_set_fw_in_ips_mode(PADAPTER padapter, u8 enable)
 #endif
 	}
 }
-#endif //CONFIG_PNO_SUPPORT
+#endif
 
 void rtw_set_ps_mode(PADAPTER padapter, u8 ps_mode, u8 smart_ps, u8 bcn_ant_mode, const char *msg)
 {
@@ -2134,16 +2128,6 @@ _func_enter_;
 	pwrctrlpriv->early_suspend.suspend = NULL;
 	rtw_register_early_suspend(pwrctrlpriv);
 	#endif //CONFIG_HAS_EARLYSUSPEND || CONFIG_ANDROID_POWER
-
-#ifdef CONFIG_GPIO_WAKEUP
-	/*default low active*/
-	pwrctrlpriv->is_high_active = HIGH_ACTIVE;
-	val8 = (pwrctrlpriv->is_high_active == 0) ? 1 : 0;
-	rtw_hal_switch_gpio_wl_ctrl(padapter, WAKEUP_GPIO_IDX, _TRUE);
-	rtw_hal_set_output_gpio(padapter, WAKEUP_GPIO_IDX, val8);
-	DBG_871X("%s: set GPIO_%d %d as default.\n",
-		 __func__, WAKEUP_GPIO_IDX, val8);
-#endif /* CONFIG_GPIO_WAKEUP */
 
 _func_exit_;
 
