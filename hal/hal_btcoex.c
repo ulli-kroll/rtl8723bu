@@ -2240,40 +2240,14 @@ void EXhalbtcoutsrc_init_hw_config(PBTC_COEXIST pBtCoexist, u8 bWifiOnly)
 
 	pBtCoexist->statistics.cntInitHwConfig++;
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_init_hw_config(pBtCoexist, bWifiOnly);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_init_hw_config(pBtCoexist, bWifiOnly);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_init_hw_config(pBtCoexist, bWifiOnly);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_init_hw_config(pBtCoexist, bWifiOnly);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_init_hw_config(pBtCoexist, bWifiOnly);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_init_hw_config(pBtCoexist, bWifiOnly);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_init_hw_config(pBtCoexist, bWifiOnly);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_init_hw_config(pBtCoexist, bWifiOnly);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_init_hw_config(pBtCoexist, bWifiOnly);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_init_hw_config(pBtCoexist, bWifiOnly);
 	}
 }
 
@@ -2284,40 +2258,14 @@ void EXhalbtcoutsrc_init_coex_dm(PBTC_COEXIST pBtCoexist)
 
 	pBtCoexist->statistics.cntInitCoexDm++;
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_init_coex_dm(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_init_coex_dm(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_init_coex_dm(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_init_coex_dm(pBtCoexist);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_init_coex_dm(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_init_coex_dm(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_init_coex_dm(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_init_coex_dm(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_init_coex_dm(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_init_coex_dm(pBtCoexist);
 	}
 
 	pBtCoexist->initilized = _TRUE;
@@ -2348,40 +2296,14 @@ void EXhalbtcoutsrc_ips_notify(PBTC_COEXIST pBtCoexist, u8 type)
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_ips_notify(pBtCoexist, ipsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_ips_notify(pBtCoexist, ipsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_ips_notify(pBtCoexist, ipsType);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_ips_notify(pBtCoexist, ipsType);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_ips_notify(pBtCoexist, ipsType);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_ips_notify(pBtCoexist, ipsType);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_ips_notify(pBtCoexist, ipsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_ips_notify(pBtCoexist, ipsType);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_ips_notify(pBtCoexist, ipsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_ips_notify(pBtCoexist, ipsType);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2410,40 +2332,14 @@ void EXhalbtcoutsrc_lps_notify(PBTC_COEXIST pBtCoexist, u8 type)
 		GLBtcWiFiInLPS = _TRUE;
 	}
 	
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_lps_notify(pBtCoexist, lpsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_lps_notify(pBtCoexist, lpsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_lps_notify(pBtCoexist, lpsType);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_lps_notify(pBtCoexist, lpsType);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_lps_notify(pBtCoexist, lpsType);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_lps_notify(pBtCoexist, lpsType);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_lps_notify(pBtCoexist, lpsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_lps_notify(pBtCoexist, lpsType);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_lps_notify(pBtCoexist, lpsType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_lps_notify(pBtCoexist, lpsType);
 	}
 }
 
@@ -2471,40 +2367,14 @@ void EXhalbtcoutsrc_scan_notify(PBTC_COEXIST pBtCoexist, u8 type)
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_scan_notify(pBtCoexist, scanType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_scan_notify(pBtCoexist, scanType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_scan_notify(pBtCoexist, scanType);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_scan_notify(pBtCoexist, scanType);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_scan_notify(pBtCoexist, scanType);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_scan_notify(pBtCoexist, scanType);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_scan_notify(pBtCoexist, scanType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_scan_notify(pBtCoexist, scanType);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_scan_notify(pBtCoexist, scanType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_scan_notify(pBtCoexist, scanType);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2528,40 +2398,14 @@ void EXhalbtcoutsrc_connect_notify(PBTC_COEXIST pBtCoexist, u8 action)
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_connect_notify(pBtCoexist, assoType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_connect_notify(pBtCoexist, assoType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_connect_notify(pBtCoexist, assoType);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_connect_notify(pBtCoexist, assoType);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_connect_notify(pBtCoexist, assoType);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_connect_notify(pBtCoexist, assoType);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_connect_notify(pBtCoexist, assoType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_connect_notify(pBtCoexist, assoType);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_connect_notify(pBtCoexist, assoType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_connect_notify(pBtCoexist, assoType);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2586,40 +2430,14 @@ void EXhalbtcoutsrc_media_status_notify(PBTC_COEXIST pBtCoexist, RT_MEDIA_STATUS
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_media_status_notify(pBtCoexist, mStatus);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_media_status_notify(pBtCoexist, mStatus);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_media_status_notify(pBtCoexist, mStatus);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_media_status_notify(pBtCoexist, mStatus);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_media_status_notify(pBtCoexist, mStatus);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_media_status_notify(pBtCoexist, mStatus);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_media_status_notify(pBtCoexist, mStatus);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_media_status_notify(pBtCoexist, mStatus);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_media_status_notify(pBtCoexist, mStatus);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_media_status_notify(pBtCoexist, mStatus);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2650,40 +2468,14 @@ void EXhalbtcoutsrc_specific_packet_notify(PBTC_COEXIST pBtCoexist, u8 pktType)
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_specific_packet_notify(pBtCoexist, packetType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_specific_packet_notify(pBtCoexist, packetType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_specific_packet_notify(pBtCoexist, packetType);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_specific_packet_notify(pBtCoexist, packetType);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_specific_packet_notify(pBtCoexist, packetType);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_specific_packet_notify(pBtCoexist, packetType);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_specific_packet_notify(pBtCoexist, packetType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_specific_packet_notify(pBtCoexist, packetType);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_specific_packet_notify(pBtCoexist, packetType);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_specific_packet_notify(pBtCoexist, packetType);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2699,40 +2491,14 @@ void EXhalbtcoutsrc_bt_info_notify(PBTC_COEXIST pBtCoexist, u8 *tmpBuf, u8 lengt
 	// All notify is called in cmd thread, don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_bt_info_notify(pBtCoexist, tmpBuf, length);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_bt_info_notify(pBtCoexist, tmpBuf, length);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_bt_info_notify(pBtCoexist, tmpBuf, length);
 	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
@@ -2748,25 +2514,13 @@ EXhalbtcoutsrc_RfStatusNotify(
 		return;
 	pBtCoexist->statistics.cntRfStatusNotify++;
 	
-	if(IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-	}
-	else if(IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if(IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_rf_status_notify(pBtCoexist, type);
-	}	
-	else if(IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if(IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_rf_status_notify(pBtCoexist, type);
 	}	
-	else if(IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-	}
-	else if(IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-	}
 }
 
 void EXhalbtcoutsrc_StackOperationNotify(PBTC_COEXIST pBtCoexist, u8 type)
@@ -2806,49 +2560,21 @@ void EXhalbtcoutsrc_halt_notify(PBTC_COEXIST pBtCoexist)
 	if (!halbtcoutsrc_IsBtCoexistAvailable(pBtCoexist))
 		return;
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_halt_notify(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_halt_notify(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_halt_notify(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_halt_notify(pBtCoexist);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_halt_notify(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_halt_notify(pBtCoexist);
 	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_halt_notify(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_halt_notify(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_halt_notify(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_halt_notify(pBtCoexist);
-	}
-
 	pBtCoexist->bBinded = FALSE;
 }
 
 void EXhalbtcoutsrc_SwitchBtTRxMask(PBTC_COEXIST pBtCoexist)
 {
-	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2) {
 			halbtcoutsrc_SetBtReg(pBtCoexist, 0, 0x3c, 0x01); //BT goto standby while GNT_BT 1-->0
 		} else if (pBtCoexist->board_info.btdm_ant_num == 1) {
@@ -2867,36 +2593,14 @@ void EXhalbtcoutsrc_pnp_notify(PBTC_COEXIST pBtCoexist, u8 pnpState)
 	// once pnp is notified to sleep state, we have to leave LPS that we can sleep normally.
 	//
 
-	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_pnp_notify(pBtCoexist, pnpState);
 		else if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_pnp_notify(pBtCoexist, pnpState);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_pnp_notify(pBtCoexist, pnpState);
-	}
-	else if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_pnp_notify(pBtCoexist, pnpState);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_pnp_notify(pBtCoexist, pnpState);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_pnp_notify(pBtCoexist, pnpState);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_pnp_notify(pBtCoexist, pnpState);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_pnp_notify(pBtCoexist, pnpState);
 	}
 }
 
@@ -2916,10 +2620,8 @@ void EXhalbtcoutsrc_CoexDmSwitch(PBTC_COEXIST pBtCoexist)
 
 	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 1)
-		{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
+		if (pBtCoexist->board_info.btdm_ant_num == 1) {
 			pBtCoexist->stop_coex_dm = TRUE;
 			ex_halbtc8723b1ant_coex_dm_reset(pBtCoexist);
 			EXhalbtcoutsrc_SetAntNum(BT_COEX_ANT_TYPE_DETECTED, 2);
@@ -2942,47 +2644,15 @@ void EXhalbtcoutsrc_periodical(PBTC_COEXIST pBtCoexist)
 	// don't need to leave low power again
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_periodical(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_periodical(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-		{
-			if (!halbtcoutsrc_UnderIps(pBtCoexist))
-			{
-				ex_halbtc8821a1ant_periodical(pBtCoexist);
-			}
-		}
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_periodical(pBtCoexist);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_periodical(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_periodical(pBtCoexist);
 	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_periodical(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_periodical(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_periodical(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_periodical(pBtCoexist);
-	}
-
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
 }
 
@@ -2997,18 +2667,6 @@ void EXhalbtcoutsrc_dbg_control(PBTC_COEXIST pBtCoexist, u8 opCode, u8 opLen, u8
 	// default no need to leave low power to avoid deadlock
 //	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_dbg_control(pBtCoexist, opCode, opLen, pData);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_dbg_control(pBtCoexist, opCode, opLen, pData);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_dbg_control(pBtCoexist, opCode, opLen, pData);
-	}
 
 //	halbtcoutsrc_NormalLowPower(pBtCoexist);
 }
@@ -3211,40 +2869,14 @@ void EXhalbtcoutsrc_DisplayBtCoexInfo(PBTC_COEXIST pBtCoexist)
 
 	halbtcoutsrc_LeaveLowPower(pBtCoexist);
 
-	if (IS_HARDWARE_TYPE_8821(pBtCoexist->Adapter))
-	{
-		if (halbtcoutsrc_IsCsrBtCoex(pBtCoexist) == _TRUE)
-			ex_halbtc8821aCsr2ant_display_coex_info(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8821a2ant_display_coex_info(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8821a1ant_display_coex_info(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter))
-	{
+	if (IS_HARDWARE_TYPE_8723B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 2)
 			ex_halbtc8723b2ant_display_coex_info(pBtCoexist);
 		else if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8723b1ant_display_coex_info(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter))
-	{
+	} else if (IS_HARDWARE_TYPE_8703B(pBtCoexist->Adapter)) {
 		if (pBtCoexist->board_info.btdm_ant_num == 1)
 			ex_halbtc8703b1ant_display_coex_info(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8192E(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8192e2ant_display_coex_info(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8192e1ant_display_coex_info(pBtCoexist);
-	}
-	else if (IS_HARDWARE_TYPE_8812(pBtCoexist->Adapter))
-	{
-		if (pBtCoexist->board_info.btdm_ant_num == 2)
-			ex_halbtc8812a2ant_display_coex_info(pBtCoexist);
-		else if (pBtCoexist->board_info.btdm_ant_num == 1)
-			ex_halbtc8812a1ant_display_coex_info(pBtCoexist);
 	}
 
 	halbtcoutsrc_NormalLowPower(pBtCoexist);

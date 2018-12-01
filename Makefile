@@ -132,16 +132,9 @@ _OUTSRC_FILES := hal/phydm/phydm_debug.o	\
 
 ifeq ($(CONFIG_BT_COEXIST), y)
 EXTRA_CFLAGS += -I$(src)/hal/btc
-_OUTSRC_FILES += hal/btc/HalBtc8192e1Ant.o \
-				hal/btc/HalBtc8192e2Ant.o \
-				hal/btc/HalBtc8723b1Ant.o \
-				hal/btc/HalBtc8723b2Ant.o \
-				hal/btc/HalBtc8812a1Ant.o \
-				hal/btc/HalBtc8812a2Ant.o \
-				hal/btc/HalBtc8821a1Ant.o \
-				hal/btc/HalBtc8821a2Ant.o \
-				hal/btc/HalBtc8821aCsr2Ant.o \
-				hal/btc/HalBtc8703b1Ant.o
+_OUTSRC_FILES += hal/btc/HalBtc8723b1Ant.o \
+		 hal/btc/HalBtc8723b2Ant.o \
+		 hal/btc/HalBtc8703b1Ant.o
 endif
 
 ########### HAL_RTL8723B #################################
