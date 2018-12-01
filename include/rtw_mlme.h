@@ -586,10 +586,6 @@ struct mlme_priv {
 
 #endif
 
-#ifdef CONFIG_80211AC_VHT
-	struct vht_priv	vhtpriv;
-#endif
-
 #ifdef CONFIG_DFS
 	u8	handle_dfs;
 #endif

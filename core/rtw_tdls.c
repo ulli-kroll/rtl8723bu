@@ -413,134 +413,6 @@ u8 *rtw_tdls_set_ht_cap(_adapter *padapter, u8 *pframe, struct pkt_attrib *pattr
 }
 #endif
 
-#ifdef CONFIG_80211AC_VHT
-void rtw_tdls_process_vht_cap(_adapter *padapter, struct sta_info *ptdls_sta, u8 *data, u8 Length)
-{
-	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-	struct vht_priv			*pvhtpriv = &pmlmepriv->vhtpriv;
-	u8	cur_ldpc_cap = 0, cur_stbc_cap = 0, cur_beamform_cap = 0, rf_type = RF_1T1R;
-	u8	*pcap_mcs;
-	u8	vht_mcs[2];
-	
-	_rtw_memset(&ptdls_sta->vhtpriv, 0, sizeof(struct vht_priv));
-	if (data && Length == 12) {
-		ptdls_sta->flags |= WLAN_STA_VHT;
-
-		_rtw_memcpy(ptdls_sta->vhtpriv.vht_cap, data, 12);
-
-#if 0
-		if (elems.vht_op_mode_notify && elems.vht_op_mode_notify_len == 1) {
-			_rtw_memcpy(&pstat->vhtpriv.vht_op_mode_notify, elems.vht_op_mode_notify, 1);
-		} else /* for Frame without Operating Mode notify ie; default: 80M */ {
-			pstat->vhtpriv.vht_op_mode_notify = CHANNEL_WIDTH_80;
-		}
-#else
-		ptdls_sta->vhtpriv.vht_op_mode_notify = CHANNEL_WIDTH_80;
-#endif
-	} else
-		ptdls_sta->flags &= ~WLAN_STA_VHT;
-
-	if (ptdls_sta->flags & WLAN_STA_VHT) {
-		if (REGSTY_IS_11AC_ENABLE(&padapter->registrypriv)
-			&& hal_chk_proto_cap(padapter, PROTO_CAP_11AC)
-			&& (!pmlmepriv->country_ent || COUNTRY_CHPLAN_EN_11AC(pmlmepriv->country_ent)))
-			ptdls_sta->vhtpriv.vht_option = _TRUE;
-		else 
-			ptdls_sta->vhtpriv.vht_option = _FALSE;
-	}
-
-	/* B4 Rx LDPC */
-	if (TEST_FLAG(pvhtpriv->ldpc_cap, LDPC_VHT_ENABLE_TX) && 
-		GET_VHT_CAPABILITY_ELE_RX_LDPC(data)) {
-		SET_FLAG(cur_ldpc_cap, (LDPC_VHT_ENABLE_TX | LDPC_VHT_CAP_TX));
-		DBG_871X("Current VHT LDPC Setting = %02X\n", cur_ldpc_cap);
-	}
-	ptdls_sta->vhtpriv.ldpc_cap = cur_ldpc_cap;
-
-	/* B5 Short GI for 80 MHz */
-	ptdls_sta->vhtpriv.sgi_80m = (GET_VHT_CAPABILITY_ELE_SHORT_GI80M(data) & pvhtpriv->sgi_80m) ? _TRUE : _FALSE;
-
-	/* B8 B9 B10 Rx STBC */
-	if (TEST_FLAG(pvhtpriv->stbc_cap, STBC_VHT_ENABLE_TX) && 
-		GET_VHT_CAPABILITY_ELE_RX_STBC(data)) {
-		SET_FLAG(cur_stbc_cap, (STBC_VHT_ENABLE_TX | STBC_VHT_CAP_TX));	
-		DBG_871X("Current VHT STBC Setting = %02X\n", cur_stbc_cap);
-	}
-	ptdls_sta->vhtpriv.stbc_cap = cur_stbc_cap;
-
-	/* B11 SU Beamformer Capable, the target supports Beamformer and we are Beamformee */
-	if (TEST_FLAG(pvhtpriv->beamform_cap, BEAMFORMING_VHT_BEAMFORMER_ENABLE) && 
-		GET_VHT_CAPABILITY_ELE_SU_BFEE(data)) {
-		SET_FLAG(cur_beamform_cap, BEAMFORMING_VHT_BEAMFORMEE_ENABLE);
-	}
-
-	/* B12 SU Beamformee Capable, the target supports Beamformee and we are Beamformer */
-	if (TEST_FLAG(pvhtpriv->beamform_cap, BEAMFORMING_VHT_BEAMFORMEE_ENABLE) &&
-		GET_VHT_CAPABILITY_ELE_SU_BFER(data)) {
-		SET_FLAG(cur_beamform_cap, BEAMFORMING_VHT_BEAMFORMER_ENABLE);
-	}
-	ptdls_sta->vhtpriv.beamform_cap = cur_beamform_cap;
-	if (cur_beamform_cap)
-		DBG_871X("Current VHT Beamforming Setting = %02X\n", cur_beamform_cap);
-
-	/* B23 B24 B25 Maximum A-MPDU Length Exponent */
-	ptdls_sta->vhtpriv.ampdu_len = GET_VHT_CAPABILITY_ELE_MAX_RXAMPDU_FACTOR(data);
-
-	pcap_mcs = GET_VHT_CAPABILITY_ELE_RX_MCS(data);
-	_rtw_memcpy(vht_mcs, pcap_mcs, 2);
-
-	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-	if ((rf_type == RF_1T1R) || (rf_type == RF_1T2R))
-		vht_mcs[0] |= 0xfc;
-	else if (rf_type == RF_2T2R)
-		vht_mcs[0] |= 0xf0;
-	else if (rf_type == RF_3T3R)
-		vht_mcs[0] |= 0xc0;
-
-	_rtw_memcpy(ptdls_sta->vhtpriv.vht_mcs_map, vht_mcs, 2);
-
-	ptdls_sta->vhtpriv.vht_highest_rate = rtw_get_vht_highest_rate(ptdls_sta->vhtpriv.vht_mcs_map);
-}
-
-u8 *rtw_tdls_set_aid(_adapter *padapter, u8 *pframe, struct pkt_attrib *pattrib)
-{
-	return rtw_set_ie(pframe, EID_AID, 2, (u8 *)&(padapter->mlmepriv.cur_network.aid), &(pattrib->pktlen));
-}
-
-u8 *rtw_tdls_set_vht_cap(_adapter *padapter, u8 *pframe, struct pkt_attrib *pattrib)
-{
-	u32 ie_len = 0;
-	
-	rtw_vht_use_default_setting(padapter);
-
-	ie_len = rtw_build_vht_cap_ie(padapter, pframe);
-	pattrib->pktlen += ie_len;
-	
-	return pframe + ie_len;
-}
-
-u8 *rtw_tdls_set_vht_operation(_adapter *padapter, u8 *pframe, struct pkt_attrib *pattrib, u8 channel)
-{
-	u32 ie_len = 0;
-
-	ie_len = rtw_build_vht_operation_ie(padapter, pframe, channel);
-	pattrib->pktlen += ie_len;
-	
-	return pframe + ie_len;
-}
-
-u8 *rtw_tdls_set_vht_op_mode_notify(_adapter *padapter, u8 *pframe, struct pkt_attrib *pattrib, u8 bw)
-{
-	u32 ie_len = 0;
-	
-	ie_len = rtw_build_vht_op_mode_notify_ie(padapter, pframe, bw);
-	pattrib->pktlen += ie_len;
-
-	return pframe + ie_len;
-}
-#endif
-
-
 u8 *rtw_tdls_set_sup_ch(struct mlme_ext_priv *pmlmeext, u8 *pframe, struct pkt_attrib *pattrib)
 {
 	u8 sup_ch[30 * 2] = {0x00}, ch_set_idx = 0, sup_ch_idx = 2;	
@@ -1715,13 +1587,6 @@ sint On_TDLS_Setup_Req(_adapter *padapter, union recv_frame *precv_frame)
 				rtw_tdls_process_ht_cap(padapter, ptdls_sta, pIE->data, pIE->Length);
 				break;
 #endif	
-#ifdef CONFIG_80211AC_VHT				
-			case EID_AID:
-				break;
-			case EID_VHTCapability:
-				rtw_tdls_process_vht_cap(padapter, ptdls_sta, pIE->data, pIE->Length);
-				break;
-#endif
 			case EID_BSSCoexistence:
 				break;
 			case _LINK_ID_IE_:
@@ -1904,17 +1769,6 @@ int On_TDLS_Setup_Rsp(_adapter *padapter, union recv_frame *precv_frame)
 			rtw_tdls_process_ht_cap(padapter, ptdls_sta, pIE->data, pIE->Length);
 			break;
 #endif			
-#ifdef CONFIG_80211AC_VHT
-		case EID_AID:
-			/* todo in the future if necessary */
-			break;
-		case EID_VHTCapability:
-			rtw_tdls_process_vht_cap(padapter, ptdls_sta, pIE->data, pIE->Length);
-			break;
-		case EID_OpModeNotification:
-			rtw_process_vht_op_mode_notify(padapter, pIE->data, ptdls_sta);
-			break;	
-#endif
 		case EID_BSSCoexistence:
 			break;
 		case _LINK_ID_IE_:
@@ -2061,13 +1915,6 @@ int On_TDLS_Setup_Cfm(_adapter *padapter, union recv_frame *precv_frame)
 #ifdef CONFIG_80211N_HT				
 			case _HT_EXTRA_INFO_IE_:
 				break;
-#endif
-#ifdef CONFIG_80211AC_VHT
-			case EID_VHTOperation:
-				break;
-			case EID_OpModeNotification:
-				rtw_process_vht_op_mode_notify(padapter, pIE->data, ptdls_sta);
-				break;	
 #endif
 			case _LINK_ID_IE_:
 				plinkid_ie = (u8 *)pIE;
@@ -2672,16 +2519,6 @@ void rtw_build_tdls_setup_req_ies(_adapter * padapter, struct xmit_frame * pxmit
 	if ((pregistrypriv->wmm_enable == _TRUE) || (padapter->mlmepriv.htpriv.ht_option == _TRUE))
 		pframe = rtw_tdls_set_qos_cap(pframe, pattrib);
 
-#ifdef CONFIG_80211AC_VHT
-	if ((padapter->mlmepriv.htpriv.ht_option == _TRUE) && (pmlmeext->cur_channel > 14)
-		&& REGSTY_IS_11AC_ENABLE(pregistrypriv)
-		&& hal_chk_proto_cap(padapter, PROTO_CAP_11AC)
-		&& (!padapter->mlmepriv.country_ent || COUNTRY_CHPLAN_EN_11AC(padapter->mlmepriv.country_ent))
-	) {
-		pframe = rtw_tdls_set_aid(padapter, pframe, pattrib);
-		pframe = rtw_tdls_set_vht_cap(padapter, pframe, pattrib);
-	}
-#endif
 
 #ifdef CONFIG_WFD
 	if (padapter->wdinfo.wfd_tdls_enable == 1)
@@ -2772,17 +2609,6 @@ void rtw_build_tdls_setup_rsp_ies(_adapter * padapter, struct xmit_frame * pxmit
 	if ((pregistrypriv->wmm_enable == _TRUE) || (padapter->mlmepriv.htpriv.ht_option == _TRUE))
 		pframe = rtw_tdls_set_qos_cap(pframe, pattrib);
 
-#ifdef CONFIG_80211AC_VHT
-	if ((padapter->mlmepriv.htpriv.ht_option == _TRUE) && (pmlmeext->cur_channel > 14)
-		&& REGSTY_IS_11AC_ENABLE(pregistrypriv)
-		&& hal_chk_proto_cap(padapter, PROTO_CAP_11AC)
-		&& (!padapter->mlmepriv.country_ent || COUNTRY_CHPLAN_EN_11AC(padapter->mlmepriv.country_ent))
-	) {
-		pframe = rtw_tdls_set_aid(padapter, pframe, pattrib);
-		pframe = rtw_tdls_set_vht_cap(padapter, pframe, pattrib);
-		pframe = rtw_tdls_set_vht_op_mode_notify(padapter, pframe, pattrib, pmlmeext->cur_bwmode);
-	}
-#endif
 
 #ifdef CONFIG_WFD
 	if (padapter->wdinfo.wfd_tdls_enable)
@@ -2848,17 +2674,6 @@ void rtw_build_tdls_setup_cfm_ies(_adapter * padapter, struct xmit_frame * pxmit
 	if (ptdls_sta->qos_option == _TRUE)
 		pframe = rtw_tdls_set_wmm_params(padapter, pframe, pattrib);
 
-#ifdef CONFIG_80211AC_VHT
-	if ((padapter->mlmepriv.htpriv.ht_option == _TRUE)
-		&& (ptdls_sta->vhtpriv.vht_option == _TRUE) && (pmlmeext->cur_channel > 14)
-		&& REGSTY_IS_11AC_ENABLE(pregistrypriv)
-		&& hal_chk_proto_cap(padapter, PROTO_CAP_11AC)
-		&& (!padapter->mlmepriv.country_ent || COUNTRY_CHPLAN_EN_11AC(padapter->mlmepriv.country_ent))
-	) {
-		pframe = rtw_tdls_set_vht_operation(padapter, pframe, pattrib, pmlmeext->cur_channel);
-		pframe = rtw_tdls_set_vht_op_mode_notify(padapter, pframe, pattrib, pmlmeext->cur_bwmode);
-	}
-#endif
 }
 
 void rtw_build_tdls_teardown_ies(_adapter * padapter, struct xmit_frame * pxmitframe, u8 *pframe, struct tdls_txmgmt *ptxmgmt)

@@ -130,11 +130,6 @@ int rtw_bfee_rf_number = 0; /*BeamformeeCapRfNum  Rf path number, 0 for auto, ot
 
 #endif //CONFIG_80211N_HT
 
-#ifdef CONFIG_80211AC_VHT
-int rtw_vht_enable = 1; //0:disable, 1:enable, 2:force auto enable
-int rtw_ampdu_factor = 7;
-int rtw_vht_rate_sel = 0;
-#endif //CONFIG_80211AC_VHT
 
 int rtw_lowrate_two_xmit = 1;//Use 2 path Tx to transmit MCS0~7 and legacy mode
 
@@ -276,9 +271,6 @@ module_param(rtw_ampdu_enable, int, 0644);
 module_param(rtw_rx_stbc, int, 0644);
 module_param(rtw_ampdu_amsdu, int, 0644);
 #endif //CONFIG_80211N_HT
-#ifdef CONFIG_80211AC_VHT
-module_param(rtw_vht_enable, int, 0644);
-#endif //CONFIG_80211AC_VHT
 module_param(rtw_lowrate_two_xmit, int, 0644);
 
 module_param(rtw_rf_config, int, 0644);
@@ -543,11 +535,6 @@ _func_enter_;
 	registry_par->beamformee_rf_num = (u8)rtw_bfee_rf_number;
 #endif
 
-#ifdef CONFIG_80211AC_VHT
-	registry_par->vht_enable = (u8)rtw_vht_enable;
-	registry_par->ampdu_factor = (u8)rtw_ampdu_factor;
-	registry_par->vht_rate_sel = (u8)rtw_vht_rate_sel;
-#endif
 
 #ifdef CONFIG_TX_EARLY_MODE
 	registry_par->early_mode = (u8)rtw_early_mode;

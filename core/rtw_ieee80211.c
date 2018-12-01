@@ -1678,18 +1678,6 @@ void rtw_ies_get_chbw(u8 *ies, int ies_len, u8 *ch, u8 *bw, u8 *offset)
 	}
 }
 #endif /* CONFIG_80211N_HT */
-#ifdef CONFIG_80211AC_VHT
-{
-	u8 *vht_op_ie;
-	int vht_op_ielen;
-
-	vht_op_ie = rtw_get_ie(ies, EID_VHTOperation, &vht_op_ielen, ies_len);
-	if (vht_op_ie && vht_op_ielen) {
-		if (GET_VHT_OPERATION_ELE_CHL_WIDTH(vht_op_ie + 2) >= 1)
-			*bw = CHANNEL_WIDTH_80;
-	}
-}
-#endif
 }
 
 void rtw_bss_get_chbw(WLAN_BSSID_EX *bss, u8 *ch, u8 *bw, u8 *offset)

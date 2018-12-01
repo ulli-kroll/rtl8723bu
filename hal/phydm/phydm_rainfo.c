@@ -1116,11 +1116,6 @@ s8 phydm_rssi_report(PDM_ODM_T pDM_Odm, u8 mac_id)
 	if (TxBF_EN)
 		STBC_TX = 0;
 	else {
-		#ifdef CONFIG_80211AC_VHT
-		if (IsSupportedVHT(pEntry->wireless_mode))
-			STBC_TX = TEST_FLAG(pEntry->vhtpriv.stbc_cap, STBC_VHT_ENABLE_TX);
-		else
-		#endif
 			STBC_TX = TEST_FLAG(pEntry->htpriv.stbc_cap, STBC_HT_ENABLE_TX);
 	}
 		

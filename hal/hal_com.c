@@ -991,14 +991,6 @@ void rtw_hal_update_sta_rate_mask(PADAPTER padapter, struct sta_info *psta)
 	}
 
 #ifdef CONFIG_80211N_HT
-#ifdef CONFIG_80211AC_VHT
-	//AC mode ra_bitmap
-	if(psta->vhtpriv.vht_option) 
-	{
-		tx_ra_bitmap |= (rtw_vht_rate_to_bitmap(psta->vhtpriv.vht_mcs_map) << 12);
-	}
-	else
-#endif //CONFIG_80211AC_VHT
 	{
 		//n mode ra_bitmap
 		if(psta->htpriv.ht_option)

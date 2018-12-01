@@ -113,26 +113,6 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 	if (custom_rf_type != RF_MAX_TYPE)
 		rf_type = custom_rf_type;
 	
-#ifdef CONFIG_80211AC_VHT
-	if (psta->vhtpriv.vht_option) {
-		u8 vht_mcs[2];
-		struct mlme_priv	*pmlmepriv = &(adapter->mlmepriv);
-		struct vht_priv	*pvhtpriv_ap = &pmlmepriv->vhtpriv;
-		
-		_rtw_memcpy(vht_mcs, psta->vhtpriv.vht_mcs_map, 2);
-		/* doesn't support 5~8 SS so far */
-		vht_mcs[1] = 0xff;
-		switch (rf_type) {
-		case RF_1T1R:
-			vht_mcs[0] |= 0xfc;
-			break;
-		default:
-			DBG_871X("%s,%d, unknown rf type\n", __func__, __LINE__);
-			break;
-		}
-		nss = rtw_vht_mcsmap_to_nss(vht_mcs);
-	} else
-#endif /* CONFIG_80211AC_VHT */
 	if (psta->htpriv.ht_option) {
 		u8 supp_mcs_set[4];
 
@@ -243,42 +223,6 @@ u8 networktype_to_raid_ex(_adapter *adapter, struct sta_info *psta)
 				DBG_871X("tx_nss error!(tx_nss=%d)\n", tx_nss);
 			}
 			break;
-#ifdef CONFIG_80211AC_VHT
-		case WIRELESS_11_5AC:
-			if (tx_nss == 1)
-				raid = RATEID_IDX_VHT_1SS;
-			else if (tx_nss == 2)
-				raid = RATEID_IDX_VHT_2SS;
-			else if (tx_nss == 3)
-				raid = RATEID_IDX_VHT_3SS;
-			else
-				DBG_871X("tx_nss error!(tx_nss=%d)\n", tx_nss);
-			break;
-		case WIRELESS_11_24AC:
-			if (psta->bw_mode >= CHANNEL_WIDTH_80)
-			{
-				if (tx_nss == 1)
-					raid = RATEID_IDX_VHT_1SS;
-				else if (tx_nss == 2)
-					raid = RATEID_IDX_VHT_2SS;
-				else if (tx_nss == 3)
-					raid = RATEID_IDX_VHT_3SS;
-				else
-					DBG_871X("tx_nss error!(tx_nss=%d)\n", tx_nss);
-			}
-			else
-			{
-				if (tx_nss == 1)
-					raid = RATEID_IDX_MIX1;
-				else if (tx_nss == 2)
-					raid = RATEID_IDX_MIX2;
-				else if (tx_nss == 3)
-					raid = RATEID_IDX_VHT_3SS;
-				else
-					DBG_871X("tx_nss error!(tx_nss=%d)\n", tx_nss);
-			}
-			break;
-#endif
 		default:
 			DBG_871X("unexpected wireless mode!(psta->wireless_mode=%x)\n", psta->wireless_mode);
 			break;	
@@ -2202,16 +2146,6 @@ void	update_ldpc_stbc_cap(struct sta_info *psta)
 {
 #ifdef CONFIG_80211N_HT
 
-#ifdef CONFIG_80211AC_VHT
-	if (psta->vhtpriv.vht_option) {
-		if(TEST_FLAG(psta->vhtpriv.ldpc_cap, LDPC_VHT_ENABLE_TX))
-			psta->ldpc = 1;
-
-		if(TEST_FLAG(psta->vhtpriv.stbc_cap, STBC_VHT_ENABLE_TX))
-			psta->stbc = 1;
-	}
-	else
-#endif //CONFIG_80211AC_VHT
 	if (psta->htpriv.ht_option) {
 		if(TEST_FLAG(psta->htpriv.ldpc_cap, LDPC_HT_ENABLE_TX))
 			psta->ldpc = 1;
@@ -2683,11 +2617,6 @@ void update_beacon_info(_adapter *padapter, u8 *pframe, uint pkt_len, struct sta
 				//HT_info_handler(padapter, pIE);
 				bwmode_update_check(padapter, pIE);
 				break;
-#ifdef CONFIG_80211AC_VHT
-			case EID_OpModeNotification:
-				rtw_process_vht_op_mode_notify(padapter, pIE->data, psta);
-				break;
-#endif //CONFIG_80211AC_VHT
 			case _ERPINFO_IE_:
 				ERP_IE_handler(padapter, pIE);
 				VCS_update(padapter, psta);
