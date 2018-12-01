@@ -37,7 +37,7 @@ s8 rtw_regsty_get_target_tx_power(
 	struct registry_priv *regsty = adapter_to_regsty(Adapter);
 	s8 value = 0;
 
-	if (RfPath > RF_PATH_D) {
+	if (RfPath > RF_PATH_A) {
 		DBG_871X_LEVEL(_drv_always_, "%s invalid RfPath:%d\n", __func__, RfPath);
 		return -1;
 	}
@@ -124,7 +124,7 @@ PHY_GetTxPowerByRateBase(
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(Adapter);
 	u8 value = 0;
 
-	if (RfPath > RF_PATH_D) {
+	if (RfPath > RF_PATH_A) {
 		DBG_871X_LEVEL(_drv_always_, "%s invalid RfPath:%d\n", __func__, RfPath);
 		return 0;
 	}
@@ -162,7 +162,7 @@ phy_SetTxPowerByRateBase(
 {
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(Adapter);
 	
-	if (RfPath > RF_PATH_D) {
+	if (RfPath > RF_PATH_A) {
 		DBG_871X_LEVEL(_drv_always_, "%s invalid RfPath:%d\n", __func__, RfPath);
 		return;
 	}

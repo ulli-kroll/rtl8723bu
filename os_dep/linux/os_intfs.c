@@ -516,12 +516,6 @@ void rtw_regsty_load_target_tx_power(struct registry_priv *regsty)
 	for (path = RF_PATH_A; path < RF_PATH_MAX; path++) {
 		if (path == RF_PATH_A)
 			target_tx_pwr = rtw_target_tx_pwr_2g_a;
-		else if (path == RF_PATH_B)
-			target_tx_pwr = rtw_target_tx_pwr_2g_b;
-		else if (path == RF_PATH_C)
-			target_tx_pwr = rtw_target_tx_pwr_2g_c;
-		else if (path == RF_PATH_D)
-			target_tx_pwr = rtw_target_tx_pwr_2g_d;
 
 		for (rs = CCK; rs < RATE_SECTION_NUM; rs++)
 			regsty->target_tx_pwr_2g[path][rs] = target_tx_pwr[rs];
@@ -531,12 +525,6 @@ void rtw_regsty_load_target_tx_power(struct registry_priv *regsty)
 	for (path = RF_PATH_A; path < RF_PATH_MAX; path++) {
 		if (path == RF_PATH_A)
 			target_tx_pwr = rtw_target_tx_pwr_5g_a;
-		else if (path == RF_PATH_B)
-			target_tx_pwr = rtw_target_tx_pwr_5g_b;
-		else if (path == RF_PATH_C)
-			target_tx_pwr = rtw_target_tx_pwr_5g_c;
-		else if (path == RF_PATH_D)
-			target_tx_pwr = rtw_target_tx_pwr_5g_d;
 
 		for (rs = OFDM; rs < RATE_SECTION_NUM; rs++)
 			regsty->target_tx_pwr_5g[path][rs - 1] = target_tx_pwr[rs - 1];

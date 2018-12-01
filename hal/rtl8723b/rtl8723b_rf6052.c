@@ -144,12 +144,7 @@ phy_RF6052_Config_ParaFile(
 		switch(eRFPath)
 		{
 		case RF_PATH_A:
-		case RF_PATH_C:
 			u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
-			break;
-		case RF_PATH_B :
-		case RF_PATH_D:
-			u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV<<16);
 			break;
 		}
 
@@ -179,30 +174,13 @@ phy_RF6052_Config_ParaFile(
 #endif
 			}
 			break;
-		case RF_PATH_B:
-			{
-#ifdef CONFIG_EMBEDDED_FWIMG
-				if(HAL_STATUS_FAILURE ==ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv,CONFIG_RF_RADIO, (ODM_RF_RADIO_PATH_E)eRFPath))
-					rtStatus = _FAIL;
-#endif
-			}
-			break;
-		case RF_PATH_C:
-			break;
-		case RF_PATH_D:
-			break;
 		}
 
 		/*----Restore RFENV control type----*/;
 		switch(eRFPath)
 		{
 		case RF_PATH_A:
-		case RF_PATH_C:
 			PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV, u4RegValue);
-			break;
-		case RF_PATH_B :
-		case RF_PATH_D:
-			PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV<<16, u4RegValue);
 			break;
 		}
 

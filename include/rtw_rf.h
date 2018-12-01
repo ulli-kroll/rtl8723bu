@@ -115,9 +115,6 @@ enum _RTL8712_RF_MIMO_CONFIG_{
 
 typedef enum _RF_PATH {
 	RF_PATH_A = 0,
-	RF_PATH_B = 1,
-	RF_PATH_C = 2,
-	RF_PATH_D = 3,
 } RF_PATH, *PRF_PATH;
 
 #define rf_path_char(path) (((path) >= RF_PATH_MAX) ? 'X' : 'A' + (path))
