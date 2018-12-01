@@ -815,52 +815,6 @@ BOOLEAN rtw_file_efuse_IsMasked(
 
 }
 
-
-u8 rtw_efuse_file_read(PADAPTER padapter,u8 *filepatch,u8 *buf,u32 len)
-{
-	char *ptmp;
-	char *ptmpbuf=NULL;
-	u32 rtStatus;
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
-
-	ptmpbuf = rtw_zmalloc(2048);
-
-	if (ptmpbuf == NULL)
-		return _FALSE;
-
-	_rtw_memset(ptmpbuf,'\0',2048);
-	
-	rtStatus = rtw_retrieve_from_file(filepatch, ptmpbuf, 2048);
-
-	if( rtStatus > 100 )
-	{
-		u32 i,j;
-		for(i=0,j=0;j<len;i+=2,j++)
-		{
-			if (( ptmpbuf[i] == ' ' ) && (ptmpbuf[i+1] != '\n' && ptmpbuf[i+1] != '\0')) {
-				i++;
-			}
-			if( (ptmpbuf[i+1] != '\n' && ptmpbuf[i+1] != '\0'))
-			{
-					buf[j] = simple_strtoul(&ptmpbuf[i],&ptmp, 16);
-					DBG_871X(" i=%d,j=%d, %x \n",i,j,buf[j]);
-
-			} else {
-				j--;
-			}
-			
-		}
-
-	} else {
-		DBG_871X(" %s ,filepatch %s , FAIL %d\n", __func__, filepatch, rtStatus);
-		return _FALSE;
-	}
-	rtw_mfree(ptmpbuf, 2048);
-	DBG_871X(" %s ,filepatch %s , done %d\n", __func__, filepatch, rtStatus);
-	return _TRUE;
-}
-
-
 BOOLEAN 
 efuse_IsMasked(
 	PADAPTER	pAdapter,
@@ -1522,63 +1476,4 @@ u8 mac_hidden_wl_func_to_hal_wl_func(u8 func)
 
 	return wl_func;
 }
-
-#ifdef PLATFORM_LINUX
-#ifdef CONFIG_ADAPTOR_INFO_CACHING_FILE
-//#include <rtw_eeprom.h>
-
- int isAdaptorInfoFileValid(void)
-{
-	return _TRUE;
-}
-
-int storeAdaptorInfoFile(char *path, u8* efuse_data)
-{
-	int ret =_SUCCESS;
-
-	if(path && efuse_data) {
-		ret = rtw_store_to_file(path, efuse_data, EEPROM_MAX_SIZE_512);
-		if(ret == EEPROM_MAX_SIZE)
-			ret = _SUCCESS;
-		else
-			ret = _FAIL;
-	} else {
-		DBG_871X("%s NULL pointer\n",__FUNCTION__);
-		ret =  _FAIL;
-	}
-	return ret;
-}
-
-int retriveAdaptorInfoFile(char *path, u8* efuse_data)
-{
-	int ret = _SUCCESS;
-	mm_segment_t oldfs;
-	struct file *fp;
-	
-	if(path && efuse_data) {
-
-		ret = rtw_retrieve_from_file(path, efuse_data, EEPROM_MAX_SIZE);
-		
-		if(ret == EEPROM_MAX_SIZE)
-			ret = _SUCCESS;
-		else
-			ret = _FAIL;
-
-		#if 0
-		if(isAdaptorInfoFileValid()) {	
-			return 0;
-		} else {
-			return _FAIL;
-		}
-		#endif
-		
-	} else {
-		DBG_871X("%s NULL pointer\n",__FUNCTION__);
-		ret = _FAIL;
-	}
-	return ret;
-}
-#endif /* CONFIG_ADAPTOR_INFO_CACHING_FILE */
-
-#endif /* PLATFORM_LINUX */
 
