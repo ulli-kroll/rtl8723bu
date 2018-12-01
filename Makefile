@@ -130,9 +130,6 @@ _OUTSRC_FILES := hal/phydm/phydm_debug.o	\
 		hal/phydm/txbf/haltxbfinterface.o
 
 
-EXTRA_CFLAGS += -I$(src)/platform
-_PLATFORM_FILES := platform/platform_ops.o
-
 ifeq ($(CONFIG_BT_COEXIST), y)
 EXTRA_CFLAGS += -I$(src)/hal/btc
 _OUTSRC_FILES += hal/btc/HalBtc8192e1Ant.o \
@@ -469,7 +466,6 @@ $(MODULE_NAME)-$(CONFIG_WAPI_SUPPORT) += core/rtw_wapi.o	\
 $(MODULE_NAME)-y += $(_OS_INTFS_FILES)
 $(MODULE_NAME)-y += $(_HAL_INTFS_FILES)
 $(MODULE_NAME)-y += $(_OUTSRC_FILES)
-$(MODULE_NAME)-y += $(_PLATFORM_FILES)
 
 $(MODULE_NAME)-$(CONFIG_MP_INCLUDED) += core/rtw_mp.o \
 					core/rtw_mp_ioctl.o
@@ -518,7 +514,6 @@ clean:
 	cd core ; rm -fr *.mod.c *.mod *.o .*.cmd *.ko
 	cd os_dep/linux ; rm -fr *.mod.c *.mod *.o .*.cmd *.ko
 	cd os_dep ; rm -fr *.mod.c *.mod *.o .*.cmd *.ko
-	cd platform ; rm -fr *.mod.c *.mod *.o .*.cmd *.ko
 	rm -fr Module.symvers ; rm -fr Module.markers ; rm -fr modules.order
 	rm -fr *.mod.c *.mod *.o .*.cmd *.ko *~
 	rm -fr .tmp_versions
