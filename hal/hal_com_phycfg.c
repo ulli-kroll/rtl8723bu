@@ -2357,7 +2357,7 @@ int phy_load_tx_power_by_rate(_adapter *adapter, const char *hal_file_name, u8 f
 	int ret = _FAIL;
 
 	if (!force
-		&& !rtw_is_phy_file_readable(hal_file_name)
+		&& true
 		&& hal_data->txpwr_by_rate_loaded == 1
 		&& hal_data->txpwr_by_rate_from_file == 0
 	) {
@@ -2403,7 +2403,7 @@ int phy_load_tx_power_limit(_adapter *adapter, const char *hal_file_name, u8 for
 	int ret = _FAIL;
 
 	if (!force
-		&& !rtw_is_phy_file_readable(hal_file_name)
+		&& true
 		&& hal_data->txpwr_by_rate_loaded == 1
 		&& hal_data->txpwr_by_rate_from_file == 0
 	) {
@@ -2883,10 +2883,5 @@ void dump_tx_power_limit(void *sel, _adapter *adapter)
 			}
 		}
 	}
-}
-
-int rtw_is_phy_file_readable(const char *hal_file_name)
-{
-	return _FALSE;
 }
 
