@@ -35,9 +35,6 @@ CONFIG_RTL8723C = n
 CONFIG_RTL8188F = n
 ######################### Interface ###########################
 CONFIG_USB_HCI = y
-CONFIG_PCI_HCI = n
-CONFIG_SDIO_HCI = n
-CONFIG_GSPI_HCI = n
 ########################## Features ###########################
 CONFIG_MP_INCLUDED = y
 CONFIG_POWER_SAVING = y
@@ -133,27 +130,10 @@ CONFIG_DRVEXT_MODULE = n
 export TopDIR ?= $(shell pwd)
 
 ########### COMMON  #################################
-ifeq ($(CONFIG_GSPI_HCI), y)
-HCI_NAME = gspi
-endif
-
-ifeq ($(CONFIG_SDIO_HCI), y)
-HCI_NAME = sdio
-endif
-
-ifeq ($(CONFIG_USB_HCI), y)
-HCI_NAME = usb
-endif
-
-ifeq ($(CONFIG_PCI_HCI), y)
-HCI_NAME = pci
-endif
-
-
 _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 			os_dep/linux/os_intfs.o \
-			os_dep/linux/$(HCI_NAME)_intf.o \
-			os_dep/linux/$(HCI_NAME)_ops_linux.o \
+			os_dep/linux/usb_intf.o \
+			os_dep/linux/usb_ops_linux.o \
 			os_dep/linux/ioctl_linux.o \
 			os_dep/linux/xmit_linux.o \
 			os_dep/linux/mlme_linux.o \
@@ -169,12 +149,12 @@ endif
 
 ifeq ($(CONFIG_SDIO_HCI), y)
 _OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
-_OS_INTFS_FILES += os_dep/linux/$(HCI_NAME)_ops_linux.o
+_OS_INTFS_FILES += os_dep/linux/usb_ops_linux.o
 endif
 
 ifeq ($(CONFIG_GSPI_HCI), y)
 _OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
-_OS_INTFS_FILES += os_dep/linux/$(HCI_NAME)_ops_linux.o
+_OS_INTFS_FILES += os_dep/linux/usb_ops_linux.o
 endif
 
 
@@ -185,8 +165,8 @@ _HAL_INTFS_FILES :=	hal/hal_intf.o \
 			hal/hal_dm.o \
 			hal/hal_btcoex.o \
 			hal/hal_mp.o \
-			hal/hal_hci/hal_$(HCI_NAME).o \
-			hal/led/hal_$(HCI_NAME)_led.o
+			hal/hal_hci/hal_usb.o \
+			hal/led/hal_usb_led.o
 
 			
 _OUTSRC_FILES := hal/phydm/phydm_debug.o	\
@@ -262,18 +242,18 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 			hal/$(RTL871X)/$(RTL871X)_dm.o \
 			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
 			hal/$(RTL871X)/$(RTL871X)_cmd.o \
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
 ifeq ($(CONFIG_GSPI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 endif
 endif
 
@@ -327,18 +307,18 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 			hal/$(RTL871X)/$(RTL871X)_dm.o \
 			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
 			hal/$(RTL871X)/$(RTL871X)_cmd.o \
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
 ifeq ($(CONFIG_GSPI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 endif
 endif
 
@@ -387,18 +367,18 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 			hal/$(RTL871X)/$(RTL871X)_dm.o \
 			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
 			hal/$(RTL871X)/$(RTL871X)_cmd.o \
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
 ifeq ($(CONFIG_GSPI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 endif
 endif
 
@@ -497,15 +477,15 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 endif
 
 ifeq ($(CONFIG_USB_HCI), y)
@@ -559,18 +539,18 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
 ifeq ($(CONFIG_GSPI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 endif
 endif
 
@@ -625,15 +605,15 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_SUB_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_SUB_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_SUB_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_SUB_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_SUB_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_SUB_NAME)_recv.o
 
 ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 endif
 
 ifeq ($(CONFIG_USB_HCI), y)
@@ -680,15 +660,15 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
 ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops.o
 endif
 
 ifeq ($(CONFIG_USB_HCI), y)
@@ -714,16 +694,16 @@ endif
 ifeq ($(CONFIG_AUTOCFG_CP), y)
 
 ifeq ($(CONFIG_MULTIDRV), y)
-$(shell cp $(TopDIR)/autoconf_multidrv_$(HCI_NAME)_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_multidrv_usb_linux.h $(TopDIR)/include/autoconf.h)
 else
 ifeq ($(CONFIG_RTL8188E)$(CONFIG_SDIO_HCI),yy)
-$(shell cp $(TopDIR)/autoconf_rtl8189e_$(HCI_NAME)_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_rtl8189e_usb_linux.h $(TopDIR)/include/autoconf.h)
 else ifeq ($(CONFIG_RTL8188F)$(CONFIG_SDIO_HCI),yy)
-$(shell cp $(TopDIR)/autoconf_rtl8189f_$(HCI_NAME)_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_rtl8189f_usb_linux.h $(TopDIR)/include/autoconf.h)
 else ifeq ($(CONFIG_RTL8723C),y)
-$(shell cp $(TopDIR)/autoconf_rtl8723c_$(HCI_NAME)_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_rtl8723c_usb_linux.h $(TopDIR)/include/autoconf.h)
 else
-$(shell cp $(TopDIR)/autoconf_$(RTL871X)_$(HCI_NAME)_linux.h $(TopDIR)/include/autoconf.h)
+$(shell cp $(TopDIR)/autoconf_$(RTL871X)_usb_linux.h $(TopDIR)/include/autoconf.h)
 endif
 endif
 
