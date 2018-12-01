@@ -1221,7 +1221,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC01);
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_DOWNLOAD_FW);
 	/* if (padapter->registrypriv.mp_mode == 0) */
 	{
-		status = rtl8723b_FirmwareDownload(padapter,_FALSE);
+		status = rtl8723b_FirmwareDownload(padapter);
 		if(status != _SUCCESS)
 		{
 			padapter->bFWReady = _FALSE;

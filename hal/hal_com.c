@@ -934,7 +934,7 @@ int hal_read_mac_hidden_rpt(_adapter *adapter)
 	rtw_write8(adapter, REG_C2HEVT_MSG_NORMAL, id);
 
 	/* download FW */
-	ret_fwdl = rtw_hal_fw_dl(adapter, _FALSE);
+	ret_fwdl = rtw_hal_fw_dl(adapter);
 	if (ret_fwdl != _SUCCESS)
 		goto mac_hidden_rpt_hdl;
 

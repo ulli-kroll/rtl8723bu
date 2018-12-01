@@ -237,7 +237,7 @@ typedef enum tag_Package_Definition
 #define INCLUDE_MULTI_FUNC_GPS(_Adapter)	(GET_HAL_DATA(_Adapter)->MultiFunc & RT_MULTI_FUNC_GPS)
 
 // rtl8723a_hal_init.c
-s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw);
+s32 rtl8723b_FirmwareDownload(PADAPTER padapter);
 void rtl8723b_FirmwareSelfReset(PADAPTER padapter);
 void rtl8723b_InitializeFirmwareVars(PADAPTER padapter);
 

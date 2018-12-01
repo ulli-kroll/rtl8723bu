@@ -865,7 +865,7 @@ int ReservedPage_Compare(PADAPTER Adapter,PRT_MP_FIRMWARE pFirmware,u32 BTPatchS
 //		Download 8192C firmware code.
 //
 //
-s32 rtl8723b_FirmwareDownload(PADAPTER padapter, BOOLEAN  bUsedWoWLANFw)
+s32 rtl8723b_FirmwareDownload(PADAPTER padapter)
 {
 	s32	rtStatus = _SUCCESS;
 	u8 write_fw = 0;

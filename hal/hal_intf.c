@@ -314,9 +314,9 @@ u8 rtw_hal_check_ips_status(_adapter *padapter)
 	return val;
 }
 
-s32 rtw_hal_fw_dl(_adapter *padapter, u8 wowlan)
+s32 rtw_hal_fw_dl(_adapter *padapter)
 {
-	return padapter->HalFunc.fw_dl(padapter, wowlan);
+	return padapter->HalFunc.fw_dl(padapter);
 }
 
 #if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
