@@ -2360,7 +2360,7 @@ PhyDM_Get_Rate_Bitmap_Ex(
 	case (ODM_WM_B|ODM_WM_N24G):
 	case (ODM_WM_G|ODM_WM_N24G):
 	case (ODM_WM_A|ODM_WM_N5G): {
-		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
+		if (pDM_Odm->RFType == ODM_1T1R) {
 			if (rssi_level == DM_RATR_STA_HIGH)
 				rate_bitmap = 0x00000000000f0000;
 			else if (rssi_level == DM_RATR_STA_MIDDLE)
@@ -2370,28 +2370,6 @@ PhyDM_Get_Rate_Bitmap_Ex(
 					rate_bitmap = 0x00000000000ff015;
 				else
 					rate_bitmap = 0x00000000000ff005;
-			}
-		} else if (pDM_Odm->RFType == ODM_2T2R  || pDM_Odm->RFType == ODM_2T3R  || pDM_Odm->RFType == ODM_2T4R) {
-			if (rssi_level == DM_RATR_STA_HIGH)
-				rate_bitmap = 0x000000000f8f0000;
-			else if (rssi_level == DM_RATR_STA_MIDDLE)
-				rate_bitmap = 0x000000000f8ff000;
-			else {
-				if (*(pDM_Odm->pBandWidth) == ODM_BW40M)
-					rate_bitmap = 0x000000000f8ff015;
-				else
-					rate_bitmap = 0x000000000f8ff005;
-			}
-		} else {
-			if (rssi_level == DM_RATR_STA_HIGH)
-				rate_bitmap = 0x0000000f0f0f0000;
-			else if (rssi_level == DM_RATR_STA_MIDDLE)
-				rate_bitmap = 0x0000000fcfcfe000;
-			else {
-				if (*(pDM_Odm->pBandWidth) == ODM_BW40M)
-					rate_bitmap = 0x0000000ffffff015;
-				else
-					rate_bitmap = 0x0000000ffffff005;
 			}
 		}
 	}
@@ -2408,37 +2386,19 @@ PhyDM_Get_Rate_Bitmap_Ex(
 
 	case (ODM_WM_AC|ODM_WM_A):
 
-		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
+		if (pDM_Odm->RFType == ODM_1T1R) {
 			if (rssi_level == 1)				/* add by Gary for ac-series */
 				rate_bitmap = 0x00000000003f8000;
 			else if (rssi_level == 2)
 				rate_bitmap = 0x00000000003fe000;
 			else
 				rate_bitmap = 0x00000000003ff010;
-		} else if (pDM_Odm->RFType == ODM_2T2R  || pDM_Odm->RFType == ODM_2T3R  || pDM_Odm->RFType == ODM_2T4R) {
-			if (rssi_level == 1)				/* add by Gary for ac-series */
-				rate_bitmap = 0x00000000fe3f8000;       /* VHT 2SS MCS3~9 */
-			else if (rssi_level == 2)
-				rate_bitmap = 0x00000000fffff000;       /* VHT 2SS MCS0~9 */
-			else
-				rate_bitmap = 0x00000000fffff010;       /* All */
-		} else {
-			if (rssi_level == 1)				/* add by Gary for ac-series */
-				rate_bitmap = 0x000003f8fe3f8000ULL;       /* VHT 3SS MCS3~9 */
-			else if (rssi_level == 2)
-				rate_bitmap = 0x000003fffffff000ULL;       /* VHT3SS MCS0~9 */
-			else
-				rate_bitmap = 0x000003fffffff010ULL;       /* All */
 		}
 		break;
 
 	default:
-		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R)
+		if (pDM_Odm->RFType == ODM_1T1R)
 			rate_bitmap = 0x00000000000fffff;
-		else if (pDM_Odm->RFType == ODM_2T2R  || pDM_Odm->RFType == ODM_2T3R  || pDM_Odm->RFType == ODM_2T4R)
-			rate_bitmap = 0x000000000fffffff;
-		else
-			rate_bitmap = 0x0000003fffffffffULL;
 		break;
 
 	}
@@ -2498,7 +2458,7 @@ ODM_Get_Rate_Bitmap(
 	case (ODM_WM_B|ODM_WM_N24G)	:
 	case (ODM_WM_G|ODM_WM_N24G)	:
 	case (ODM_WM_A|ODM_WM_N5G)	: {
-		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
+		if (pDM_Odm->RFType == ODM_1T1R) {
 			if (rssi_level == DM_RATR_STA_HIGH)
 				rate_bitmap = 0x000f0000;
 			else if (rssi_level == DM_RATR_STA_MIDDLE)
@@ -2508,17 +2468,6 @@ ODM_Get_Rate_Bitmap(
 					rate_bitmap = 0x000ff015;
 				else
 					rate_bitmap = 0x000ff005;
-			}
-		} else {
-			if (rssi_level == DM_RATR_STA_HIGH)
-				rate_bitmap = 0x0f8f0000;
-			else if (rssi_level == DM_RATR_STA_MIDDLE)
-				rate_bitmap = 0x0f8ff000;
-			else {
-				if (*(pDM_Odm->pBandWidth) == ODM_BW40M)
-					rate_bitmap = 0x0f8ff015;
-				else
-					rate_bitmap = 0x0f8ff005;
 			}
 		}
 	}
@@ -2542,13 +2491,6 @@ ODM_Get_Rate_Bitmap(
 				rate_bitmap = 0x003ff000;
 			else
 				rate_bitmap = 0x003ff010;
-		} else {
-			if (rssi_level == 1)				// add by Gary for ac-series
-				rate_bitmap = 0xfe3f8000;       // VHT 2SS MCS3~9
-			else if (rssi_level == 2)
-				rate_bitmap = 0xfffff000;       // VHT 2SS MCS0~9
-			else
-				rate_bitmap = 0xfffff010;       // All
 		}
 		break;
 

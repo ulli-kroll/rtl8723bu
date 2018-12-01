@@ -52,10 +52,7 @@ s2Byte odm_InbandNoise_Monitor_NSeries(PDM_ODM_T	pDM_Odm,u8 bPauseDIG,u8 IGIValu
 	func_start = ODM_GetCurrentTime(pDM_Odm);
 	pDM_Odm->noise_level.noise_all = 0;
 	
-	if((pDM_Odm->RFType == ODM_1T2R) ||(pDM_Odm->RFType == ODM_2T2R))	
-		max_rf_path = 2;
-	else
-		max_rf_path = 1;
+	max_rf_path = 1;
 	
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_COMMON, ODM_DBG_LOUD,("odm_DebugControlInbandNoise_Nseries() ==> \n"));
 

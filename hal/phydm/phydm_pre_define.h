@@ -367,14 +367,6 @@ typedef enum tag_PHYDM_RF_TX_NUM {
 
 typedef enum tag_ODM_RF_Type_Definition {
 	ODM_1T1R,
-	ODM_1T2R,
-	ODM_2T2R,
-	ODM_2T2R_GREEN,
-	ODM_2T3R,
-	ODM_2T4R,
-	ODM_3T3R,
-	ODM_3T4R,
-	ODM_4T4R,
 	ODM_XTXR
 }ODM_RF_TYPE_E;
 

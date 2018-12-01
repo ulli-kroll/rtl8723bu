@@ -195,21 +195,15 @@ odm_EdcaTurboCheckCE(
 		{
 			if (ICType == ODM_RTL8192D) {
 				// Single PHY
-				if (pDM_Odm->RFType == ODM_2T2R) {
-					EDCA_BE_UL = 0x60a42b;    //0x5ea42b;
-					EDCA_BE_DL = 0x60a42b;    //0x5ea42b;
-			} else {
+				{
 					EDCA_BE_UL = 0x6ea42b;
 					EDCA_BE_DL = 0x6ea42b;
-			}
+				}
 			}
 			else
 			{
 				if(pDM_Odm->SupportInterface==ODM_ITRF_PCIE) {
-					if((ICType==ODM_RTL8192C)&&(pDM_Odm->RFType==ODM_2T2R)) {
-						EDCA_BE_UL = 0x60a42b;
-						EDCA_BE_DL = 0x60a42b;
-					} else {
+					{
 						EDCA_BE_UL = 0x6ea42b;
 						EDCA_BE_DL = 0x6ea42b;
 					}

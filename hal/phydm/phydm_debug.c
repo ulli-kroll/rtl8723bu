@@ -1266,17 +1266,6 @@ phydm_DumpBbReg(
 		DbgPrint("%04x %08x\n", Addr, ODM_GetBBReg(pDM_Odm, Addr, bMaskDWord));
 
 	if (pDM_Odm->SupportICType & (ODM_RTL8822B|ODM_RTL8814A)) {
-
-		if (pDM_Odm->RFType > ODM_2T2R) {
-			for (Addr = 0x1800; Addr < 0x18ff; Addr += 4)
-				DbgPrint("%04x %08x\n", Addr, ODM_GetBBReg(pDM_Odm, Addr, bMaskDWord));
-		}
-
-		if (pDM_Odm->RFType > ODM_3T3R) {
-			for (Addr = 0x1a00; Addr < 0x1aff; Addr += 4)
-				DbgPrint("%04x %08x\n", Addr, ODM_GetBBReg(pDM_Odm, Addr, bMaskDWord));
-		}
-
 		for (Addr = 0x1900; Addr < 0x19ff; Addr += 4)
 			DbgPrint("%04x %08x\n", Addr, ODM_GetBBReg(pDM_Odm, Addr, bMaskDWord));
 
@@ -1319,17 +1308,6 @@ phydm_DumpAllReg(
 			DbgPrint("%02x %05x\n", Addr, ODM_GetRFReg(pDM_Odm, ODM_RF_PATH_B, Addr, bRFRegOffsetMask));
 	}
 
-	if (pDM_Odm->RFType > ODM_2T2R) {
-		DbgPrint("RF-C==========\n");
-		for (Addr = 0; Addr < 0xFF; Addr++)
-			DbgPrint("%02x %05x\n", Addr, ODM_GetRFReg(pDM_Odm, ODM_RF_PATH_C, Addr, bRFRegOffsetMask));
-	}
-
-	if (pDM_Odm->RFType > ODM_3T3R) {
-		DbgPrint("RF-D==========\n");
-		for (Addr = 0; Addr < 0xFF; Addr++)
-			DbgPrint("%02x %05x\n", Addr, ODM_GetRFReg(pDM_Odm, ODM_RF_PATH_D, Addr, bRFRegOffsetMask));
-	}
 }
 
 struct _PHYDM_COMMAND {

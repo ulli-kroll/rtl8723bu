@@ -219,10 +219,8 @@ ODM_CfoTracking(
 		CFO_kHz_A =  (int)((pCfoTrack->CFO_tail[0] * 3125)  / 10)>>7; /* CFO_tail[1:0] is S(8,7),    (num_subcarrier>>7) x 312.5K = CFO value(K Hz)   */
 		CFO_kHz_B =  (int)((pCfoTrack->CFO_tail[1] * 3125)  / 10)>>7;
 		
-		if(pDM_Odm->RFType < ODM_2T2R)
-			CFO_ave = CFO_kHz_A;
-		else
-			CFO_ave = (int)(CFO_kHz_A + CFO_kHz_B) >> 1;
+		CFO_ave = CFO_kHz_A;
+
 		ODM_RT_TRACE(pDM_Odm, ODM_COMP_CFO_TRACKING, ODM_DBG_LOUD, ("ODM_CfoTracking(): CFO_kHz_A = %dkHz, CFO_kHz_B = %dkHz, CFO_ave = %dkHz\n", 
 						CFO_kHz_A, CFO_kHz_B, CFO_ave));
 

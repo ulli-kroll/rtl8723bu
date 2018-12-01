@@ -56,12 +56,6 @@ odm_DynamicBBPowerSaving(
 	if(!(pDM_Odm->SupportPlatform & (ODM_WIN|ODM_CE)))
 		return;
 	
-	//1 2.Power Saving for 92C
-	if((pDM_Odm->SupportICType == ODM_RTL8192C) &&(pDM_Odm->RFType == ODM_2T2R))
-	{
-		odm_1R_CCA(pDM_Odm);
-	}
-	
 	// 20100628 Joseph: Turn off BB power save for 88CE because it makesthroughput unstable.
 	// 20100831 Joseph: Turn ON BB power save again after modifying AGC delay from 900ns ot 600ns.
 	//1 3.Power Saving for 88C
@@ -107,12 +101,6 @@ odm_1R_CCA(
 	{
 		if(pDM_PSTable->CurCCAState == CCA_1R)
 		{
-			if(  pDM_Odm->RFType ==ODM_2T2R )
-			{
-				ODM_SetBBReg(pDM_Odm, 0xc04  , bMaskByte0, 0x13);
-				//PHY_SetBBReg(pAdapter, 0xe70, bMaskByte3, 0x20);
-			}
-			else
 			{
 				ODM_SetBBReg(pDM_Odm, 0xc04  , bMaskByte0, 0x23);
 				//PHY_SetBBReg(pAdapter, 0xe70, 0x7fc00000, 0x10c); // Set RegE70[30:22] = 9b'100001100
