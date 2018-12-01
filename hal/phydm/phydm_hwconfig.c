@@ -2622,14 +2622,7 @@ ODM_ConfigFWWithHeaderFile(
 #if (RTL8723B_SUPPORT == 1)  
 	if (pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8723B,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8723B,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE(8723B,_FW_AP_WoWLAN);
-		#endif
+		READ_FIRMWARE_MP(8723B,_FW_NIC);
 		
 	}
 #endif //#if (RTL8723B_SUPPORT == 1)  
