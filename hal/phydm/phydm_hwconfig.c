@@ -25,12 +25,6 @@
 #include "mp_precomp.h"
 #include "phydm_precomp.h"
 
-#define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig_MP_##ic##txt(pDM_Odm))
-
-
- #define READ_AND_CONFIG     READ_AND_CONFIG_MP
-
-
 #define READ_FIRMWARE     READ_FIRMWARE_MP
 						
 #define GET_VERSION_MP(ic, txt) 		(ODM_GetVersion_MP_##ic##txt())
@@ -1445,7 +1439,8 @@ ODM_PhyStatusQuery(
 }
 	
 // For future use.
-VOIDODM_MacStatusQuery(
+VOID
+ODM_MacStatusQuery(
 	IN OUT	PDM_ODM_T					pDM_Odm,
 	IN 		pu1Byte						pMacStatus,
 	IN		u1Byte						MacID,	
@@ -1551,9 +1546,9 @@ ODM_ConfigRFWithHeaderFile(
 	if (pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
 		if(ConfigType == CONFIG_RF_RADIO)
-			READ_AND_CONFIG_MP(8723B,_RadioA);
+			ODM_ReadAndConfig_MP_8723B_RadioA(pDM_Odm);
 		else if(ConfigType == CONFIG_RF_TXPWR_LMT)
-			READ_AND_CONFIG_MP(8723B,_TXPWR_LMT);
+			ODM_ReadAndConfig_MP_8723B_TXPWR_LMT(pDM_Odm);
 	}
 #endif
 
@@ -1706,11 +1701,11 @@ ODM_ConfigRFWithTxPwrTrackHeaderFile(
 	if(pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
 		if (pDM_Odm->SupportInterface == ODM_ITRF_PCIE)
-			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_PCIE);
+			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_PCIE(pDM_Odm);
 		else if (pDM_Odm->SupportInterface == ODM_ITRF_USB)
-			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_USB);
+			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_USB(pDM_Odm);
 		else if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
-			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_SDIO); 			
+			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(pDM_Odm);
 	}
 #endif	
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
@@ -1844,11 +1839,11 @@ ODM_ConfigBBWithHeaderFile(
 	if(pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
 		if(ConfigType == CONFIG_BB_PHY_REG){
-			READ_AND_CONFIG_MP(8723B,_PHY_REG);
+			ODM_ReadAndConfig_MP_8723B_PHY_REG(pDM_Odm);
 		}else if(ConfigType == CONFIG_BB_AGC_TAB){
-			READ_AND_CONFIG_MP(8723B,_AGC_TAB);
+			ODM_ReadAndConfig_MP_8723B_AGC_TAB(pDM_Odm);
 		}else if(ConfigType == CONFIG_BB_PHY_REG_PG){
-			READ_AND_CONFIG_MP(8723B,_PHY_REG_PG);
+			ODM_ReadAndConfig_MP_8723B_PHY_REG_PG(pDM_Odm);
 		}
 	}
 #endif
@@ -1997,7 +1992,7 @@ ODM_ConfigMACWithHeaderFile(
 #endif
 #if (RTL8723B_SUPPORT == 1)  
 	if (pDM_Odm->SupportICType == ODM_RTL8723B){
-		READ_AND_CONFIG_MP(8723B,_MAC_REG);
+		ODM_ReadAndConfig_MP_8723B_MAC_REG(pDM_Odm);
 	}
 #endif
 #if (RTL8192E_SUPPORT == 1)  
