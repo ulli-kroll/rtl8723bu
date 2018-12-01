@@ -881,9 +881,6 @@ const char *rate_section_str(u8 section);
 #define IS_VHT_RATE_SECTION(section) ((section) >= VHT_1SS && (section) <= VHT_4SS)
 
 #define IS_1T_RATE_SECTION(section) ((section) == CCK || (section) == OFDM || (section) == HT_1SS || (section) == VHT_1SS)
-#define IS_2T_RATE_SECTION(section) ((section) == HT_2SS || (section) == VHT_2SS)
-#define IS_3T_RATE_SECTION(section) ((section) == HT_3SS || (section) == VHT_3SS)
-#define IS_4T_RATE_SECTION(section) ((section) == HT_4SS || (section) == VHT_4SS)
 
 extern u8 mgn_rates_cck[];
 extern u8 mgn_rates_ofdm[];
