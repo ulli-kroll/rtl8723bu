@@ -205,7 +205,7 @@ endif
 ########### HAL_RTL8723B #################################
 ifeq ($(CONFIG_RTL8723B), y)
 
-MODULE_NAME = 8723bu
+MODULE_NAME = rtl8723bu
 
 EXTRA_CFLAGS += -DCONFIG_RTL8723B
 
