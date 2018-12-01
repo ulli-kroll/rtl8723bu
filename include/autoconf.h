@@ -104,9 +104,6 @@
 	//#define CONFIG_MULTI_VIR_IFACES //besides primary&secondary interfaces, extend to support more interfaces
 #endif // CONFIG_CONCURRENT_MODE
 
-#define CONFIG_LAYER2_ROAMING
-#define CONFIG_LAYER2_ROAMING_RESUME
-
 #define CONFIG_80211D
 
 
