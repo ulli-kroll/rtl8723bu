@@ -63,13 +63,6 @@ static void rtw_dev_shutdown(struct device *dev)
 		dvobj = usb_get_intfdata(usb_intf);
 		if (dvobj)
 		{
-			#ifdef CONFIG_WOWLAN
-			#ifdef CONFIG_GPIO_WAKEUP
-			/*default wake up pin change to BT*/
-			DBG_871X("%s:default wake up pin change to BT\n",__FUNCTION__);
-			rtw_hal_switch_gpio_wl_ctrl(dvobj->padapters[IFACE_ID0], WAKEUP_GPIO_IDX, _FALSE);
-			#endif /* CONFIG_GPIO_WAKEUP */
-			#endif /* CONFIG_WOWLAN */
 			rtw_set_surprise_removed(dvobj->padapters[IFACE_ID0]);
 			ATOMIC_SET(&dvobj->continual_io_error, MAX_CONTINUAL_IO_ERR+1);
 		}
@@ -1008,17 +1001,6 @@ int rtw_resume_process(_adapter *padapter)
 	}
 #endif //#ifdef CONFIG_BT_COEXIST &CONFIG_AUTOSUSPEND&
 
-#if defined (CONFIG_WOWLAN) || defined (CONFIG_AP_WOWLAN)
-	/*
-	 * Due to usb wow suspend flow will cancel read/write port via intf_stop and
-	 * bReadPortCancel and bWritePortCancel are set _TRUE in intf_stop.
-	 * But they will not be clear in intf_start during wow resume flow. 
-	 * It should move to os_intf in the feature.
-	 */
-	RTW_ENABLE_FUNC(padapter, DF_RX_BIT);
-	RTW_ENABLE_FUNC(padapter, DF_TX_BIT);
-#endif
-
 	ret =  rtw_resume_common(padapter);
 
 	#ifdef CONFIG_AUTOSUSPEND
@@ -1403,9 +1385,6 @@ static void rtw_usb_if1_deinit(_adapter *if1)
 	#endif
 #endif
 
-#ifdef CONFIG_WOWLAN
-	pwrctl->wowlan_mode=_FALSE;
-#endif //CONFIG_WOWLAN
 
 	rtw_dev_unload(if1);
 

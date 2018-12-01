@@ -238,16 +238,6 @@
 	#endif
 #endif // !CONFIG_BT_COEXIST
 
-#ifdef CONFIG_WOWLAN
-	//#define CONFIG_GTK_OL
-#endif // CONFIG_WOWLAN
-
-#ifdef CONFIG_GPIO_WAKEUP
-	#ifndef WAKEUP_GPIO_IDX
-		#define WAKEUP_GPIO_IDX	14	// WIFI Chip Side
-	#endif // !WAKEUP_GPIO_IDX
-#endif // CONFIG_GPIO_WAKEUP
-
 #ifdef CONFIG_AP_MODE
 	//#define CONFIG_INTERRUPT_BASED_TXBCN // Tx Beacon when driver BCN_OK ,BCN_ERR interrupt occurs
 	#if defined(CONFIG_CONCURRENT_MODE) && defined(CONFIG_INTERRUPT_BASED_TXBCN)

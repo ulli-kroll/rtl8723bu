@@ -316,14 +316,6 @@ s32 rtw_hal_fw_dl(_adapter *padapter)
 	return padapter->HalFunc.fw_dl(padapter);
 }
 
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void rtw_hal_clear_interrupt(_adapter *padapter)
-{  
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
-	padapter->HalFunc.clear_interrupt(padapter);
-#endif
-}
-#endif
 
 #if defined(CONFIG_USB_HCI) || defined (CONFIG_PCI_HCI)
 u32	rtw_hal_inirp_init(_adapter *padapter)
@@ -1046,7 +1038,7 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("fill_h2c_cmd");
 		ret = _FAIL;
 	}
-	#if defined(CONFIG_LPS) || defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
+	#if defined(CONFIG_LPS)
 	if (NULL == padapter->HalFunc.fill_fake_txdesc) {
 		rtw_hal_error_msg("fill_fake_txdesc");
 		ret = _FAIL;
@@ -1056,15 +1048,6 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("hal_get_tx_buff_rsvd_page_num");
 		ret = _FAIL;
 	}
-
-	#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-	#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
-	if (NULL == padapter->HalFunc.clear_interrupt) {
-		rtw_hal_error_msg("clear_interrupt");
-		ret = _FAIL;
-	}
-	#endif
-	#endif /* CONFIG_WOWLAN */
 
 	if (NULL == padapter->HalFunc.fw_dl) {
 		rtw_hal_error_msg("fw_dl");

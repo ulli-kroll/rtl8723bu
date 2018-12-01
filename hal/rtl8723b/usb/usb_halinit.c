@@ -21,11 +21,6 @@
  #define _USB_HALINIT_C_
 
 #include <rtl8723b_hal.h>
-#ifdef CONFIG_WOWLAN
-#include "hal_com_h2c.h"
-#endif
-
-
 
 static void _dbg_dump_macreg(_adapter *padapter)
 {
@@ -2211,10 +2206,6 @@ InitAdapterVariablesByPROM_8723BU(
 	//
 	// The following part initialize some vars by PG info.
 	//
-
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-	Hal_DetectWoWMode(padapter);
-#endif
 
 	//hal_CustomizedBehavior_8723U(Adapter);
 
