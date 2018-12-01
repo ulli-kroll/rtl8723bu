@@ -41,9 +41,6 @@
 #endif
 
 
-#define READ_FIRMWARE_MP(ic, txt) 		(ODM_ReadFirmware_MP_##ic##txt(pDM_Odm, pFirmware, pSize))
-#define READ_FIRMWARE_TC(ic, txt) 		(ODM_ReadFirmware_TC_##ic##txt(pDM_Odm, pFirmware, pSize))		
-
 #if (PHYDM_TESTCHIP_SUPPORT == 1)
 #define READ_FIRMWARE(ic, txt) do {\
 						if (pDM_Odm->bIsMPChip)\
@@ -2622,7 +2619,7 @@ ODM_ConfigFWWithHeaderFile(
 #if (RTL8723B_SUPPORT == 1)  
 	if (pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
-		READ_FIRMWARE_MP(8723B,_FW_NIC);
+		ODM_ReadFirmware_MP_8723B_FW_NIC(pDM_Odm, pFirmware, pSize);
 		
 	}
 #endif //#if (RTL8723B_SUPPORT == 1)  
