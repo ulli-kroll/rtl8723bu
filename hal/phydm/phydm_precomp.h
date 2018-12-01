@@ -241,7 +241,6 @@ PHY_SetTxPowerLimit(
     #include "rtl8723b/halphyrf_8723b_win.h"
 #elif (DM_ODM_SUPPORT_TYPE == ODM_CE)
     #include "rtl8723b/halphyrf_8723b_ce.h"
-    #include "rtl8723b/halhwimg8723b_mp.h"
     #include "rtl8723b_hal.h"
 #endif
 #endif
