@@ -459,7 +459,7 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter)
 
 	rtw_btcoex_PreLoadFirmware(padapter);
 	
-	pFirmwareBuf = fw->data;
+	pFirmwareBuf = (u8 *) fw->data;
 	FirmwareLen = (u32) fw->size;
 
 	// To Check Fw header. Added by tynli. 2009.12.04.
