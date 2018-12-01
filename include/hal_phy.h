@@ -67,9 +67,6 @@ typedef	enum _RF_TYPE{
 }RF_TYPE_E,*PRF_TYPE_E;
 
 #define	TX_1S			0			
-#define	TX_2S			1			
-#define	TX_3S			2			
-#define	TX_4S			3
 
 #define	RF_PATH_MAX_92C_88E 		2
 #define	RF_PATH_MAX_90_8812		4	//Max RF number 90 support 
