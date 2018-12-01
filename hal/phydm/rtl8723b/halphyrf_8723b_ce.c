@@ -2315,12 +2315,6 @@ phy_LCCalibrate_8723B(
 
 	ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, 0xB0, bRFRegOffsetMask, 0xDFFE0); // LDO OFF
 
-	// Channel 10 LC calibration issue for 8723bs with 26M xtal
-	if(pDM_Odm->SupportInterface == ODM_ITRF_SDIO && pDM_Odm->PackageType >= 0x2)
-	{
-		ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, bMask12Bits, LC_Cal);
-	}
-
 	//Restore original situation
 	if((tmpReg&0x70) != 0)	//Deal with contisuous TX case 
 	{  

@@ -228,7 +228,7 @@ odm_SignalScaleMapping_92CSeries(
 #endif
 
 #if ((DEV_BUS_TYPE == RT_USB_INTERFACE) ||(DEV_BUS_TYPE == RT_SDIO_INTERFACE))
-	if((pDM_Odm->SupportInterface  == ODM_ITRF_USB) || (pDM_Odm->SupportInterface  == ODM_ITRF_SDIO))
+	if((pDM_Odm->SupportInterface  == ODM_ITRF_USB))
 	{
 		if(CurrSig >= 51 && CurrSig <= 100)
 		{
@@ -1700,12 +1700,7 @@ ODM_ConfigRFWithTxPwrTrackHeaderFile(
 #if RTL8723B_SUPPORT 	
 	if(pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
-		if (pDM_Odm->SupportInterface == ODM_ITRF_PCIE)
-			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_PCIE(pDM_Odm);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_USB)
-			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_USB(pDM_Odm);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
-			ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(pDM_Odm);
+		ODM_ReadAndConfig_MP_8723B_TxPowerTrack_USB(pDM_Odm);
 	}
 #endif	
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)

@@ -249,10 +249,7 @@
 //	ODM_CMNINFO_INTERFACE
 typedef enum tag_ODM_Support_Interface_Definition
 {
-	ODM_ITRF_PCIE 	=	0x1,
 	ODM_ITRF_USB 	=	0x2,
-	ODM_ITRF_SDIO 	=	0x4,
-	ODM_ITRF_ALL 	=	0x7,
 }ODM_INTERFACE_E;
 
 // ODM_CMNINFO_IC_TYPE

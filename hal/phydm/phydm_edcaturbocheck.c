@@ -201,12 +201,6 @@ odm_EdcaTurboCheckCE(
 			}
 			else
 			{
-				if(pDM_Odm->SupportInterface==ODM_ITRF_PCIE) {
-					{
-						EDCA_BE_UL = 0x6ea42b;
-						EDCA_BE_DL = 0x6ea42b;
-					}
-				}
 			}
 		
 			//92D txop can't be set to 0x3e for cisco1250
