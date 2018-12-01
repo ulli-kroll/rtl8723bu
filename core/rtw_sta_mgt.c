@@ -934,10 +934,6 @@ _func_enter_;
 		RT_TRACE(_module_rtl871x_sta_mgt_c_,_drv_err_,("rtw_alloc_stainfo fail"));
 		goto exit;
 	}
-#ifdef CONFIG_BEAMFORMING
-	psta->txbf_gid = 63;
-	psta->txbf_paid = 0;
-#endif
 	ptxservq= &(psta->sta_xmitpriv.be_q);
 
 /*

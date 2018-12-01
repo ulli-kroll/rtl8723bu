@@ -2341,53 +2341,6 @@ SetHalDefVar(_adapter *adapter, HAL_DEF_VARIABLE variable, void *value)
 	return bResult;
 }
 
-#ifdef CONFIG_BEAMFORMING
-u8 rtw_hal_query_txbfer_rf_num(_adapter *adapter)
-{
-	struct registry_priv	*pregistrypriv = &adapter->registrypriv;
-	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-	
-	if ((pregistrypriv->beamformer_rf_num) && (IS_HARDWARE_TYPE_8814AE(adapter) || IS_HARDWARE_TYPE_8814AU(adapter) || IS_HARDWARE_TYPE_8822BU(adapter)))
-		return pregistrypriv->beamformer_rf_num;
-	else if (IS_HARDWARE_TYPE_8814AE(adapter)
-/*
-#if defined(CONFIG_USB_HCI) 
-	||  (IS_HARDWARE_TYPE_8814AU(adapter) && (pUsbModeMech->CurUsbMode == 2 || pUsbModeMech->HubUsbMode == 2)) //for USB3.0
-#endif
-*/
-	) {	
-		/*BF cap provided by Yu Chen, Sean, 2015, 01 */
-		if (hal_data->rf_type == RF_3T3R) 
-			return 2;
-		else if (hal_data->rf_type == RF_4T4R)
-			return 3;
-		else 
-			return 1;
-	} else
-		return 1;
-	
-}
-u8 rtw_hal_query_txbfee_rf_num(_adapter *adapter)
-{
-	struct registry_priv		*pregistrypriv = &adapter->registrypriv;
-	struct mlme_ext_priv	*pmlmeext = &adapter->mlmeextpriv;
-	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
-	
-	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-	
-	if ((pregistrypriv->beamformee_rf_num) && (IS_HARDWARE_TYPE_8814AE(adapter) || IS_HARDWARE_TYPE_8814AU(adapter) || IS_HARDWARE_TYPE_8822BU(adapter)))
-		return pregistrypriv->beamformee_rf_num;
-	else if (IS_HARDWARE_TYPE_8814AE(adapter) || IS_HARDWARE_TYPE_8814AU(adapter)) {
-		if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_BROADCOM)		
-			return 2;		
-		else
-			return 2;/*TODO: May be 3 in the future, by ChenYu. */
-	} else
-		return 1;
-		
-}
-#endif
-
 u8
 GetHalDefVar(_adapter *adapter, HAL_DEF_VARIABLE variable, void *value)
 {
@@ -2428,14 +2381,6 @@ GetHalDefVar(_adapter *adapter, HAL_DEF_VARIABLE variable, void *value)
 		case HAL_DEF_DBG_DIS_PWT:
 			*(u8*)value = hal_data->bDisableTXPowerTraining;
 			break;
-#ifdef CONFIG_BEAMFORMING
-		case HAL_DEF_BEAMFORMER_CAP:
-			*(u8 *)value = rtw_hal_query_txbfer_rf_num(adapter);
-			break;
-		case HAL_DEF_BEAMFORMEE_CAP:
-			*(u8 *)value = rtw_hal_query_txbfee_rf_num(adapter);
-			break;
-#endif
 		default:
 			DBG_871X_LEVEL(_drv_always_, "%s: [WARNING] HAL_DEF_VARIABLE(%d) not defined!\n", __FUNCTION__, variable);
 			bResult = _FAIL;

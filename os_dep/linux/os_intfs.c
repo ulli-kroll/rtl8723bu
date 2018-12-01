@@ -279,9 +279,6 @@ module_param(rtw_ampdu_amsdu, int, 0644);
 #ifdef CONFIG_80211AC_VHT
 module_param(rtw_vht_enable, int, 0644);
 #endif //CONFIG_80211AC_VHT
-#ifdef CONFIG_BEAMFORMING
-module_param(rtw_beamform_cap, int, 0644);
-#endif
 module_param(rtw_lowrate_two_xmit, int, 0644);
 
 module_param(rtw_rf_config, int, 0644);

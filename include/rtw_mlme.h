@@ -589,11 +589,6 @@ struct mlme_priv {
 #ifdef CONFIG_80211AC_VHT
 	struct vht_priv	vhtpriv;
 #endif
-#ifdef CONFIG_BEAMFORMING
-#if (BEAMFORMING_SUPPORT == 0)/*for driver beamforming*/
-	struct beamforming_info	beamforming_info;
-#endif
-#endif
 
 #ifdef CONFIG_DFS
 	u8	handle_dfs;
