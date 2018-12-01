@@ -846,19 +846,10 @@ enum MGN_RATE{
 #define IS_OFDM_RATE(_rate)	((_rate) >= MGN_6M && (_rate) <= MGN_54M  && (_rate) != MGN_11M)
 
 #define IS_HT1SS_RATE(_rate) ((_rate) >= MGN_MCS0 && (_rate) <= MGN_MCS7)
-#define IS_HT2SS_RATE(_rate) ((_rate) >= MGN_MCS8 && (_rate) <= MGN_MCS15)
-#define IS_HT3SS_RATE(_rate) ((_rate) >= MGN_MCS16 && (_rate) <= MGN_MCS23)
-#define IS_HT4SS_RATE(_rate) ((_rate) >= MGN_MCS24 && (_rate) <= MGN_MCS31)
 
 #define IS_VHT1SS_RATE(_rate) ((_rate) >= MGN_VHT1SS_MCS0 && (_rate) <= MGN_VHT1SS_MCS9)
-#define IS_VHT2SS_RATE(_rate) ((_rate) >= MGN_VHT2SS_MCS0 && (_rate) <= MGN_VHT2SS_MCS9)
-#define IS_VHT3SS_RATE(_rate) ((_rate) >= MGN_VHT3SS_MCS0 && (_rate) <= MGN_VHT3SS_MCS9)
-#define IS_VHT4SS_RATE(_rate) ((_rate) >= MGN_VHT4SS_MCS0 && (_rate) <= MGN_VHT4SS_MCS9)
 
 #define IS_1T_RATE(_rate)	(IS_CCK_RATE((_rate)) || IS_OFDM_RATE((_rate)) || IS_HT1SS_RATE((_rate)) || IS_VHT1SS_RATE((_rate)))
-#define IS_2T_RATE(_rate)	(IS_HT2SS_RATE((_rate)) || IS_VHT2SS_RATE((_rate)))
-#define IS_3T_RATE(_rate)	(IS_HT3SS_RATE((_rate)) || IS_VHT3SS_RATE((_rate)))
-#define IS_4T_RATE(_rate)	(IS_HT4SS_RATE((_rate)) || IS_VHT4SS_RATE((_rate)))
 
 typedef enum _RATE_SECTION {
 	CCK = 0,

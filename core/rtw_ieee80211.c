@@ -69,29 +69,14 @@ static u8 	WIFI_OFDMRATES[] =
 u8 mgn_rates_cck[4] = {MGN_1M, MGN_2M, MGN_5_5M, MGN_11M};
 u8 mgn_rates_ofdm[8] = {MGN_6M, MGN_9M, MGN_12M, MGN_18M, MGN_24M, MGN_36M, MGN_48M, MGN_54M};
 u8 mgn_rates_mcs0_7[8] = {MGN_MCS0, MGN_MCS1, MGN_MCS2, MGN_MCS3, MGN_MCS4, MGN_MCS5, MGN_MCS6, MGN_MCS7};
-u8 mgn_rates_mcs8_15[8] = {MGN_MCS8, MGN_MCS9, MGN_MCS10, MGN_MCS11, MGN_MCS12, MGN_MCS13, MGN_MCS14, MGN_MCS15};
-u8 mgn_rates_mcs16_23[8] = {MGN_MCS16, MGN_MCS17, MGN_MCS18, MGN_MCS19, MGN_MCS20, MGN_MCS21, MGN_MCS22, MGN_MCS23};
-u8 mgn_rates_mcs24_31[8] = {MGN_MCS24, MGN_MCS25, MGN_MCS26, MGN_MCS27, MGN_MCS28, MGN_MCS29, MGN_MCS30, MGN_MCS31};
 u8 mgn_rates_vht1ss[10] = {MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3, MGN_VHT1SS_MCS4
 	, MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7, MGN_VHT1SS_MCS8, MGN_VHT1SS_MCS9};
-u8 mgn_rates_vht2ss[10] = {MGN_VHT2SS_MCS0, MGN_VHT2SS_MCS1, MGN_VHT2SS_MCS2, MGN_VHT2SS_MCS3, MGN_VHT2SS_MCS4
-	, MGN_VHT2SS_MCS5, MGN_VHT2SS_MCS6, MGN_VHT2SS_MCS7, MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9};
-u8 mgn_rates_vht3ss[10] = {MGN_VHT3SS_MCS0, MGN_VHT3SS_MCS1, MGN_VHT3SS_MCS2, MGN_VHT3SS_MCS3, MGN_VHT3SS_MCS4
-	, MGN_VHT3SS_MCS5, MGN_VHT3SS_MCS6, MGN_VHT3SS_MCS7, MGN_VHT3SS_MCS8, MGN_VHT3SS_MCS9};
-u8 mgn_rates_vht4ss[10] = {MGN_VHT4SS_MCS0, MGN_VHT4SS_MCS1, MGN_VHT4SS_MCS2, MGN_VHT4SS_MCS3, MGN_VHT4SS_MCS4
-	, MGN_VHT4SS_MCS5, MGN_VHT4SS_MCS6, MGN_VHT4SS_MCS7, MGN_VHT4SS_MCS8, MGN_VHT4SS_MCS9};
 
 static const char * const _rate_section_str[] = {
 	"CCK",
 	"OFDM",
 	"HT_1SS",
-	"HT_2SS",
-	"HT_3SS",
-	"HT_4SS",
 	"VHT_1SS",
-	"VHT_2SS",
-	"VHT_3SS",
-	"VHT_4SS",
 	"RATE_SECTION_UNKNOWN",
 };
 
@@ -105,13 +90,7 @@ struct rate_section_ent rates_by_sections[RATE_SECTION_NUM] = {
 	{RF_1TX, 4, mgn_rates_cck},
 	{RF_1TX, 8, mgn_rates_ofdm},
 	{RF_1TX, 8, mgn_rates_mcs0_7},
-	{RF_2TX, 8, mgn_rates_mcs8_15},
-	{RF_3TX, 8, mgn_rates_mcs16_23},
-	{RF_4TX, 8, mgn_rates_mcs24_31},
 	{RF_1TX, 10, mgn_rates_vht1ss},
-	{RF_2TX, 10, mgn_rates_vht2ss},
-	{RF_3TX, 10, mgn_rates_vht3ss},
-	{RF_4TX, 10, mgn_rates_vht4ss},
 };
 
 int rtw_get_bit_value_from_ieee_value(u8 val)

@@ -618,12 +618,6 @@ PHY_StoreTxPowerByRate(
 	
 			if (IS_1T_RATE(rates[i]))
 				pHalData->TxPwrByRateOffset[Band][RfPath][RF_1TX][rate_idx] = PwrByRateVal[i];
-			else if (IS_2T_RATE(rates[i]))
-				pHalData->TxPwrByRateOffset[Band][RfPath][RF_2TX][rate_idx] = PwrByRateVal[i];
-			else if (IS_3T_RATE(rates[i]))
-				pHalData->TxPwrByRateOffset[Band][RfPath][RF_3TX][rate_idx] = PwrByRateVal[i];
-			else if (IS_4T_RATE(rates[i]))
-				pHalData->TxPwrByRateOffset[Band][RfPath][RF_4TX][rate_idx] = PwrByRateVal[i];
 			else
 				rtw_warn_on(1);
 		}
