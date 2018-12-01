@@ -2350,13 +2350,13 @@ bool phy_is_tx_power_by_rate_needed(_adapter *adapter)
 	return _FALSE;
 }
 
-int phy_load_tx_power_by_rate(_adapter *adapter, u8 force)
+int phy_load_tx_power_by_rate(_adapter *adapter)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
 	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
 	int ret = _FAIL;
 
-	if (!force
+	if (!true
 		&& true
 		&& hal_data->txpwr_by_rate_loaded == 1
 		&& hal_data->txpwr_by_rate_from_file == 0
@@ -2396,13 +2396,13 @@ exit:
 	return ret;
 }
 
-int phy_load_tx_power_limit(_adapter *adapter, u8 force)
+int phy_load_tx_power_limit(_adapter *adapter)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
 	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
 	int ret = _FAIL;
 
-	if (!force
+	if (!true
 		&& true
 		&& hal_data->txpwr_by_rate_loaded == 1
 		&& hal_data->txpwr_by_rate_from_file == 0
@@ -2439,7 +2439,7 @@ exit:
 	return ret;
 }
 
-void phy_load_tx_power_ext_info(_adapter *adapter, u8 force)
+void phy_load_tx_power_ext_info(_adapter *adapter)
 {
 	struct registry_priv *regsty = adapter_to_regsty(adapter);
 	const char *str = NULL;
@@ -2451,11 +2451,11 @@ void phy_load_tx_power_ext_info(_adapter *adapter, u8 force)
 	if (phy_is_tx_power_by_rate_needed(adapter)
 		|| (phy_is_tx_power_limit_needed(adapter) && regsty->target_tx_pwr_valid != _TRUE)
 	) {
-		phy_load_tx_power_by_rate(adapter, force);
+		phy_load_tx_power_by_rate(adapter);
 	}
 
 	if (phy_is_tx_power_limit_needed(adapter)) {
-		phy_load_tx_power_limit(adapter, force);
+		phy_load_tx_power_limit(adapter);
 	}
 }
 
