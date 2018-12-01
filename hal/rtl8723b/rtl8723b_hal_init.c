@@ -418,7 +418,6 @@ s32 rtl8723b_FirmwareDownload(PADAPTER padapter)
 	u8 write_fw = 0;
 	u32 fwdl_start_time;
 	PHAL_DATA_TYPE	pHalData = GET_HAL_DATA(padapter);
-	s8 			R8723BFwImageFileName[] ={RTL8723B_FW_IMG};
 	u8			*FwImage;
 	u32			FwImageLen;
 	u8			*pFwImageFileName;

@@ -122,15 +122,6 @@ phy_RF6052_Config_ParaFile(
 	int					rtStatus = _SUCCESS;
 	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 
-	static char			sz8723RadioAFile[] = RTL8723B_PHY_RADIO_A;
-	static char			sz8723RadioBFile[] = RTL8723B_PHY_RADIO_B;
-	static s1Byte 			sz8723BTxPwrTrackFile[] = RTL8723B_TXPWR_TRACK;	
-	char					*pszRadioAFile, *pszRadioBFile, *pszTxPwrTrackFile;
-
-	pszRadioAFile = sz8723RadioAFile;
-	pszRadioBFile = sz8723RadioBFile;
-	pszTxPwrTrackFile = sz8723BTxPwrTrackFile;
-
 	//3//-----------------------------------------------------------------
 	//3// <2> Initialize RF
 	//3//-----------------------------------------------------------------

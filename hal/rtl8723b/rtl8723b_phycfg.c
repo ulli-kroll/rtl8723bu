@@ -478,11 +478,7 @@ s32 PHY_MACConfig8723B(PADAPTER Adapter)
 {
 	int		rtStatus = _SUCCESS;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
-	s8			*pszMACRegFile;
-	s8			sz8723MACRegFile[] = RTL8723B_PHY_MACREG;
 
-
-	pszMACRegFile = sz8723MACRegFile;
 
 	//
 	// Config MAC
@@ -551,14 +547,6 @@ phy_BB8723b_Config_ParaFile(
 {
 	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 	int			rtStatus = _SUCCESS;
-	u8	sz8723BBRegFile[] = RTL8723B_PHY_REG;
-	u8	sz8723AGCTableFile[] = RTL8723B_AGC_TAB;
-	u8	sz8723BBRegMpFile[] = RTL8723B_PHY_REG_MP;
-	u8	*pszBBRegFile = NULL, *pszAGCTableFile = NULL, *pszBBRegMpFile = NULL;
-
-	pszBBRegFile = sz8723BBRegFile ;
-	pszAGCTableFile = sz8723AGCTableFile;
-	pszBBRegMpFile = sz8723BBRegMpFile;
 
 	//
 	// 1. Read PHY_REG.TXT BB INIT!!
