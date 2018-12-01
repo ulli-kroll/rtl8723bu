@@ -296,9 +296,6 @@ struct registry_priv
 	u8	RegPowerBase;
 	u8	RegPwrTblSel;
 
-	u8 target_tx_pwr_valid;
-	s8 target_tx_pwr_2g[RF_PATH_MAX][RATE_SECTION_NUM];
-
 	s8	TxBBSwing_2G;
 	s8	TxBBSwing_5G;
 	u8	AmplifierType_2G;

@@ -23,81 +23,6 @@
 #include <hal_data.h>
 
 /*
-* rtw_regsty_get_target_tx_power -
-*
-* Return dBm or -1 for undefined
-*/
-s8 rtw_regsty_get_target_tx_power(
-	IN	PADAPTER		Adapter,
-	IN	u8				Band,
-	IN	u8				RfPath,
-	IN	RATE_SECTION	RateSection
-	)
-{
-	struct registry_priv *regsty = adapter_to_regsty(Adapter);
-	s8 value = 0;
-
-	if (RfPath > RF_PATH_A) {
-		DBG_871X_LEVEL(_drv_always_, "%s invalid RfPath:%d\n", __func__, RfPath);
-		return -1;
-	}
-
-	if (Band != BAND_ON_2_4G
-	) {
-		DBG_871X_LEVEL(_drv_always_, "%s invalid Band:%d\n", __func__, Band);
-		return -1;
-	}
-
-	if (RateSection >= RATE_SECTION_NUM
-	) {
-		DBG_871X_LEVEL(_drv_always_, "%s invalid RateSection:%d in %sG, RfPath:%d\n", __func__
-			, RateSection, (Band == BAND_ON_2_4G) ? "2.4" : "5", RfPath);
-		return -1;
-	}
-
-	if (Band == BAND_ON_2_4G)
-		value = regsty->target_tx_pwr_2g[RfPath][RateSection];
-
-	return value;
-}
-
-bool rtw_regsty_chk_target_tx_power_valid(_adapter *adapter)
-{
-	struct hal_spec_t *hal_spec = GET_HAL_SPEC(adapter);
-	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-	int path, tx_num, band, rs;
-	s8 target;
-
-	for (band = BAND_ON_2_4G; band <= BAND_ON_5G; band++) {
-		if (!hal_is_band_support(adapter, band))
-			continue;
-
-		for (path = 0; path < RF_PATH_MAX; path++) {
-			if (path >= hal_data->NumTotalRFPath)
-				break;
-
-			for (rs = 0; rs < RATE_SECTION_NUM; rs++) {
-				tx_num = rate_section_to_tx_num(rs);
-				if (tx_num >= hal_spec->nss_num)
-					continue;
-
-				if (band == BAND_ON_5G && IS_CCK_RATE_SECTION(rs))
-					continue;
-
-				if (IS_VHT_RATE_SECTION(rs) && !IS_HARDWARE_TYPE_JAGUAR_AND_JAGUAR2(adapter))
-					continue;
-
-				target = rtw_regsty_get_target_tx_power(adapter, band, path, rs);
-				if (target == -1)
-					return _FALSE;
-			}
-		}
-	}
-
-	return _TRUE;
-}
-
-/*
 * PHY_GetTxPowerByRateBase -
 *
 * Return 2 times of dBm
@@ -191,10 +116,7 @@ u8 phy_get_target_tx_power(
 	struct registry_priv *regsty = adapter_to_regsty(Adapter);
 	s16 target_power;
 
-	if (phy_is_tx_power_by_rate_needed(Adapter) == _FALSE && regsty->target_tx_pwr_valid == _TRUE)
-		target_power = 2 * rtw_regsty_get_target_tx_power(Adapter, Band, RfPath, RateSection);
-	else
-		target_power = PHY_GetTxPowerByRateBase(Adapter, Band, RfPath, rate_section_to_tx_num(RateSection), RateSection);
+	target_power = PHY_GetTxPowerByRateBase(Adapter, Band, RfPath, rate_section_to_tx_num(RateSection), RateSection);
 
 	return target_power;
 }
@@ -1322,9 +1244,6 @@ PHY_GetTxPowerByRate(
 	IN	u8			Rate
 	)
 {
-	if (!phy_is_tx_power_by_rate_needed(pAdapter))
-		return 0;
-
 	return _PHY_GetTxPowerByRate(pAdapter, Band, RFPath, TxNum, Rate);
 }
 
@@ -2068,28 +1987,6 @@ PHY_SetTxPowerIndex(
 	}
 }
 
-bool phy_is_tx_power_limit_needed(_adapter *adapter)
-{
-	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
-
-	if (regsty->RegEnableTxPowerLimit == 1
-		|| (regsty->RegEnableTxPowerLimit == 2 && hal_data->EEPROMRegulatory == 1))
-		return _TRUE;
-	return _FALSE;
-}
-
-bool phy_is_tx_power_by_rate_needed(_adapter *adapter)
-{
-	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
-	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
-
-	if (regsty->RegEnableTxPowerByRate == 1
-		|| (regsty->RegEnableTxPowerByRate == 2 && hal_data->EEPROMRegulatory != 2))
-		return _TRUE;
-	return _FALSE;
-}
-
 int phy_load_tx_power_by_rate(_adapter *adapter)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
@@ -2155,12 +2052,6 @@ int phy_load_tx_power_limit(_adapter *adapter)
 	hal_data->txpwr_limit_loaded = 0;
 	PHY_InitTxPowerLimit(adapter);
 
-	if (!hal_data->txpwr_by_rate_loaded && regsty->target_tx_pwr_valid != _TRUE) {
-		DBG_871X_LEVEL(_drv_err_, "%s():Read Tx power limit before target tx power is specify\n", __func__);
-		goto exit;
-	}
-
-
 	if (HAL_STATUS_SUCCESS == ODM_ConfigRFWithHeaderFile(&hal_data->odmpriv, CONFIG_RF_TXPWR_LMT, (ODM_RF_RADIO_PATH_E)0)) {
 		DBG_871X("default power limit loaded\n");
 		hal_data->txpwr_limit_from_file = 0;
@@ -2184,19 +2075,9 @@ void phy_load_tx_power_ext_info(_adapter *adapter)
 	struct registry_priv *regsty = adapter_to_regsty(adapter);
 	const char *str = NULL;
 
-	/* check registy target tx power */
-	regsty->target_tx_pwr_valid = rtw_regsty_chk_target_tx_power_valid(adapter);
+	phy_load_tx_power_by_rate(adapter);
 
-	/* power by rate and limit */
-	if (phy_is_tx_power_by_rate_needed(adapter)
-		|| (phy_is_tx_power_limit_needed(adapter) && regsty->target_tx_pwr_valid != _TRUE)
-	) {
-		phy_load_tx_power_by_rate(adapter);
-	}
-
-	if (phy_is_tx_power_limit_needed(adapter)) {
-		phy_load_tx_power_limit(adapter);
-	}
+	phy_load_tx_power_limit(adapter);
 }
 
 void dump_tx_power_ext_info(void *sel, _adapter *adapter)
@@ -2204,23 +2085,14 @@ void dump_tx_power_ext_info(void *sel, _adapter *adapter)
 	struct registry_priv *regsty = adapter_to_regsty(adapter);
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
 
-	if (phy_is_tx_power_by_rate_needed(adapter)
-		|| (phy_is_tx_power_limit_needed(adapter) && regsty->target_tx_pwr_valid != _TRUE))
-		DBG_871X_SEL_NL(sel, "target_tx_power: from powr by rate\n");
-	else if (regsty->target_tx_pwr_valid == _TRUE)
-		DBG_871X_SEL_NL(sel, "target_tx_power: from registry\n");
-	else
-		DBG_871X_SEL_NL(sel, "target_tx_power: unavailable\n");
+	DBG_871X_SEL_NL(sel, "target_tx_power: from powr by rate\n");
 
-
-	DBG_871X_SEL_NL(sel, "tx_power_by_rate: %s, %s, %s\n"
-		, phy_is_tx_power_by_rate_needed(adapter) ? "enabled" : "disabled"
+	DBG_871X_SEL_NL(sel, "tx_power_by_rate: %s, %s\n"
 		, hal_data->txpwr_by_rate_loaded ? "loaded" : "unloaded"
 		, hal_data->txpwr_by_rate_from_file ? "file" : "default"
 	);
 
-	DBG_871X_SEL_NL(sel, "tx_power_limit: %s, %s, %s\n"
-		, phy_is_tx_power_limit_needed(adapter) ? "enabled" : "disabled"
+	DBG_871X_SEL_NL(sel, "tx_power_limit: %s, %s\n"
 		, hal_data->txpwr_limit_loaded ? "loaded" : "unloaded"
 		, hal_data->txpwr_limit_from_file ? "file" : "default"
 	);

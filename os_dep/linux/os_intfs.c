@@ -432,31 +432,12 @@ MODULE_PARM_DESC(rtw_tx_pwr_lmt_enable,"0:Disable, 1:Enable, 2: Depend on efuse"
 module_param(rtw_tx_pwr_by_rate, int, 0644);
 MODULE_PARM_DESC(rtw_tx_pwr_by_rate,"0:Disable, 1:Enable, 2: Depend on efuse");
 
-static int rtw_target_tx_pwr_2g_a[RATE_SECTION_NUM] = CONFIG_RTW_TARGET_TX_PWR_2G_A;
-static int rtw_target_tx_pwr_2g_a_num = 0;
-module_param_array(rtw_target_tx_pwr_2g_a, int, &rtw_target_tx_pwr_2g_a_num, 0644);
-MODULE_PARM_DESC(rtw_target_tx_pwr_2g_a, "2.4G target tx power (unit:dBm) of RF path A for each rate section, should match the real calibrate power, -1: undefined");
-
 int _netdev_open(struct net_device *pnetdev);
 int netdev_open (struct net_device *pnetdev);
 static int netdev_close (struct net_device *pnetdev);
 #ifdef CONFIG_PLATFORM_INTEL_BYT
 extern int rtw_sdio_set_power(int on);
 #endif //CONFIG_PLATFORM_INTEL_BYT
-
-void rtw_regsty_load_target_tx_power(struct registry_priv *regsty)
-{
-	int path, rs;
-	int *target_tx_pwr;
-
-	for (path = RF_PATH_A; path < RF_PATH_MAX; path++) {
-		if (path == RF_PATH_A)
-			target_tx_pwr = rtw_target_tx_pwr_2g_a;
-
-		for (rs = CCK; rs < RATE_SECTION_NUM; rs++)
-			regsty->target_tx_pwr_2g[path][rs] = target_tx_pwr[rs];
-	}
-}
 
 uint loadparam(_adapter *padapter)
 {
@@ -623,8 +604,6 @@ _func_enter_;
 
 	registry_par->RegEnableTxPowerLimit = (u8)rtw_tx_pwr_lmt_enable;
 	registry_par->RegEnableTxPowerByRate = (u8)rtw_tx_pwr_by_rate;
-
-	rtw_regsty_load_target_tx_power(registry_par);
 
 	registry_par->RegPowerBase = 14;
 	registry_par->TxBBSwing_2G = (s8)rtw_TxBBSwing_2G;

@@ -237,8 +237,6 @@ PHY_SetTxPowerIndex(
 	IN	u8				Rate
 	);
 
-bool phy_is_tx_power_limit_needed(_adapter *adapter);
-bool phy_is_tx_power_by_rate_needed(_adapter *adapter);
 int phy_load_tx_power_by_rate(_adapter *adapter);
 int phy_load_tx_power_limit(_adapter *adapter);
 void phy_load_tx_power_ext_info(_adapter *adapter);

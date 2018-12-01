@@ -111,10 +111,6 @@
 	#define CONFIG_RTW_ADAPTIVITY_TH_EDCCA_HL_DIFF 0
 #endif
 
-#ifndef CONFIG_RTW_TARGET_TX_PWR_2G_A
-	#define CONFIG_RTW_TARGET_TX_PWR_2G_A {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
-#endif
-
 #ifndef CONFIG_RTW_AMPLIFIER_TYPE_2G
 	#define CONFIG_RTW_AMPLIFIER_TYPE_2G 0
 #endif
