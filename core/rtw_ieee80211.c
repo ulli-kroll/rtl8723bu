@@ -69,14 +69,11 @@ static u8 	WIFI_OFDMRATES[] =
 u8 mgn_rates_cck[4] = {MGN_1M, MGN_2M, MGN_5_5M, MGN_11M};
 u8 mgn_rates_ofdm[8] = {MGN_6M, MGN_9M, MGN_12M, MGN_18M, MGN_24M, MGN_36M, MGN_48M, MGN_54M};
 u8 mgn_rates_mcs0_7[8] = {MGN_MCS0, MGN_MCS1, MGN_MCS2, MGN_MCS3, MGN_MCS4, MGN_MCS5, MGN_MCS6, MGN_MCS7};
-u8 mgn_rates_vht1ss[10] = {MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3, MGN_VHT1SS_MCS4
-	, MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7, MGN_VHT1SS_MCS8, MGN_VHT1SS_MCS9};
 
 static const char * const _rate_section_str[] = {
 	"CCK",
 	"OFDM",
 	"HT_1SS",
-	"VHT_1SS",
 	"RATE_SECTION_UNKNOWN",
 };
 
@@ -90,7 +87,6 @@ struct rate_section_ent rates_by_sections[RATE_SECTION_NUM] = {
 	{RF_1TX, 4, mgn_rates_cck},
 	{RF_1TX, 8, mgn_rates_ofdm},
 	{RF_1TX, 8, mgn_rates_mcs0_7},
-	{RF_1TX, 10, mgn_rates_vht1ss},
 };
 
 int rtw_get_bit_value_from_ieee_value(u8 val)
