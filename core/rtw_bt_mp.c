@@ -53,7 +53,6 @@ u32 WaitC2Hevent(PADAPTER pAdapter, u8 *C2H_event, u32 delay_time)
 	PMPT_CONTEXT		pMptCtx=&(pAdapter->mppriv.MptCtx);
 	pMptCtx->bMPh2c_timeout=_FALSE;
 	
-	if( pAdapter->registrypriv.mp_mode == 0 )
 	{
 		DBG_8192C("[MPT], Error!! WaitC2Hevent mp_mode == 0!!\n");
 		return _FALSE;
@@ -226,7 +225,6 @@ mptbt_BtFwOpCodeProcess(
 	BT_CTRL_STATUS	h2cStatus=BT_STATUS_H2C_SUCCESS, c2hStatus=BT_STATUS_C2H_SUCCESS;
 	BT_CTRL_STATUS	retStatus=BT_STATUS_H2C_BT_NO_RSP;
 
-	if( Adapter->registrypriv.mp_mode == 0 )
 	{
 		DBG_8192C("[MPT], Error!! mptbt_BtFwOpCodeProces mp_mode == 0!!\n");
 		return _FALSE;
@@ -519,7 +517,6 @@ MPTBT_FwC2hBtMpCtrl(
 	PMPT_CONTEXT	pMptCtx=&(Adapter->mppriv.MptCtx);
 	PBT_EXT_C2H pExtC2h=(PBT_EXT_C2H)tmpBuf;
 	
-	if(Adapter->bBTFWReady == _FALSE || Adapter->registrypriv.mp_mode == 0 )
 	{	
 		//DBG_8192C("Ignore C2H BT MP Info since not in MP mode \n");
 		return;
