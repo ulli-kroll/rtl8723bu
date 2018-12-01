@@ -2350,7 +2350,7 @@ bool phy_is_tx_power_by_rate_needed(_adapter *adapter)
 	return _FALSE;
 }
 
-int phy_load_tx_power_by_rate(_adapter *adapter, const char *hal_file_name, u8 force)
+int phy_load_tx_power_by_rate(_adapter *adapter, u8 force)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
 	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
@@ -2396,7 +2396,7 @@ exit:
 	return ret;
 }
 
-int phy_load_tx_power_limit(_adapter *adapter, const char *hal_file_name, u8 force)
+int phy_load_tx_power_limit(_adapter *adapter, u8 force)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
 	struct registry_priv *regsty = dvobj_to_regsty(adapter_to_dvobj(adapter));
@@ -2439,123 +2439,7 @@ exit:
 	return ret;
 }
 
-const char *hal_phy_reg_pg_str(_adapter *adapter)
-{
-	u8 interface_type = 0;
-	const char *str = NULL;
-
-	interface_type = rtw_get_intf_type(adapter);
-
-	switch (rtw_get_chip_type(adapter)) {
-#ifdef CONFIG_RTL8723B
-	case RTL8723B:
-		str = RTL8723B_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8703B
-	case RTL8703B:
-		str = RTL8703B_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8188E
-	case RTL8188E:
-		str = RTL8188E_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8188F
-	case RTL8188F:
-		str = RTL8188F_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8812A
-	case RTL8812:
-		str = RTL8812_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8821A
-	case RTL8821:
-		str = RTL8821_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8192E
-	case RTL8192E:
-		str = RTL8192E_PHY_REG_PG;
-		break;
-#endif
-#ifdef CONFIG_RTL8814A
-	case RTL8814A:
-		str = RTL8814A_PHY_REG_PG;
-		break;
-#endif
-	}
-
-	if (str == NULL) {
-		DBG_871X_LEVEL(_drv_err_, "%s: unknown chip_type:%u\n"
-			, __func__, rtw_get_chip_type(adapter));
-	}
-
-	return str;
-}
-
-const char *hal_txpwr_lmt_str(_adapter *adapter)
-{
-	u8 interface_type = 0;
-	const char *str = NULL;
-
-	interface_type = rtw_get_intf_type(adapter);
-
-	switch (rtw_get_chip_type(adapter)) {
-#ifdef CONFIG_RTL8723B
-	case RTL8723B:
-		str = RTL8723B_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8703B
-	case RTL8703B:
-		str = RTL8703B_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8188E
-	case RTL8188E:
-		str = RTL8188E_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8188F
-	case RTL8188F:
-		str = RTL8188F_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8812A
-	case RTL8812:
-		str = RTL8812_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8821A
-	case RTL8821:
-		str = RTL8821_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8192E
-	case RTL8192E:
-		str = RTL8192E_TXPWR_LMT;
-		break;
-#endif
-#ifdef CONFIG_RTL8814A
-	case RTL8814A:
-		str = RTL8814A_TXPWR_LMT;
-		break;
-#endif
-	}
-
-	if (str == NULL) {
-		DBG_871X_LEVEL(_drv_err_, "%s: unknown chip_type:%u\n"
-			, __func__, rtw_get_chip_type(adapter));
-	}
-
-	return str;
-}
-
-void phy_load_tx_power_ext_info(_adapter *adapter, u8 chk_file, u8 force)
+void phy_load_tx_power_ext_info(_adapter *adapter, u8 force)
 {
 	struct registry_priv *regsty = adapter_to_regsty(adapter);
 	const char *str = NULL;
@@ -2567,13 +2451,11 @@ void phy_load_tx_power_ext_info(_adapter *adapter, u8 chk_file, u8 force)
 	if (phy_is_tx_power_by_rate_needed(adapter)
 		|| (phy_is_tx_power_limit_needed(adapter) && regsty->target_tx_pwr_valid != _TRUE)
 	) {
-		str = chk_file ? hal_phy_reg_pg_str(adapter) : NULL;
-		phy_load_tx_power_by_rate(adapter, str, force);
+		phy_load_tx_power_by_rate(adapter, force);
 	}
 
 	if (phy_is_tx_power_limit_needed(adapter)) {
-		str = chk_file ? hal_txpwr_lmt_str(adapter) : NULL;
-		phy_load_tx_power_limit(adapter, str, force);
+		phy_load_tx_power_limit(adapter, force);
 	}
 }
 
