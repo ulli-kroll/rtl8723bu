@@ -1058,78 +1058,7 @@ u32 rtl8723bu_hal_init(PADAPTER padapter)
 	u32 value32;
 	u32 init_start_time = rtw_get_current_time();
 
-
-#ifdef DBG_HAL_INIT_PROFILING
-
-	enum HAL_INIT_STAGES {
-		HAL_INIT_STAGES_BEGIN = 0,
-		HAL_INIT_STAGES_INIT_PW_ON,
-		HAL_INIT_STAGES_INIT_LLTT,
-		HAL_INIT_STAGES_MISC01,
-		HAL_INIT_STAGES_DOWNLOAD_FW,
-		HAL_INIT_STAGES_MAC,
-		HAL_INIT_STAGES_BB,
-		HAL_INIT_STAGES_RF,
-		HAL_INIT_STAGES_MISC02,
-		HAL_INIT_STAGES_TURN_ON_BLOCK,
-		HAL_INIT_STAGES_INIT_SECURITY,
-		HAL_INIT_STAGES_MISC11,
-		//HAL_INIT_STAGES_RF_PS,
-		HAL_INIT_STAGES_INIT_HAL_DM,
-//		HAL_INIT_STAGES_IQK,
-//		HAL_INIT_STAGES_PW_TRACK,
-//		HAL_INIT_STAGES_LCK,
-		HAL_INIT_STAGES_MISC21,
-		//HAL_INIT_STAGES_INIT_PABIAS,
-		HAL_INIT_STAGES_BT_COEXIST,
-		//HAL_INIT_STAGES_ANTENNA_SEL,
-		HAL_INIT_STAGES_MISC31,
-		HAL_INIT_STAGES_END,
-		HAL_INIT_STAGES_NUM
-	};
-
-	char * hal_init_stages_str[] = {
-		"HAL_INIT_STAGES_BEGIN",
-		"HAL_INIT_STAGES_INIT_PW_ON",
-		"HAL_INIT_STAGES_INIT_LLTT",
-		"HAL_INIT_STAGES_MISC01",
-		"HAL_INIT_STAGES_DOWNLOAD_FW",
-		"HAL_INIT_STAGES_MAC",
-		"HAL_INIT_STAGES_BB",
-		"HAL_INIT_STAGES_RF",
-		"HAL_INIT_STAGES_MISC02",
-		"HAL_INIT_STAGES_TURN_ON_BLOCK",
-		"HAL_INIT_STAGES_INIT_SECURITY",
-		"HAL_INIT_STAGES_MISC11",
-		//"HAL_INIT_STAGES_RF_PS",
-		"HAL_INIT_STAGES_INIT_HAL_DM",
-//		"HAL_INIT_STAGES_IQK",
-//		"HAL_INIT_STAGES_PW_TRACK",
-//		"HAL_INIT_STAGES_LCK",
-		"HAL_INIT_STAGES_MISC21",
-		//"HAL_INIT_STAGES_INIT_PABIAS",
-		"HAL_INIT_STAGES_BT_COEXIST",
-		//"HAL_INIT_STAGES_ANTENNA_SEL",
-		"HAL_INIT_STAGES_MISC31",
-		"HAL_INIT_STAGES_END",
-	};
-
-	int hal_init_profiling_i;
-	u32 hal_init_stages_timestamp[HAL_INIT_STAGES_NUM]; //used to record the time of each stage's starting point
-
-	for(hal_init_profiling_i=0;hal_init_profiling_i<HAL_INIT_STAGES_NUM;hal_init_profiling_i++)
-		hal_init_stages_timestamp[hal_init_profiling_i]=0;
-
-	#define HAL_INIT_PROFILE_TAG(stage) hal_init_stages_timestamp[(stage)]=rtw_get_current_time();
-#else
-	#define HAL_INIT_PROFILE_TAG(stage) do {} while(0)
-#endif //DBG_HAL_INIT_PROFILING
-
-
-
 _func_enter_;
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
 
 /*	if(rtw_is_surprise_removed(padapter))
 		return _FAIL;*/
@@ -1150,16 +1079,12 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
 		DBG_871X(" MAC has not been powered on yet.\n");
 	}
 
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PW_ON);
 	status = rtw_hal_power_on(padapter);
 	if(status == _FAIL){
 		RT_TRACE(_module_hci_hal_init_c_, _drv_err_, ("Failed to init power on!\n"));
 		goto exit;
 	}
 
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_LLTT);
 	if (!pregistrypriv->wifi_spec) {
 		boundary = TX_PAGE_BOUNDARY_8723B;
 	} else {
@@ -1172,7 +1097,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_LLTT);
 		goto exit;
 	}
 	
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC01);
 	if(pHalData->bRDGEnable){
 		_InitRDGSetting_8723bu(padapter);
 	}
@@ -1213,7 +1137,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC01);
 	// <Kordan> InitHalDm should be put ahead of FirmwareDownload. (HWConfig flow: FW->MAC->-BB->RF)
 	//InitHalDm(Adapter);
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_DOWNLOAD_FW);
 	/* if (padapter->registrypriv.mp_mode == 0) */
 	{
 		status = rtl8723b_FirmwareDownload(padapter);
@@ -1244,7 +1167,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_DOWNLOAD_FW);
 
 
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MAC);
 #if (HAL_MAC_ENABLE == 1)
 	status = PHY_MACConfig8723B(padapter);
 	if(status == _FAIL)
@@ -1254,8 +1176,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MAC);
 	}
 #endif
 
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BB);
 	//
 	//d. Initialize BB related configurations.
 	//
@@ -1268,10 +1188,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BB);
 	}
 #endif
 
-
-
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_RF);
 #if (HAL_RF_ENABLE == 1)
 	status = PHY_RFConfig8723B(padapter);
 	
@@ -1285,9 +1201,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_RF);
 
 #endif
 
-
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
 	_InitQueueReservedPage(padapter);
 	_InitTxBufferBoundary(padapter);
 	_InitQueuePriority(padapter);
@@ -1338,7 +1251,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
 	_InitHWLed(padapter);
 #endif //CONFIG_LED
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_TURN_ON_BLOCK);
 	_BBTurnOnBlock(padapter);
 	//NicIFSetMacAddress(padapter, padapter->PermanentAddress);
 
@@ -1346,10 +1258,8 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_TURN_ON_BLOCK);
 	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv.channel,
 		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSET_DONT_CARE);
 	
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_SECURITY);
 	invalidate_cam_all(padapter);
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
 	// 2010/12/17 MH We need to set TX power according to EFUSE content at first.
 	//PHY_SetTxPowerLevel8723B(padapter, pHalData->CurrentChannel);
 	rtl8723b_InitAntenna_Selection(padapter);
@@ -1371,7 +1281,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
 	
 //	_RfPowerSave(Adapter);
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
 	rtl8723b_InitHalDm(padapter);
 
 	{
@@ -1421,12 +1330,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
 	}
 
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC21);
-
-//HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PABIAS);
-//	_InitPABias(Adapter);
-
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BT_COEXIST);
 #ifdef CONFIG_BT_COEXIST
 	// Init BT hw config.
 	rtw_btcoex_HAL_Initialize(padapter, _FALSE);
@@ -1448,7 +1351,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BT_COEXIST);
 	HwSuspendModeEnable92Cu(Adapter, _FALSE);
 #endif
 
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC31);
 	rtw_hal_set_hwreg(padapter, HW_VAR_NAV_UPPER, (u8*)&NavUpper);
 
 #ifdef CONFIG_XMIT_ACK
@@ -1464,7 +1366,6 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC31);
 	//_dbg_dump_macreg(Adapter);
 
 exit:
-HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_END);
 
 	DBG_871X("%s in %dms\n", __FUNCTION__, rtw_get_passing_time_ms(init_start_time));
 
