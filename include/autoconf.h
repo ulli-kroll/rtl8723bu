@@ -147,13 +147,6 @@
 
 #define ENABLE_USB_DROP_INCORRECT_OUT
 
-//#define CONFIG_SUPPORT_USB_INT
-#ifdef CONFIG_SUPPORT_USB_INT
-//#define CONFIG_USB_INTERRUPT_IN_PIPE
-#endif
-
-//#define CONFIG_REDUCE_USB_TX_INT	// Trade-off: Improve performance, but may cause TX URBs blocked by USB Host/Bus driver on few platforms.
-
 /*
  * CONFIG_USE_USB_BUFFER_ALLOC_XX uses Linux USB Buffer alloc API and is for Linux platform only now!
  */
@@ -215,13 +208,6 @@
 	//#define CONFIG_IPS_LEVEL_2	1 //enable this to set default IPS mode to IPS_LEVEL_2
 	#endif
 
-	#if defined(CONFIG_LPS) && defined(CONFIG_SUPPORT_USB_INT)
-		//#define CONFIG_LPS_LCLK
-	#endif
-
-	#ifdef CONFIG_LPS_LCLK
-		#define CONFIG_XMIT_THREAD_MODE
-	#endif
 #endif // CONFIG_POWER_SAVING
 
 #ifdef CONFIG_BT_COEXIST

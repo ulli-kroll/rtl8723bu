@@ -265,11 +265,6 @@ static u8 _LLTRead(
  */
 static void _InitInterrupt(PADAPTER padapter)
 {
-#ifdef CONFIG_SUPPORT_USB_INT
-	/* clear interrupt, write 1 clear */
-	rtw_write32(padapter, REG_HISR0_8723B, 0xFFFFFFFF);
-	rtw_write32(padapter, REG_HISR1_8723B, 0xFFFFFFFF);
-#endif /* CONFIG_SUPPORT_USB_INT */
 }
 
 static void _InitQueueReservedPage(PADAPTER padapter)
@@ -2419,9 +2414,6 @@ _func_enter_;
 
 #ifdef CONFIG_XMIT_THREAD_MODE
 	pHalFunc->xmit_thread_handler = &rtl8723bu_xmit_buf_handler;
-#endif
-#ifdef CONFIG_SUPPORT_USB_INT
-	pHalFunc->interrupt_handler = interrupt_handler_8723bu;
 #endif
 
 _func_exit_;
