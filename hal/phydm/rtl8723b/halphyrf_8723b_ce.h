@@ -28,6 +28,14 @@
 #define AVG_THERMAL_NUM_8723B		4
 #define	RF_T_METER_8723B					0x42	//
 
+VOID
+GetDeltaSwingTable_8723B(
+	IN	PVOID		pDM_VOID,
+	OUT pu1Byte 			*TemperatureUP_A,
+	OUT pu1Byte 			*TemperatureDOWN_A,
+	OUT pu1Byte 			*TemperatureUP_B,
+	OUT pu1Byte 			*TemperatureDOWN_B	
+	);
 
 void ConfigureTxpowerTrack_8723B(
 	PTXPWRTRACK_CFG	pConfig

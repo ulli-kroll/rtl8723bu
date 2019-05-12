@@ -58,11 +58,6 @@ typedef struct _TXPWRTRACK_CFG {
 	u1Byte 		AverageThermalNum;
 	u1Byte 		RfPathCount;
 	u4Byte 		ThermalRegAddr;	
-	FuncSetPwr 	ODM_TxPwrTrackSetPwr;
-	FuncIQK 	DoIQK;
-	FuncLCK		PHY_LCCalibrate;
-	FuncSwing	GetDeltaSwingTable;
-	FuncSwing8814only	GetDeltaSwingTable8814only;
 } TXPWRTRACK_CFG, *PTXPWRTRACK_CFG;
 
 VOID

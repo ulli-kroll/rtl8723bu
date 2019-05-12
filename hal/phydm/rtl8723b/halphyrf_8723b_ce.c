@@ -513,11 +513,6 @@ void ConfigureTxpowerTrack_8723B(
 	pConfig->AverageThermalNum = AVG_THERMAL_NUM_8723B;
 	pConfig->RfPathCount = MAX_PATH_NUM_8723B;
 	pConfig->ThermalRegAddr = RF_T_METER_8723B;
-		
-	pConfig->ODM_TxPwrTrackSetPwr = ODM_TxPwrTrackSetPwr_8723B;
-	pConfig->DoIQK = DoIQK_8723B;
-	pConfig->PHY_LCCalibrate = PHY_LCCalibrate_8723B;
-	pConfig->GetDeltaSwingTable = GetDeltaSwingTable_8723B;
 }
 
 //1 7.	IQK
