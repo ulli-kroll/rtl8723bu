@@ -80,10 +80,6 @@ _BlockWrite(
 	u32			remainSize_p1 = 0, remainSize_p2 = 0;
 	u8			*bufferPtr	= (u8*)buffer;
 	u32			i=0, offset=0;
-#ifdef CONFIG_PCI_HCI
-	u8			remainFW[4] = {0, 0, 0, 0};
-	u8			*p = NULL;
-#endif
 
 #ifdef CONFIG_USB_HCI
 	blockSize_p1 = 254;
@@ -114,24 +110,6 @@ _BlockWrite(
 		}
 	}
 
-#ifdef CONFIG_PCI_HCI
-	p = (u8*)((u32*)(bufferPtr + blockCount_p1 * blockSize_p1));
-	if (remainSize_p1) {
-		switch (remainSize_p1) {
-		case 0:
-			break;
-		case 3:
-			remainFW[2]=*(p+2);
-		case 2: 	
-			remainFW[1]=*(p+1);
-		case 1: 	
-			remainFW[0]=*(p);
-			ret = rtw_write32(padapter, (FW_8723B_START_ADDRESS + blockCount_p1 * blockSize_p1), 
-				 le32_to_cpu(*(u32*)remainFW));	
-		}
-		return ret;
-	}
-#endif
 
 	//3 Phase #2
 	if (remainSize_p1)
@@ -230,12 +208,6 @@ _WriteFW(
 	u32 	pageNums,remainSize ;
 	u32 	page, offset;
 	u8		*bufferPtr = (u8*)buffer;
-
-#ifdef CONFIG_PCI_HCI
-	// 20100120 Joseph: Add for 88CE normal chip.
-	// Fill in zero to make firmware image to dword alignment.
-	_FillDummy(bufferPtr, &size);
-#endif
 
 	pageNums = size / MAX_DLFW_PAGE_SIZE ;
 	//RT_ASSERT((pageNums <= 4), ("Page numbers should not greater then 4 \n"));
@@ -4477,9 +4449,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 			if (!check_buddy_mlmeinfo_state(padapter, WIFI_FW_AP_STATE))
 			{
 				StopTxBeacon(padapter);
-#ifdef CONFIG_PCI_HCI
-				UpdateInterruptMask8723BE(padapter, 0, 0, RT_BCN_INT_MASKS, 0);
-#else // !CONFIG_PCI_HCI
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN	
 
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN_EARLY_INT	
@@ -4492,7 +4461,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 #endif // CONFIG_INTERRUPT_BASED_TXBCN_BCN_OK_ERR
 
 #endif // CONFIG_INTERRUPT_BASED_TXBCN
-#endif // !CONFIG_PCI_HCI
 			}
 
 			// disable atim wnd and disable beacon function
@@ -4505,9 +4473,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 		}
 		else if (mode == _HW_STATE_AP_)
 		{
-#ifdef CONFIG_PCI_HCI
-			UpdateInterruptMask8723BE(padapter, RT_BCN_INT_MASKS, 0, 0, 0);
-#else // !CONFIG_PCI_HCI
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN
 
 #ifdef  CONFIG_INTERRUPT_BASED_TXBCN_EARLY_INT
@@ -4519,7 +4484,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 #endif // CONFIG_INTERRUPT_BASED_TXBCN_BCN_OK_ERR
 
 #endif // CONFIG_INTERRUPT_BASED_TXBCN
-#endif // !CONFIG_PCI_HCI
 
 			ResumeTxBeacon(padapter);
 
@@ -4602,9 +4566,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 #endif // CONFIG_CONCURRENT_MODE
 			{
 				StopTxBeacon(padapter);
-#ifdef CONFIG_PCI_HCI
-				UpdateInterruptMask8723BE(padapter, 0, 0, RT_BCN_INT_MASKS, 0);
-#else // !CONFIG_PCI_HCI
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN_EARLY_INT
 				rtw_write8(padapter, REG_DRVERLYINT, 0x05); // restore early int time to 5ms
@@ -4616,7 +4577,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 #endif // CONFIG_INTERRUPT_BASED_TXBCN_BCN_OK_ERR
 
 #endif // CONFIG_INTERRUPT_BASED_TXBCN
-#endif // !CONFIG_PCI_HCI
 			}
 
 			// disable atim wnd
@@ -4630,9 +4590,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 		}
 		else if (mode == _HW_STATE_AP_)
 		{
-#ifdef CONFIG_PCI_HCI
-			UpdateInterruptMask8723BE( padapter, RT_BCN_INT_MASKS, 0, 0, 0);
-#else // !CONFIG_PCI_HCI
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN
 #ifdef CONFIG_INTERRUPT_BASED_TXBCN_EARLY_INT
 			UpdateInterruptMask8723BU(padapter, _TRUE ,IMR_BCNDMAINT0_8723B, 0);
@@ -4643,7 +4600,6 @@ static void hw_var_set_opmode(PADAPTER padapter, u8 variable, u8* val)
 #endif // CONFIG_INTERRUPT_BASED_TXBCN_BCN_OK_ERR
 
 #endif // CONFIG_INTERRUPT_BASED_TXBCN
-#endif
 
 			ResumeTxBeacon(padapter);
 

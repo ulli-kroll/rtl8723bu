@@ -56,22 +56,15 @@
 #else
 #define NR_XMITBUFF	(4)
 #endif //CONFIG_SINGLE_XMIT_BUF
-#elif defined (CONFIG_PCI_HCI)
-#define MAX_XMITBUF_SZ	(1664)
-#define NR_XMITBUFF	(128)
 #endif
 
 #ifdef PLATFORM_OS_CE
-#define XMITBUF_ALIGN_SZ 4
-#else
-#ifdef CONFIG_PCI_HCI
 #define XMITBUF_ALIGN_SZ 4
 #else
 #ifdef USB_XMITBUF_ALIGN_SZ
 #define XMITBUF_ALIGN_SZ (USB_XMITBUF_ALIGN_SZ)
 #else
 #define XMITBUF_ALIGN_SZ 512
-#endif
 #endif
 #endif
 
@@ -107,12 +100,6 @@
 #define TXCMD_QUEUE_INX	7
 
 #define HW_QUEUE_ENTRY	8
-
-#ifdef CONFIG_PCI_HCI
-//#define TXDESC_NUM						64
-#define TXDESC_NUM						128
-#define TXDESC_NUM_BE_QUEUE			128
-#endif
 
 #define WEP_IV(pattrib_iv, dot11txpn, keyidx)\
 do{\
@@ -186,20 +173,6 @@ do{\
 #define TXDESC_OFFSET (TXDESC_SIZE + PACKET_OFFSET_SZ)
 #endif
 
-#ifdef CONFIG_PCI_HCI
-#if defined(CONFIG_RTL8192E) || defined(CONFIG_RTL8814A)
-/* this section is defined for buffer descriptor ring architecture */
-#define TX_WIFI_INFO_SIZE (TXDESC_SIZE) /* it may add 802.11 hdr or others... */
-/* tx desc and payload are in the same buf */
-#define TXDESC_OFFSET (TX_WIFI_INFO_SIZE)
-#else
-/* tx desc and payload are NOT in the same buf */
-#define TXDESC_OFFSET (0)
-/* 8188ee/8723be/8812ae/8821ae has extra PCI DMA info in tx desc */
-#define TX_DESC_NEXT_DESC_OFFSET	(TXDESC_SIZE + 8)
-#endif
-#endif /* CONFIG_PCI_HCI */
-
 enum TXDESC_SC{
 	SC_DONT_CARE = 0x00,
 	SC_UPPER= 0x01,	
@@ -213,20 +186,6 @@ enum TXDESC_SC{
 #define TXDESC_40_BYTES
 #endif
 
-#if (defined(CONFIG_RTL8192E) || defined(CONFIG_RTL8814A)) && defined(CONFIG_PCI_HCI) /* 8192ee or 8814ae */
-//8192EE_TODO
-struct tx_desc
-{
-	unsigned int txdw0;
-	unsigned int txdw1;
-	unsigned int txdw2;
-	unsigned int txdw3;
-	unsigned int txdw4;
-	unsigned int txdw5;
-	unsigned int txdw6;
-	unsigned int txdw7;
-};
-#else
 struct tx_desc
 {
 	unsigned int txdw0;
@@ -257,7 +216,6 @@ struct tx_desc
 	unsigned int txdw15;
 #endif
 };
-#endif
 
 union txdesc {
 	struct tx_desc txdesc;
