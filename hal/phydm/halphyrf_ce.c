@@ -44,37 +44,10 @@ void ConfigureTxpowerTrack(
 {
 	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
 
-#if RTL8192E_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8192E)
-		ConfigureTxpowerTrack_8192E(pConfig);
-#endif	
-#if RTL8821A_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8821)
-		ConfigureTxpowerTrack_8821A(pConfig);
-#endif
-#if RTL8812A_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8812)
-		ConfigureTxpowerTrack_8812A(pConfig);
-#endif
 #if RTL8723B_SUPPORT
 	if(pDM_Odm->SupportICType==ODM_RTL8723B)
 		ConfigureTxpowerTrack_8723B(pConfig);
 #endif
-
-#if RTL8814A_SUPPORT
-	if (pDM_Odm->SupportICType == ODM_RTL8814A)
-		ConfigureTxpowerTrack_8814A(pConfig);
-#endif
-
-#if RTL8703B_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8703B)
-		ConfigureTxpowerTrack_8703B(pConfig);
-#endif
-
-#if RTL8188F_SUPPORT
-	if (pDM_Odm->SupportICType == ODM_RTL8188F)
-		ConfigureTxpowerTrack_8188F(pConfig);
-#endif 
 }
 
 //======================================================================
@@ -639,13 +612,6 @@ void phydm_rf_init(IN	PVOID		pDM_VOID)
 
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN|ODM_CE))
 	ODM_ClearTxPowerTrackingState(pDM_Odm);	
-#endif
-
-#if (DM_ODM_SUPPORT_TYPE & (ODM_AP))
-#if (RTL8814A_SUPPORT == 1)		
-	if (pDM_Odm->SupportICType & ODM_RTL8814A)
-		PHY_IQCalibrate_8814A_Init(pDM_Odm);
-#endif	
 #endif
 
 }
