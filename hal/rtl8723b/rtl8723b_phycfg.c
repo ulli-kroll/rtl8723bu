@@ -726,14 +726,6 @@ PHY_SetTxPowerIndex_8723B(
 }
 
 u8
-phy_GetCurrentTxNum_8723B(
-	IN	PADAPTER		pAdapter
-	)
-{
-	return RF_TX_NUM_NONIMPLEMENT;
-}
-
-u8
 PHY_GetTxPowerIndex_8723B(
 	IN	PADAPTER			pAdapter,
 	IN	u8					RFPath,
