@@ -161,64 +161,6 @@ PHY_SetBBReg_8723B(
 }
 
 
-//
-// 2. RF register R/W API
-//
-
-/*-----------------------------------------------------------------------------
- * Function:	phy_FwRFSerialRead()
- *
- * Overview:	We support firmware to execute RF-R/W.
- *
- * Input:		NONE
- *
- * Output:		NONE
- *
- * Return:		NONE
- *
- * Revised History:
- *	When		Who		Remark
- *	01/21/2008	MHC		Create Version 0.
- *
- *---------------------------------------------------------------------------*/
-static	u32
-phy_FwRFSerialRead(
-	IN	PADAPTER			Adapter,
-	IN	RF_PATH			eRFPath,
-	IN	u32				Offset	)
-{
-	u32		retValue = 0;
-	//RT_ASSERT(FALSE,("deprecate!\n"));
-	return	(retValue);
-
-}	/* phy_FwRFSerialRead */
-
-
-/*-----------------------------------------------------------------------------
- * Function:	phy_FwRFSerialWrite()
- *
- * Overview:	We support firmware to execute RF-R/W.
- *
- * Input:		NONE
- *
- * Output:		NONE
- *
- * Return:		NONE
- *
- * Revised History:
- *	When		Who		Remark
- *	01/21/2008	MHC		Create Version 0.
- *
- *---------------------------------------------------------------------------*/
-static	VOID
-phy_FwRFSerialWrite(
-	IN	PADAPTER			Adapter,
-	IN	RF_PATH			eRFPath,
-	IN	u32				Offset,
-	IN	u32				Data	)
-{
-	//RT_ASSERT(FALSE,("deprecate!\n"));
-}
 
 static	u32
 phy_RFSerialRead_8723B(
