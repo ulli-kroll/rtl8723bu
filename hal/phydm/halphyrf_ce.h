@@ -65,12 +65,6 @@ typedef struct _TXPWRTRACK_CFG {
 	FuncSwing8814only	GetDeltaSwingTable8814only;
 } TXPWRTRACK_CFG, *PTXPWRTRACK_CFG;
 
-void ConfigureTxpowerTrack(
-	IN		PVOID					pDM_VOID,
-	OUT	PTXPWRTRACK_CFG	pConfig
-	);
-
-
 VOID
 ODM_ClearTxPowerTrackingState(
 	IN		PVOID					pDM_VOID

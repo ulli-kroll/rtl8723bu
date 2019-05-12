@@ -37,19 +37,6 @@
 							_offset = _size-1;\
 					} while(0)
 
-void ConfigureTxpowerTrack(
-	IN		PVOID					pDM_VOID,
-	OUT	PTXPWRTRACK_CFG	pConfig
-	)
-{
-	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-
-#if RTL8723B_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8723B)
-		ConfigureTxpowerTrack_8723B(pConfig);
-#endif
-}
-
 //======================================================================
 // <20121113, Kordan> This function should be called when TxAGC changed.
 // Otherwise the previous compensation is gone, because we record the 
@@ -143,7 +130,7 @@ ODM_TXPowerTrackingCallback_ThermalMeter(
 	
 	//4 2. Initilization ( 7 steps in total )
 
-	ConfigureTxpowerTrack(pDM_Odm, &c);
+	ConfigureTxpowerTrack_8723B(&c);
 
 	(*c.GetDeltaSwingTable)(pDM_Odm, (pu1Byte*)&deltaSwingTableIdx_TUP_A, (pu1Byte*)&deltaSwingTableIdx_TDOWN_A,
 									  (pu1Byte*)&deltaSwingTableIdx_TUP_B, (pu1Byte*)&deltaSwingTableIdx_TDOWN_B);	
