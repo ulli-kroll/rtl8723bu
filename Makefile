@@ -112,8 +112,8 @@ MODULE_NAME = rtl8723bu
 EXTRA_CFLAGS += -DCONFIG_RTL8723B
 
 _HAL_INTFS_FILES += hal/HalPwrSeqCmd.o \
-					hal/rtl8723b/Hal8723BPwrSeq.o\
-					hal/rtl8723b/rtl8723b_sreset.o
+		hal/rtl8723b/Hal8723BPwrSeq.o\
+		hal/rtl8723b/rtl8723b_sreset.o
 
 _HAL_INTFS_FILES +=	hal/rtl8723b/rtl8723b_hal_init.o \
 			hal/rtl8723b/rtl8723b_phycfg.o \
@@ -136,12 +136,12 @@ _HAL_INTFS_FILES +=hal/efuse/rtl8723b/HalEfuseMask8723B_USB.o
 endif
 
 _OUTSRC_FILES += hal/phydm/rtl8723b/halhwimg8723b_bb.o\
-								hal/phydm/rtl8723b/halhwimg8723b_mac.o\
-								hal/phydm/rtl8723b/halhwimg8723b_rf.o\
-								hal/phydm/rtl8723b/halhwimg8723b_fw.o\
-								hal/phydm/rtl8723b/phydm_regconfig8723b.o\
-								hal/phydm/rtl8723b/halphyrf_8723b_ce.o\
-								hal/phydm/rtl8723b/phydm_rtl8723b.o
+		hal/phydm/rtl8723b/halhwimg8723b_mac.o\
+		hal/phydm/rtl8723b/halhwimg8723b_rf.o\
+		hal/phydm/rtl8723b/halhwimg8723b_fw.o\
+		hal/phydm/rtl8723b/phydm_regconfig8723b.o\
+		hal/phydm/rtl8723b/halphyrf_8723b_ce.o\
+		hal/phydm/rtl8723b/phydm_rtl8723b.o
 
 endif
 
